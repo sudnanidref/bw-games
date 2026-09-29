@@ -1,13 +1,18 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { games } from './index'
+import { valueIds } from './slots'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered, unavailable games', () => {
+  it('reserves exactly five ordered slots, registering only real games', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
-    expect(games.every((game) => game.available === false)).toBe(true)
+    expect(games.map((game) => game.id)).toEqual([...valueIds])
+    for (const game of games) {
+      expect(Boolean(game.component)).toBe(game.available)
+      expect(Boolean(game.briefing)).toBe(game.available)
+    }
   })
 
   it.each(games)('documents $title guardrails', ({ id }) => {
