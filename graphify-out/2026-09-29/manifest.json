@@ -1,0 +1,974 @@
+{
+  "package.json": {
+    "mtime": 1790671212.7322447,
+    "seen": 1790671299.846164,
+    "ast_hash": "6bcbb891a06af8bac01135fc47ec038d",
+    "semantic_hash": "6bcbb891a06af8bac01135fc47ec038d"
+  },
+  "server/app.test.ts": {
+    "mtime": 1790671212.7328627,
+    "seen": 1790671299.8461661,
+    "ast_hash": "390cd6095f1cfd272af37c6d7c123ddd",
+    "semantic_hash": "390cd6095f1cfd272af37c6d7c123ddd"
+  },
+  "server/app.ts": {
+    "mtime": 1790671212.732964,
+    "seen": 1790671299.846167,
+    "ast_hash": "1b1015c8f28d57540eed11c0427c5338",
+    "semantic_hash": "1b1015c8f28d57540eed11c0427c5338"
+  },
+  "server/index.ts": {
+    "mtime": 1790671212.7333155,
+    "seen": 1790671299.846167,
+    "ast_hash": "f19fe9de64f7580095d79e0b4467a73f",
+    "semantic_hash": "f19fe9de64f7580095d79e0b4467a73f"
+  },
+  "src/App.test.tsx": {
+    "mtime": 1790671664.0203736,
+    "seen": 1790671771.147296,
+    "ast_hash": "9317249a0238b337f5aab9fef1bce43e",
+    "semantic_hash": "9317249a0238b337f5aab9fef1bce43e"
+  },
+  "src/App.tsx": {
+    "mtime": 1790671664.0206273,
+    "seen": 1790671771.147296,
+    "ast_hash": "d6e4acee12a27e37b451b016ca2459d4",
+    "semantic_hash": "d6e4acee12a27e37b451b016ca2459d4"
+  },
+  "src/games/contract.test.ts": {
+    "mtime": 1790671212.7404568,
+    "seen": 1790671299.846184,
+    "ast_hash": "801d1df59d9207097516e59a54786037",
+    "semantic_hash": "801d1df59d9207097516e59a54786037"
+  },
+  "src/games/contract.ts": {
+    "mtime": 1790671212.7406483,
+    "seen": 1790671299.846185,
+    "ast_hash": "534c63a88dd0727d233ea49e7d0bc523",
+    "semantic_hash": "534c63a88dd0727d233ea49e7d0bc523"
+  },
+  "src/games/index.ts": {
+    "mtime": 1790671664.0222168,
+    "seen": 1790671771.1481311,
+    "ast_hash": "09ea1c013f88ff95fd125c5cc277e42b",
+    "semantic_hash": "09ea1c013f88ff95fd125c5cc277e42b"
+  },
+  "src/games/registry.test.ts": {
+    "mtime": 1790671664.0228822,
+    "seen": 1790671771.148489,
+    "ast_hash": "d5fb3fbd4ffe1ff012c87dd5066d40dc",
+    "semantic_hash": "d5fb3fbd4ffe1ff012c87dd5066d40dc"
+  },
+  "src/journey.test.ts": {
+    "mtime": 1790671212.7578468,
+    "seen": 1790671299.846199,
+    "ast_hash": "59fb7228916d08082d72475a3957cd3e",
+    "semantic_hash": "59fb7228916d08082d72475a3957cd3e"
+  },
+  "src/journey.ts": {
+    "mtime": 1790671212.7582078,
+    "seen": 1790671299.8462,
+    "ast_hash": "6c8aa43ac4ac583f9b2de609a489544f",
+    "semantic_hash": "6c8aa43ac4ac583f9b2de609a489544f"
+  },
+  "src/leaderboard-client.ts": {
+    "mtime": 1790671212.7585359,
+    "seen": 1790671299.8462,
+    "ast_hash": "5da89efe479c59dfc1f580f4cba2a5b4",
+    "semantic_hash": "5da89efe479c59dfc1f580f4cba2a5b4"
+  },
+  "src/leaderboard.ts": {
+    "mtime": 1790671212.758633,
+    "seen": 1790671299.8462012,
+    "ast_hash": "da4e13ad4eb252c13180eb6e15a96b3f",
+    "semantic_hash": "da4e13ad4eb252c13180eb6e15a96b3f"
+  },
+  "src/main.tsx": {
+    "mtime": 1790671212.7589614,
+    "seen": 1790671299.8462012,
+    "ast_hash": "00a4233fc1a098b19eca49f37f077b36",
+    "semantic_hash": "00a4233fc1a098b19eca49f37f077b36"
+  },
+  "tsconfig.app.json": {
+    "mtime": 1790671212.7594056,
+    "seen": 1790671299.8462021,
+    "ast_hash": "12045bd8ab59ce34726b983debd0e593",
+    "semantic_hash": "12045bd8ab59ce34726b983debd0e593"
+  },
+  "tsconfig.server.json": {
+    "mtime": 1790671212.7597547,
+    "seen": 1790671299.8462021,
+    "ast_hash": "a3137075088f44a4ce878f6076668b0b",
+    "semantic_hash": "a3137075088f44a4ce878f6076668b0b"
+  },
+  "vite.config.ts": {
+    "mtime": 1790671212.760102,
+    "seen": 1790671299.8462021,
+    "ast_hash": "9fafb016373bedba8de968bc1cc6203a",
+    "semantic_hash": "9fafb016373bedba8de968bc1cc6203a"
+  },
+  "vitest.config.ts": {
+    "mtime": 1790671212.7602012,
+    "seen": 1790671299.8462029,
+    "ast_hash": "5c306012f337c13cd5ae084e9b18d5a4",
+    "semantic_hash": "5c306012f337c13cd5ae084e9b18d5a4"
+  },
+  ".github/agents/openspec.agent.md": {
+    "mtime": 1790656695.655203,
+    "seen": 1790659697.140032,
+    "ast_hash": "8c2fea8f9c5ff95068f7bd48c49811e7",
+    "semantic_hash": "8c2fea8f9c5ff95068f7bd48c49811e7"
+  },
+  ".github/prompts/opsx-apply.prompt.md": {
+    "mtime": 1790656695.6554017,
+    "seen": 1790659697.140033,
+    "ast_hash": "6e5714e82cd101241a32c43a7945e003",
+    "semantic_hash": "6e5714e82cd101241a32c43a7945e003"
+  },
+  ".github/prompts/opsx-archive.prompt.md": {
+    "mtime": 1790656695.6555395,
+    "seen": 1790659697.140033,
+    "ast_hash": "6c5002724b6f8dc28d7cee437a272b6d",
+    "semantic_hash": "6c5002724b6f8dc28d7cee437a272b6d"
+  },
+  ".github/prompts/opsx-explore.prompt.md": {
+    "mtime": 1790656695.6556606,
+    "seen": 1790659697.140036,
+    "ast_hash": "572d07b180a9a2792dba0fb793ce9fa4",
+    "semantic_hash": "572d07b180a9a2792dba0fb793ce9fa4"
+  },
+  ".github/prompts/opsx-propose.prompt.md": {
+    "mtime": 1790656695.6558168,
+    "seen": 1790659697.140036,
+    "ast_hash": "f3b456703f7aa2f01c3b5fa8a753e45e",
+    "semantic_hash": "f3b456703f7aa2f01c3b5fa8a753e45e"
+  },
+  ".github/prompts/opsx-sync.prompt.md": {
+    "mtime": 1790656695.6559448,
+    "seen": 1790659697.140036,
+    "ast_hash": "fdce239d21ee512a6bcbf69dee9a8f34",
+    "semantic_hash": "fdce239d21ee512a6bcbf69dee9a8f34"
+  },
+  ".github/prompts/opsx-update.prompt.md": {
+    "mtime": 1790656695.656066,
+    "seen": 1790659697.140037,
+    "ast_hash": "6cb2fc6fd57e1258b611c25d5b6c19d6",
+    "semantic_hash": "6cb2fc6fd57e1258b611c25d5b6c19d6"
+  },
+  ".github/skills/openspec-apply-change/SKILL.md": {
+    "mtime": 1790656695.6562762,
+    "seen": 1790659697.140037,
+    "ast_hash": "e19d5b59f7cb8c8c2a1046d8f7094116",
+    "semantic_hash": "e19d5b59f7cb8c8c2a1046d8f7094116"
+  },
+  ".github/skills/openspec-archive-change/SKILL.md": {
+    "mtime": 1790656695.6564405,
+    "seen": 1790659697.1400378,
+    "ast_hash": "c9ba689e755ed52f777f2383bffcdf4b",
+    "semantic_hash": "c9ba689e755ed52f777f2383bffcdf4b"
+  },
+  ".github/skills/openspec-explore/SKILL.md": {
+    "mtime": 1790656695.6566074,
+    "seen": 1790659697.1400378,
+    "ast_hash": "e825a209e315702dc9389817e3c99e8d",
+    "semantic_hash": "e825a209e315702dc9389817e3c99e8d"
+  },
+  ".github/skills/openspec-propose/SKILL.md": {
+    "mtime": 1790656695.6568031,
+    "seen": 1790659697.1400378,
+    "ast_hash": "39440b9fcc5a92c38b8f8dbbbd13da4e",
+    "semantic_hash": "39440b9fcc5a92c38b8f8dbbbd13da4e"
+  },
+  ".github/skills/openspec-sync-specs/SKILL.md": {
+    "mtime": 1790656695.6569898,
+    "seen": 1790659697.140039,
+    "ast_hash": "238998ac7b1e9b28bd403052db560218",
+    "semantic_hash": "238998ac7b1e9b28bd403052db560218"
+  },
+  ".github/skills/openspec-update-change/SKILL.md": {
+    "mtime": 1790656695.6571631,
+    "seen": 1790659697.140039,
+    "ast_hash": "02ff52358a792867d6f441bc64187a14",
+    "semantic_hash": "02ff52358a792867d6f441bc64187a14"
+  },
+  ".github/workflows/ci.yml": {
+    "mtime": 1790659581.9275603,
+    "seen": 1790659697.14004,
+    "ast_hash": "c532e54ca6b7ff1c771119eb6b97aeee",
+    "semantic_hash": "c532e54ca6b7ff1c771119eb6b97aeee"
+  },
+  ".github/workflows/copilot-setup-steps.yml": {
+    "mtime": 1790656695.657307,
+    "seen": 1790659697.14004,
+    "ast_hash": "375f0ac649ba69807e96214981fc7754",
+    "semantic_hash": "375f0ac649ba69807e96214981fc7754"
+  },
+  "README.md": {
+    "mtime": 1790659581.928074,
+    "seen": 1790659697.1400409,
+    "ast_hash": "3a77c0fdc264504e306e9c485ca2cc66",
+    "semantic_hash": "3a77c0fdc264504e306e9c485ca2cc66"
+  },
+  "docs/contributing-games.md": {
+    "mtime": 1790659581.928435,
+    "seen": 1790659697.1400409,
+    "ast_hash": "e1b7252c92be0f1a5573bee4c918e0ec",
+    "semantic_hash": "e1b7252c92be0f1a5573bee4c918e0ec"
+  },
+  "docs/design-system.md": {
+    "mtime": 1790659581.928742,
+    "seen": 1790659697.1400409,
+    "ast_hash": "2a5c68275351b9e32ef6a84e53ef2768",
+    "semantic_hash": "2a5c68275351b9e32ef6a84e53ef2768"
+  },
+  "docs/integration-check.md": {
+    "mtime": 1790659581.9290087,
+    "seen": 1790659697.140042,
+    "ast_hash": "4e8b140077bb3109e37c24626073663e",
+    "semantic_hash": "4e8b140077bb3109e37c24626073663e"
+  },
+  "docs/leaderboard.md": {
+    "mtime": 1790659581.9292603,
+    "seen": 1790659697.140042,
+    "ast_hash": "db16a32590f6d2b79db793c3963828e6",
+    "semantic_hash": "db16a32590f6d2b79db793c3963828e6"
+  },
+  "index.html": {
+    "mtime": 1790659581.9294937,
+    "seen": 1790659697.140043,
+    "ast_hash": "e71af9034b0bc71d607ab69009f2779c",
+    "semantic_hash": "e71af9034b0bc71d607ab69009f2779c"
+  },
+  "openspec/changes/brilian-ways-game-hub/.openspec.yaml": {
+    "mtime": 1790656695.6578074,
+    "seen": 1790659697.140043,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/brilian-ways-game-hub/design.md": {
+    "mtime": 1790656695.6579387,
+    "seen": 1790659697.140044,
+    "ast_hash": "af74f9b52a9f43bcd16e0fa1ed801e80",
+    "semantic_hash": "af74f9b52a9f43bcd16e0fa1ed801e80"
+  },
+  "openspec/changes/brilian-ways-game-hub/proposal.md": {
+    "mtime": 1790656695.6580458,
+    "seen": 1790659697.140044,
+    "ast_hash": "62e5378798fbf07eaa4209abf69ae54e",
+    "semantic_hash": "62e5378798fbf07eaa4209abf69ae54e"
+  },
+  "openspec/changes/brilian-ways-game-hub/specs/game-integration/spec.md": {
+    "mtime": 1790656695.6582785,
+    "seen": 1790659697.1400452,
+    "ast_hash": "f7c5dc014794636766d7cf4a9e325d6c",
+    "semantic_hash": "f7c5dc014794636766d7cf4a9e325d6c"
+  },
+  "openspec/changes/brilian-ways-game-hub/specs/game-journey/spec.md": {
+    "mtime": 1790656695.6584375,
+    "seen": 1790659697.1400452,
+    "ast_hash": "fed5fbd47264851d7dba9ff83f7115ce",
+    "semantic_hash": "fed5fbd47264851d7dba9ff83f7115ce"
+  },
+  "openspec/changes/brilian-ways-game-hub/specs/leaderboard/spec.md": {
+    "mtime": 1790656695.6585982,
+    "seen": 1790659697.1400461,
+    "ast_hash": "0aa23167a002a7debbb397aed730cc21",
+    "semantic_hash": "0aa23167a002a7debbb397aed730cc21"
+  },
+  "openspec/changes/brilian-ways-game-hub/tasks.md": {
+    "mtime": 1790659581.9298444,
+    "seen": 1790659697.1400461,
+    "ast_hash": "b4f9ffd3a0cdd20d42dd6aa4a594aa6b",
+    "semantic_hash": "b4f9ffd3a0cdd20d42dd6aa4a594aa6b"
+  },
+  "openspec/config.yaml": {
+    "mtime": 1790656695.6587954,
+    "seen": 1790659697.140047,
+    "ast_hash": "e3fd79587e01a2169f90766c72192bb9",
+    "semantic_hash": "e3fd79587e01a2169f90766c72192bb9"
+  },
+  "src/games/accountability/README.md": {
+    "mtime": 1790671212.7344654,
+    "seen": 1790671299.84621,
+    "ast_hash": "0e772e7e470bc763ecc7cf1e3c6c689d",
+    "semantic_hash": "0e772e7e470bc763ecc7cf1e3c6c689d"
+  },
+  "src/games/collaborative/README.md": {
+    "mtime": 1790671212.7386103,
+    "seen": 1790671299.8462121,
+    "ast_hash": "842bbd5095fc0c11eb0c1c3caef207bd",
+    "semantic_hash": "842bbd5095fc0c11eb0c1c3caef207bd"
+  },
+  "src/games/customer-focus/README.md": {
+    "mtime": 1790671212.741973,
+    "seen": 1790671299.8462121,
+    "ast_hash": "3fa8b02c0e0a4c0c133c7ffcbd5584a9",
+    "semantic_hash": "3fa8b02c0e0a4c0c133c7ffcbd5584a9"
+  },
+  "src/games/growth-mindset/README.md": {
+    "mtime": 1790671664.0211878,
+    "seen": 1790671771.1487381,
+    "ast_hash": "59f3763919e81517151180805bbcf7a7",
+    "semantic_hash": "59f3763919e81517151180805bbcf7a7"
+  },
+  "src/games/integrity/README.md": {
+    "mtime": 1790671212.745242,
+    "seen": 1790671299.846213,
+    "ast_hash": "3e5643347b4247c1d6ad5723ea040b4a",
+    "semantic_hash": "3e5643347b4247c1d6ad5723ea040b4a"
+  },
+  "public/journey-map.svg": {
+    "mtime": 1790659581.930971,
+    "seen": 1790659697.140049,
+    "ast_hash": "721154d58ce71c1556861b8275a24d69",
+    "semantic_hash": "721154d58ce71c1556861b8275a24d69"
+  },
+  "server/instruction-provider.test.ts": {
+    "mtime": 1790671212.7334077,
+    "seen": 1790671299.846168,
+    "ast_hash": "d9d564a98a55ac30d2cd99133d4f9810",
+    "semantic_hash": "d9d564a98a55ac30d2cd99133d4f9810"
+  },
+  "server/instruction-provider.ts": {
+    "mtime": 1790671212.7335222,
+    "seen": 1790671299.846169,
+    "ast_hash": "e413e35e0fa63e6f057f25cf24953237",
+    "semantic_hash": "e413e35e0fa63e6f057f25cf24953237"
+  },
+  "server/instruction.test.ts": {
+    "mtime": 1790671212.7336159,
+    "seen": 1790671299.846169,
+    "ast_hash": "10217243ebc0117b0828d549eefda62b",
+    "semantic_hash": "10217243ebc0117b0828d549eefda62b"
+  },
+  "src/games/accountability/AccountabilityGame.test.tsx": {
+    "mtime": 1790671212.734162,
+    "seen": 1790671299.846171,
+    "ast_hash": "948edb7379df793e41fd8634e1c355a3",
+    "semantic_hash": "948edb7379df793e41fd8634e1c355a3"
+  },
+  "src/games/accountability/AccountabilityGame.tsx": {
+    "mtime": 1790671212.7342732,
+    "seen": 1790671299.846171,
+    "ast_hash": "f8d054386b5f92b8115cf46fe9f46060",
+    "semantic_hash": "f8d054386b5f92b8115cf46fe9f46060"
+  },
+  "src/games/accountability/CharacterPortrait.tsx": {
+    "mtime": 1790671212.7343657,
+    "seen": 1790671299.8461719,
+    "ast_hash": "8024e50b67809053915aea104c477e2e",
+    "semantic_hash": "8024e50b67809053915aea104c477e2e"
+  },
+  "src/games/accountability/config.test.ts": {
+    "mtime": 1790671212.73486,
+    "seen": 1790671299.8461719,
+    "ast_hash": "d36abce45dd5a5f542e7baf794e05516",
+    "semantic_hash": "d36abce45dd5a5f542e7baf794e05516"
+  },
+  "src/games/accountability/config.ts": {
+    "mtime": 1790671212.7349615,
+    "seen": 1790671299.8461728,
+    "ast_hash": "7dc928d033cf14a087ad18017d318c0b",
+    "semantic_hash": "7dc928d033cf14a087ad18017d318c0b"
+  },
+  "src/games/accountability/countdown.test.ts": {
+    "mtime": 1790671212.735052,
+    "seen": 1790671299.8461728,
+    "ast_hash": "fc64802bacffa58a2bb059e0e73e1132",
+    "semantic_hash": "fc64802bacffa58a2bb059e0e73e1132"
+  },
+  "src/games/accountability/countdown.ts": {
+    "mtime": 1790671212.7351408,
+    "seen": 1790671299.846174,
+    "ast_hash": "a04b6e2ae71646d7a09445bd70c4060f",
+    "semantic_hash": "a04b6e2ae71646d7a09445bd70c4060f"
+  },
+  "src/games/accountability/customers.test.ts": {
+    "mtime": 1790671212.7352245,
+    "seen": 1790671299.846174,
+    "ast_hash": "356e47265616e3b5de11942c7be48006",
+    "semantic_hash": "356e47265616e3b5de11942c7be48006"
+  },
+  "src/games/accountability/customers.ts": {
+    "mtime": 1790671212.7353117,
+    "seen": 1790671299.846174,
+    "ast_hash": "45ef110fb58aa9d65407a24f4c3cb4ae",
+    "semantic_hash": "45ef110fb58aa9d65407a24f4c3cb4ae"
+  },
+  "src/games/accountability/effects.test.ts": {
+    "mtime": 1790671212.737066,
+    "seen": 1790671299.846175,
+    "ast_hash": "8f89cb4b1127d34e8a00857a9e921b89",
+    "semantic_hash": "8f89cb4b1127d34e8a00857a9e921b89"
+  },
+  "src/games/accountability/effects.ts": {
+    "mtime": 1790671212.7371647,
+    "seen": 1790671299.846177,
+    "ast_hash": "eb9f3b8bde17b1bf3dfed3c109d2110a",
+    "semantic_hash": "eb9f3b8bde17b1bf3dfed3c109d2110a"
+  },
+  "src/games/accountability/engine.test.ts": {
+    "mtime": 1790671212.737279,
+    "seen": 1790671299.846177,
+    "ast_hash": "6d2e4b1d552eb13732071d204f7a5956",
+    "semantic_hash": "6d2e4b1d552eb13732071d204f7a5956"
+  },
+  "src/games/accountability/engine.ts": {
+    "mtime": 1790671212.737381,
+    "seen": 1790671299.846178,
+    "ast_hash": "664f3dd60216d34dbaf9f959b9b6f779",
+    "semantic_hash": "664f3dd60216d34dbaf9f959b9b6f779"
+  },
+  "src/games/accountability/index.ts": {
+    "mtime": 1790671212.7374685,
+    "seen": 1790671299.846178,
+    "ast_hash": "4fb9c9563eda3f59b1f77c8627bd482f",
+    "semantic_hash": "4fb9c9563eda3f59b1f77c8627bd482f"
+  },
+  "src/games/accountability/score.test.ts": {
+    "mtime": 1790671212.7375653,
+    "seen": 1790671299.846179,
+    "ast_hash": "ecc8e99f209b1618b05cb2f8106ab953",
+    "semantic_hash": "ecc8e99f209b1618b05cb2f8106ab953"
+  },
+  "src/games/accountability/score.ts": {
+    "mtime": 1790671212.7376635,
+    "seen": 1790671299.8461802,
+    "ast_hash": "ecf7038a07cfe936c47b61413dd5d93f",
+    "semantic_hash": "ecf7038a07cfe936c47b61413dd5d93f"
+  },
+  "src/games/collaborative/BlindBuilder.test.tsx": {
+    "mtime": 1790671212.737841,
+    "seen": 1790671299.8461812,
+    "ast_hash": "44c4da708547427ecab12e42c3c04fb7",
+    "semantic_hash": "44c4da708547427ecab12e42c3c04fb7"
+  },
+  "src/games/collaborative/BlindBuilder.tsx": {
+    "mtime": 1790671212.738233,
+    "seen": 1790671299.8461812,
+    "ast_hash": "9c82552f405a53af41eeb497ad9c0b6b",
+    "semantic_hash": "9c82552f405a53af41eeb497ad9c0b6b"
+  },
+  "src/games/collaborative/ai-contract.test.ts": {
+    "mtime": 1790671212.7387195,
+    "seen": 1790671299.8461812,
+    "ast_hash": "9c9635cba1dbb48c9853b296c8e4041b",
+    "semantic_hash": "9c9635cba1dbb48c9853b296c8e4041b"
+  },
+  "src/games/collaborative/ai-contract.ts": {
+    "mtime": 1790671212.738849,
+    "seen": 1790671299.8461819,
+    "ast_hash": "7bb49e5d2e400149d5a75bd2dc6a3c4f",
+    "semantic_hash": "7bb49e5d2e400149d5a75bd2dc6a3c4f"
+  },
+  "src/games/collaborative/game.test.ts": {
+    "mtime": 1790671212.738958,
+    "seen": 1790671299.8461819,
+    "ast_hash": "782a0d483851381057f765250c5ae613",
+    "semantic_hash": "782a0d483851381057f765250c5ae613"
+  },
+  "src/games/collaborative/game.ts": {
+    "mtime": 1790671212.7392497,
+    "seen": 1790671299.8461828,
+    "ast_hash": "f00e2e6a900c52b1470c0b21f63825ca",
+    "semantic_hash": "f00e2e6a900c52b1470c0b21f63825ca"
+  },
+  "src/games/collaborative/instructions.test.ts": {
+    "mtime": 1790671212.7393594,
+    "seen": 1790671299.8461828,
+    "ast_hash": "5deac6b7d00671423f5e7532476cbc09",
+    "semantic_hash": "5deac6b7d00671423f5e7532476cbc09"
+  },
+  "src/games/collaborative/instructions.ts": {
+    "mtime": 1790671212.739673,
+    "seen": 1790671299.8461828,
+    "ast_hash": "5dda5dfae9ac2d30786ef122afc46801",
+    "semantic_hash": "5dda5dfae9ac2d30786ef122afc46801"
+  },
+  "src/games/customer-focus/MatchTheSolution.test.tsx": {
+    "mtime": 1790671212.7413595,
+    "seen": 1790671299.846185,
+    "ast_hash": "a02978610948bcb64b4167730cf781ed",
+    "semantic_hash": "a02978610948bcb64b4167730cf781ed"
+  },
+  "src/games/customer-focus/MatchTheSolution.tsx": {
+    "mtime": 1790671212.7414951,
+    "seen": 1790671299.846186,
+    "ast_hash": "31326b2a271431363b005a4301157a08",
+    "semantic_hash": "31326b2a271431363b005a4301157a08"
+  },
+  "src/games/customer-focus/Preview.tsx": {
+    "mtime": 1790671212.741844,
+    "seen": 1790671299.846186,
+    "ast_hash": "4f1b0bacc2c3c84209e9c14caf710018",
+    "semantic_hash": "4f1b0bacc2c3c84209e9c14caf710018"
+  },
+  "src/games/customer-focus/cases.ts": {
+    "mtime": 1790671212.7423124,
+    "seen": 1790671299.846186,
+    "ast_hash": "39fb95bda476afd8800852d2f6abb017",
+    "semantic_hash": "39fb95bda476afd8800852d2f6abb017"
+  },
+  "src/games/customer-focus/draft-distractors.ts": {
+    "mtime": 1790671212.74268,
+    "seen": 1790671299.846187,
+    "ast_hash": "1babd981dea22be9261571589851dd58",
+    "semantic_hash": "1babd981dea22be9261571589851dd58"
+  },
+  "src/games/customer-focus/match.test.ts": {
+    "mtime": 1790671212.743523,
+    "seen": 1790671299.84619,
+    "ast_hash": "bd618b9df9d120ae5fa9cb60a1133a4f",
+    "semantic_hash": "bd618b9df9d120ae5fa9cb60a1133a4f"
+  },
+  "src/games/customer-focus/rules.ts": {
+    "mtime": 1790671212.7437904,
+    "seen": 1790671299.84619,
+    "ast_hash": "6bd2231b32268b6f313105c6dab1255c",
+    "semantic_hash": "6bd2231b32268b6f313105c6dab1255c"
+  },
+  "src/games/integrity/IntegrityGame.test.tsx": {
+    "mtime": 1790671212.744748,
+    "seen": 1790671299.8461912,
+    "ast_hash": "52813db20994e488e0bb71c78741f5e7",
+    "semantic_hash": "52813db20994e488e0bb71c78741f5e7"
+  },
+  "src/games/integrity/IntegrityGame.tsx": {
+    "mtime": 1790671212.745115,
+    "seen": 1790671299.8461921,
+    "ast_hash": "3369b200d4e021bfc139e36be1419663",
+    "semantic_hash": "3369b200d4e021bfc139e36be1419663"
+  },
+  "src/games/integrity/art.tsx": {
+    "mtime": 1790671212.745656,
+    "seen": 1790671299.8461921,
+    "ast_hash": "96c9d31952d82ecca26b7b941bc44595",
+    "semantic_hash": "96c9d31952d82ecca26b7b941bc44595"
+  },
+  "src/games/integrity/audio.test.ts": {
+    "mtime": 1790671212.752113,
+    "seen": 1790671299.8461928,
+    "ast_hash": "8fe4b63078f94b9b04af9c7e8ab76928",
+    "semantic_hash": "8fe4b63078f94b9b04af9c7e8ab76928"
+  },
+  "src/games/integrity/audio.ts": {
+    "mtime": 1790671212.7522287,
+    "seen": 1790671299.8461928,
+    "ast_hash": "beee070fe9215aaa43228ff80a003986",
+    "semantic_hash": "beee070fe9215aaa43228ff80a003986"
+  },
+  "src/games/integrity/engine.test.ts": {
+    "mtime": 1790671212.752877,
+    "seen": 1790671299.8461928,
+    "ast_hash": "210aa27d741a0e79980365255eef4ccd",
+    "semantic_hash": "210aa27d741a0e79980365255eef4ccd"
+  },
+  "src/games/integrity/engine.ts": {
+    "mtime": 1790671212.7534413,
+    "seen": 1790671299.846194,
+    "ast_hash": "d790d503a95bd989395e965a32e256af",
+    "semantic_hash": "d790d503a95bd989395e965a32e256af"
+  },
+  "src/games/integrity/round.test.ts": {
+    "mtime": 1790671212.7547178,
+    "seen": 1790671299.846194,
+    "ast_hash": "e18b4f6c6554433e0435a8bbb4094c52",
+    "semantic_hash": "e18b4f6c6554433e0435a8bbb4094c52"
+  },
+  "src/games/integrity/round.ts": {
+    "mtime": 1790671212.7549844,
+    "seen": 1790671299.846194,
+    "ast_hash": "14ddbd6d873ab0c20843ce64276f79ef",
+    "semantic_hash": "14ddbd6d873ab0c20843ce64276f79ef"
+  },
+  "src/games/integrity/scoring.test.ts": {
+    "mtime": 1790671212.7555363,
+    "seen": 1790671299.846195,
+    "ast_hash": "bc99a3c69a7d7b63091fccd69a425e2b",
+    "semantic_hash": "bc99a3c69a7d7b63091fccd69a425e2b"
+  },
+  "src/games/integrity/scoring.ts": {
+    "mtime": 1790671212.755918,
+    "seen": 1790671299.846195,
+    "ast_hash": "8bfb8167d02d22aa709c7b27203a403c",
+    "semantic_hash": "8bfb8167d02d22aa709c7b27203a403c"
+  },
+  "src/games/integrity/scripts/generate-words.mjs": {
+    "mtime": 1790671212.756458,
+    "seen": 1790671299.846196,
+    "ast_hash": "31e92aab34155f75ed5cf17c81b3d13a",
+    "semantic_hash": "31e92aab34155f75ed5cf17c81b3d13a"
+  },
+  "src/games/integrity/words.json": {
+    "mtime": 1790671212.7567482,
+    "seen": 1790671299.846196,
+    "ast_hash": "176151720f8feec1613bb70a4f205b5a",
+    "semantic_hash": "176151720f8feec1613bb70a4f205b5a"
+  },
+  "src/games/integrity/words.test.ts": {
+    "mtime": 1790671212.7569947,
+    "seen": 1790671299.846197,
+    "ast_hash": "16c81d0b7b6f2e8293365dae9cbbf4d5",
+    "semantic_hash": "16c81d0b7b6f2e8293365dae9cbbf4d5"
+  },
+  "src/games/shared-music.test.tsx": {
+    "mtime": 1790671212.7573404,
+    "seen": 1790671299.846198,
+    "ast_hash": "9fe26cee8dd4030655ae4da7d07a56f0",
+    "semantic_hash": "9fe26cee8dd4030655ae4da7d07a56f0"
+  },
+  "src/games/slots.ts": {
+    "mtime": 1790671664.0230575,
+    "seen": 1790671771.148513,
+    "ast_hash": "cbdfc2da0f42d951f42b2d0a814b3cf0",
+    "semantic_hash": "cbdfc2da0f42d951f42b2d0a814b3cf0"
+  },
+  "src/games/useGameMusic.ts": {
+    "mtime": 1790671212.7575135,
+    "seen": 1790671299.846199,
+    "ast_hash": "8fb3831f7699bfcf7edbb47b162bdfa1",
+    "semantic_hash": "8fb3831f7699bfcf7edbb47b162bdfa1"
+  },
+  ".github/copilot-instructions.md": {
+    "mtime": 1790671212.7207162,
+    "seen": 1790671299.8462029,
+    "ast_hash": "9f24c87372bdf69997b0e5b9f7b07ced",
+    "semantic_hash": "9f24c87372bdf69997b0e5b9f7b07ced"
+  },
+  "openspec/changes/accountability-mini-game/design.md": {
+    "mtime": 1790671212.7249346,
+    "seen": 1790671299.8462038,
+    "ast_hash": "f4313c65916a99b51ac9da550a9092ee",
+    "semantic_hash": "f4313c65916a99b51ac9da550a9092ee"
+  },
+  "openspec/changes/accountability-mini-game/proposal.md": {
+    "mtime": 1790671212.7250624,
+    "seen": 1790671299.8462038,
+    "ast_hash": "69a2e2cbee9c37d9a943ca512bf4dfde",
+    "semantic_hash": "69a2e2cbee9c37d9a943ca512bf4dfde"
+  },
+  "openspec/changes/accountability-mini-game/specs/accountability-mini-game/spec.md": {
+    "mtime": 1790671212.7253337,
+    "seen": 1790671299.846205,
+    "ast_hash": "fba238a8b73d868d71442b795b338ebf",
+    "semantic_hash": "fba238a8b73d868d71442b795b338ebf"
+  },
+  "openspec/changes/customer-focus-match-the-solution/design.md": {
+    "mtime": 1790671212.7266185,
+    "seen": 1790671299.846205,
+    "ast_hash": "9746d8add77917b9d2243ee27bc92997",
+    "semantic_hash": "9746d8add77917b9d2243ee27bc92997"
+  },
+  "openspec/changes/customer-focus-match-the-solution/proposal.md": {
+    "mtime": 1790671212.7269945,
+    "seen": 1790671299.846206,
+    "ast_hash": "9526297822def3aa0fb39badfbf2f524",
+    "semantic_hash": "9526297822def3aa0fb39badfbf2f524"
+  },
+  "openspec/changes/customer-focus-match-the-solution/specs/customer-focus-match-the-solution/spec.md": {
+    "mtime": 1790671212.7276351,
+    "seen": 1790671299.846206,
+    "ast_hash": "b4df2fc4d84d170214a84f6cf1501d8b",
+    "semantic_hash": "b4df2fc4d84d170214a84f6cf1501d8b"
+  },
+  "openspec/changes/integrate-collaborative-blind-builder/design.md": {
+    "mtime": 1790671212.7282376,
+    "seen": 1790671299.846207,
+    "ast_hash": "cc66cfd5c29585679ba087a4dec19782",
+    "semantic_hash": "cc66cfd5c29585679ba087a4dec19782"
+  },
+  "openspec/changes/integrate-collaborative-blind-builder/proposal.md": {
+    "mtime": 1790671212.728338,
+    "seen": 1790671299.846207,
+    "ast_hash": "02342b12e2b43fd2e5f0bdae8c97b20e",
+    "semantic_hash": "02342b12e2b43fd2e5f0bdae8c97b20e"
+  },
+  "openspec/changes/integrate-collaborative-blind-builder/specs/collaborative-game/spec.md": {
+    "mtime": 1790671212.7285767,
+    "seen": 1790671299.846208,
+    "ast_hash": "bdc09af5a62f28db08bfcb5d26c112a4",
+    "semantic_hash": "bdc09af5a62f28db08bfcb5d26c112a4"
+  },
+  "openspec/changes/integrity-mini-game/design.md": {
+    "mtime": 1790671212.7292736,
+    "seen": 1790671299.846208,
+    "ast_hash": "e7ea7184d8641591ca798cbd4488e447",
+    "semantic_hash": "e7ea7184d8641591ca798cbd4488e447"
+  },
+  "openspec/changes/integrity-mini-game/proposal.md": {
+    "mtime": 1790671212.7296872,
+    "seen": 1790671299.846208,
+    "ast_hash": "65c00cf6547b8f38fe96c09160a01e04",
+    "semantic_hash": "65c00cf6547b8f38fe96c09160a01e04"
+  },
+  "openspec/changes/integrity-mini-game/specs/integrity-game/spec.md": {
+    "mtime": 1790671212.7305105,
+    "seen": 1790671299.846209,
+    "ast_hash": "1c58d9442be6a76c372527a1a97b880b",
+    "semantic_hash": "1c58d9442be6a76c372527a1a97b880b"
+  },
+  "openspec/changes/integrity-mini-game/specs/integrity-word-bank/spec.md": {
+    "mtime": 1790671212.7310371,
+    "seen": 1790671299.846209,
+    "ast_hash": "5209d6359273dd60b8d5d6da8cf85c2b",
+    "semantic_hash": "5209d6359273dd60b8d5d6da8cf85c2b"
+  },
+  "src/games/accountability/assets/ASSET-MANIFEST.md": {
+    "mtime": 1790671212.734765,
+    "seen": 1790671299.84621,
+    "ast_hash": "7b7de148c05ef36dac6adea207f0a108",
+    "semantic_hash": "7b7de148c05ef36dac6adea207f0a108"
+  },
+  "src/games/accountability/docs/reference/01-product-requirements.md": {
+    "mtime": 1790671212.7357001,
+    "seen": 1790671299.846211,
+    "ast_hash": "c3d02b50d11c205ec7494df9e92b83cc",
+    "semantic_hash": "c3d02b50d11c205ec7494df9e92b83cc"
+  },
+  "src/games/accountability/docs/verification.md": {
+    "mtime": 1790671212.736952,
+    "seen": 1790671299.846211,
+    "ast_hash": "f226772634622f16e523f93cdaa7f34d",
+    "semantic_hash": "f226772634622f16e523f93cdaa7f34d"
+  },
+  "src/games/integrity/assets/integrity-bgm.m4a": {
+    "mtime": 1790671212.751924,
+    "seen": 1790671299.846213,
+    "ast_hash": "d675fca7a96ca7a90e5cfa078dd43825",
+    "semantic_hash": "d675fca7a96ca7a90e5cfa078dd43825"
+  },
+  "src/games/growth-mindset/GrowthMindsetGame.test.tsx": {
+    "mtime": 1790671664.02076,
+    "seen": 1790671771.148127,
+    "ast_hash": "93d1e149c6339aa7fdeb124ec1d9672b",
+    "semantic_hash": "93d1e149c6339aa7fdeb124ec1d9672b"
+  },
+  "src/games/growth-mindset/GrowthMindsetGame.tsx": {
+    "mtime": 1790671664.02089,
+    "seen": 1790671771.148128,
+    "ast_hash": "b3f500c22fb3abcc6ed51350fc95d457",
+    "semantic_hash": "b3f500c22fb3abcc6ed51350fc95d457"
+  },
+  "src/games/growth-mindset/engine.test.ts": {
+    "mtime": 1790671664.021328,
+    "seen": 1790671771.148129,
+    "ast_hash": "46ba94d8760f74c14c3972ee84a2c186",
+    "semantic_hash": "46ba94d8760f74c14c3972ee84a2c186"
+  },
+  "src/games/growth-mindset/engine.ts": {
+    "mtime": 1790671664.0214515,
+    "seen": 1790671771.148129,
+    "ast_hash": "c507e8b2d250e29bcd8e8ee2e73e8451",
+    "semantic_hash": "c507e8b2d250e29bcd8e8ee2e73e8451"
+  },
+  "src/games/growth-mindset/index.ts": {
+    "mtime": 1790671664.0216596,
+    "seen": 1790671771.14813,
+    "ast_hash": "0758e383531af5255114075007c6b23d",
+    "semantic_hash": "0758e383531af5255114075007c6b23d"
+  },
+  "src/games/growth-mindset/scoring.test.ts": {
+    "mtime": 1790671664.0217607,
+    "seen": 1790671771.14813,
+    "ast_hash": "1f130426dd39e0fc6f1d3263ff43f589",
+    "semantic_hash": "1f130426dd39e0fc6f1d3263ff43f589"
+  },
+  "src/games/growth-mindset/scoring.ts": {
+    "mtime": 1790671664.0218563,
+    "seen": 1790671771.1481311,
+    "ast_hash": "bf98336039aeb32e993ee8335c8c6df1",
+    "semantic_hash": "bf98336039aeb32e993ee8335c8c6df1"
+  },
+  "openspec/changes/accountability-mini-game/.openspec.yaml": {
+    "mtime": 1790671212.724771,
+    "seen": 1790671771.148721,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/accountability-mini-game/tasks.md": {
+    "mtime": 1790671212.7255018,
+    "seen": 1790671771.148722,
+    "ast_hash": "5de444b2bcf70d885975b969edb6b993",
+    "semantic_hash": "5de444b2bcf70d885975b969edb6b993"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-failure-can-continue/.openspec.yaml": {
+    "mtime": 1790671664.0158203,
+    "seen": 1790671771.148723,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-failure-can-continue/design.md": {
+    "mtime": 1790671664.01596,
+    "seen": 1790671771.148723,
+    "ast_hash": "58ba1d1032c639ef264f7054c833cb34",
+    "semantic_hash": "58ba1d1032c639ef264f7054c833cb34"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-failure-can-continue/proposal.md": {
+    "mtime": 1790671664.0161562,
+    "seen": 1790671771.148724,
+    "ast_hash": "e0612aedd415a4a6d2c563989aaa655b",
+    "semantic_hash": "e0612aedd415a4a6d2c563989aaa655b"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-failure-can-continue/specs/growth-mindset-game/spec.md": {
+    "mtime": 1790671664.0168076,
+    "seen": 1790671771.148724,
+    "ast_hash": "8d0eea0cfaec2231dacfe87ef255737f",
+    "semantic_hash": "8d0eea0cfaec2231dacfe87ef255737f"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-failure-can-continue/tasks.md": {
+    "mtime": 1790671664.0170236,
+    "seen": 1790671771.148724,
+    "ast_hash": "9a8e8634a80bc741524822e1f20fe631",
+    "semantic_hash": "9a8e8634a80bc741524822e1f20fe631"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-mini-game/.openspec.yaml": {
+    "mtime": 1790671664.017628,
+    "seen": 1790671771.148725,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-mini-game/design.md": {
+    "mtime": 1790671664.0181172,
+    "seen": 1790671771.148726,
+    "ast_hash": "6114dd7bc787630cbb9dd3ce4400df7a",
+    "semantic_hash": "6114dd7bc787630cbb9dd3ce4400df7a"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-mini-game/proposal.md": {
+    "mtime": 1790671664.0182736,
+    "seen": 1790671771.148726,
+    "ast_hash": "7b7909492c59838e15b706cfbd1e9b87",
+    "semantic_hash": "7b7909492c59838e15b706cfbd1e9b87"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-mini-game/specs/growth-mindset-game/spec.md": {
+    "mtime": 1790671664.0185528,
+    "seen": 1790671771.148727,
+    "ast_hash": "8a1bd5fa9ea396dfbaafab8cd48981b8",
+    "semantic_hash": "8a1bd5fa9ea396dfbaafab8cd48981b8"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-mini-game/tasks.md": {
+    "mtime": 1790671664.0189006,
+    "seen": 1790671771.148727,
+    "ast_hash": "179ca77f0b133d3e1e5c11cf8ab94001",
+    "semantic_hash": "179ca77f0b133d3e1e5c11cf8ab94001"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-progressive-difficulty/.openspec.yaml": {
+    "mtime": 1790671664.0190938,
+    "seen": 1790671771.1487281,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-progressive-difficulty/design.md": {
+    "mtime": 1790671664.0191965,
+    "seen": 1790671771.1487281,
+    "ast_hash": "3f0dca444d14c717a310376b2d39a7f3",
+    "semantic_hash": "3f0dca444d14c717a310376b2d39a7f3"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-progressive-difficulty/proposal.md": {
+    "mtime": 1790671664.0192945,
+    "seen": 1790671771.148729,
+    "ast_hash": "8eadf19f1817c9a2e271325dd8a90327",
+    "semantic_hash": "8eadf19f1817c9a2e271325dd8a90327"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-progressive-difficulty/specs/growth-mindset-game/spec.md": {
+    "mtime": 1790671664.019522,
+    "seen": 1790671771.148729,
+    "ast_hash": "4a274fe9a04d792e82f2947ae8ca1a09",
+    "semantic_hash": "4a274fe9a04d792e82f2947ae8ca1a09"
+  },
+  "openspec/changes/archive/2026-09-29-growth-mindset-progressive-difficulty/tasks.md": {
+    "mtime": 1790671664.019705,
+    "seen": 1790671771.14873,
+    "ast_hash": "82a0fa53680d3f39fb9013be74b1d692",
+    "semantic_hash": "82a0fa53680d3f39fb9013be74b1d692"
+  },
+  "openspec/changes/customer-focus-match-the-solution/.openspec.yaml": {
+    "mtime": 1790671212.7262573,
+    "seen": 1790671771.14873,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/customer-focus-match-the-solution/tasks.md": {
+    "mtime": 1790671212.7279398,
+    "seen": 1790671771.148731,
+    "ast_hash": "8b355b2cd7719514fac34d405a38b5ea",
+    "semantic_hash": "8b355b2cd7719514fac34d405a38b5ea"
+  },
+  "openspec/changes/integrate-collaborative-blind-builder/.openspec.yaml": {
+    "mtime": 1790671212.728107,
+    "seen": 1790671771.148731,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/integrate-collaborative-blind-builder/tasks.md": {
+    "mtime": 1790671212.7286873,
+    "seen": 1790671771.148732,
+    "ast_hash": "ca02f33b48b7d4c429d50431e0cb14ac",
+    "semantic_hash": "ca02f33b48b7d4c429d50431e0cb14ac"
+  },
+  "openspec/changes/integrity-mini-game/.openspec.yaml": {
+    "mtime": 1790671212.72884,
+    "seen": 1790671771.148732,
+    "ast_hash": "c03dcdc407a1873a6242a505b26a4d7a",
+    "semantic_hash": "c03dcdc407a1873a6242a505b26a4d7a"
+  },
+  "openspec/changes/integrity-mini-game/tasks.md": {
+    "mtime": 1790671212.7314737,
+    "seen": 1790671771.148733,
+    "ast_hash": "74ea202570d2c505318801efdcdcc0a2",
+    "semantic_hash": "74ea202570d2c505318801efdcdcc0a2"
+  },
+  "openspec/specs/growth-mindset-game/spec.md": {
+    "mtime": 1790671664.01996,
+    "seen": 1790671771.1487339,
+    "ast_hash": "30ee43e270ce9e0b4bb7d8ccf5275e5c",
+    "semantic_hash": "30ee43e270ce9e0b4bb7d8ccf5275e5c"
+  },
+  "src/games/accountability/docs/reference/00-start-here.md": {
+    "mtime": 1790671212.7355406,
+    "seen": 1790671771.1487339,
+    "ast_hash": "3dd963acd1ed8946e01f8a831b81bae7",
+    "semantic_hash": "3dd963acd1ed8946e01f8a831b81bae7"
+  },
+  "src/games/accountability/docs/reference/02-ux-ui-spec.md": {
+    "mtime": 1790671212.7358677,
+    "seen": 1790671771.148735,
+    "ast_hash": "027bea511896f4287c6b58bde43215ad",
+    "semantic_hash": "027bea511896f4287c6b58bde43215ad"
+  },
+  "src/games/accountability/docs/reference/03-technical-design.md": {
+    "mtime": 1790671212.7360551,
+    "seen": 1790671771.148735,
+    "ast_hash": "ee7e9f0e92c94d711b2a86e4569e95ff",
+    "semantic_hash": "ee7e9f0e92c94d711b2a86e4569e95ff"
+  },
+  "src/games/accountability/docs/reference/04-implementation-plan.md": {
+    "mtime": 1790671212.7362287,
+    "seen": 1790671771.148736,
+    "ast_hash": "49f9660a0241e69621c832d3b71ffe42",
+    "semantic_hash": "49f9660a0241e69621c832d3b71ffe42"
+  },
+  "src/games/accountability/docs/reference/05-test-plan.md": {
+    "mtime": 1790671212.7364357,
+    "seen": 1790671771.148736,
+    "ast_hash": "67dd46eb7ad526ce7d930572c86d59fc",
+    "semantic_hash": "67dd46eb7ad526ce7d930572c86d59fc"
+  },
+  "src/games/accountability/docs/reference/INDEX.md": {
+    "mtime": 1790671212.7365394,
+    "seen": 1790671771.148737,
+    "ast_hash": "2fba36fdd86e4e5a466f29c5b5178593",
+    "semantic_hash": "2fba36fdd86e4e5a466f29c5b5178593"
+  },
+  "src/games/accountability/docs/reference/README.md": {
+    "mtime": 1790671212.7366526,
+    "seen": 1790671771.148737,
+    "ast_hash": "a62c03569a7cda5c3984b3070801cc02",
+    "semantic_hash": "a62c03569a7cda5c3984b3070801cc02"
+  },
+  "src/games/accountability/docs/reference/docs/verification.md": {
+    "mtime": 1790671212.7368345,
+    "seen": 1790671771.148737,
+    "ast_hash": "ae2bdabf43fa97485d99874fb8b34fe5",
+    "semantic_hash": "ae2bdabf43fa97485d99874fb8b34fe5"
+  }
+}
