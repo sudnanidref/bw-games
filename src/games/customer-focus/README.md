@@ -32,7 +32,7 @@ These are intentionally inadequate first responses for all three situations; the
 
 ## Asset manifest
 
-No new imported images, audio, logos, or fonts. The interface uses existing project fonts and CSS tokens; icons come from the existing `lucide-react` dependency (Lucide contributors, ISC license, no attribution required, used for timer, grip, check, navigation and cancel). Do not reuse Vantis assets or official BRI logos without permission.
+No new imported images, logos, or fonts. The game reuses the looping CC0 track at `../integrity/assets/integrity-bgm.m4a` ("Level 1" from "5 Chiptunes (Action)" by Juhani Junkala/SubspaceAudio, https://opengameart.org/content/5-chiptunes-action) through `../integrity/audio.ts`; no attribution is required. Music starts with Mulai ronde, stops on result, cancel, and unmount, and the mute button shares the saved preference with other games. The interface uses existing project fonts and CSS tokens; icons come from the existing `lucide-react` dependency (Lucide contributors, ISC license, no attribution required, used for timer, grip, check, navigation, sound, and cancel). Do not reuse Vantis assets or official BRI logos without permission.
 
 ## Verification
 

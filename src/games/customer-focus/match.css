@@ -18,6 +18,8 @@
 .match-stats > span { display: inline-flex; align-items: center; gap: 6px; }
 .match-streak { min-width: 86px; font-variant-numeric: tabular-nums; }
 .match-clock { min-width: 91px; font-variant-numeric: tabular-nums; }
+.match-mute { display: grid; place-items: center; width: 36px; height: 36px; border: 2px solid var(--ink); border-radius: 6px; background: var(--paper); color: var(--ink); }
+.match-mute:hover { background: var(--match-accent); }
 .match-feedback { display: flex; align-items: center; min-height: 38px; padding: 8px 0; font-size: 13px; font-weight: 700; }
 .match-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 3vw, 38px); }
 .match-column { min-width: 0; }
