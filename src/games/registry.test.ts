@@ -1,23 +1,25 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { games } from './index'
+import { valueIds } from './slots'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered games', () => {
+  it('reserves exactly five ordered slots, registering only real games', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
+    expect(games.map((game) => game.id)).toEqual([...valueIds])
   })
 
-  it('enables Integrity, Collaborative, Accountability, and Customer Focus', () => {
+  it('enables all implemented games', () => {
     expect(games[0]).toMatchObject({ available: true, component: expect.any(Function) })
     expect(games[1]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/papan 5x5/i) })
     expect(games[2]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/20 detik/i) })
-    expect(games[3].available).toBe(false)
-    expect(games[3].component).toBeUndefined()
+    expect(games[3]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/minimal 65 poin/i) })
     expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/tiga kebutuhan.*45 detik/i) })
     for (const game of games) {
-      if (game.available) expect(game.component, game.id).toBeDefined()
+      expect(Boolean(game.component)).toBe(game.available)
+      expect(Boolean(game.briefing)).toBe(game.available)
     }
   })
 

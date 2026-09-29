@@ -2,6 +2,7 @@ import type { PlayableGame } from './contract'
 import { AccountabilityGame } from './accountability/AccountabilityGame'
 import { BlindBuilder } from './collaborative/BlindBuilder'
 import { MatchTheSolution } from './customer-focus/MatchTheSolution'
+import { GrowthMindsetGame } from './growth-mindset'
 import { IntegrityGame } from './integrity/IntegrityGame'
 import { gameSlots, type GameSlotInfo, type ValueId } from './slots'
 
@@ -17,6 +18,10 @@ const playable: Partial<Record<ValueId, Pick<GameSlot, 'component' | 'briefing'>
   integrity: {
     component: IntegrityGame,
     briefing: 'Tembak kata yang mencerminkan integritas (+5) dan hindari kata pelanggaran (−5) dalam 25 detik. Gerakkan mouse lalu klik, atau gunakan panah/A/D dan Spasi.',
+  },
+  'growth-mindset': {
+    component: GrowthMindsetGame,
+    briefing: 'Ingat pola panah dan ulangi urutannya. Salah? Pelajari dan coba lagi — raih minimal 65 poin dalam 20 detik.',
   },
   collaborative: {
     component: BlindBuilder,
