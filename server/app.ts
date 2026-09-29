@@ -2,6 +2,9 @@ import Fastify from 'fastify'
 import rateLimit from '@fastify/rate-limit'
 import type Database from 'better-sqlite3'
 import { parseSubmission, type LeaderboardEntry, type Submission } from '../src/leaderboard'
+import { instructionRequestSchema, outcomeMatchesSource, outcomeSchema } from '../src/games/collaborative/ai-contract'
+import { interpretInstruction } from '../src/games/collaborative/instructions'
+import { getConfiguredInstructionProvider, type InstructionProvider } from './instruction-provider'
 
 interface EntryRow {
   id: number
@@ -22,7 +25,7 @@ function toEntry(row: EntryRow): LeaderboardEntry {
   }
 }
 
-export async function createApp(database: Database.Database, now = () => new Date()) {
+export async function createApp(database: Database.Database, now = () => new Date(), getProvider: () => InstructionProvider | null = getConfiguredInstructionProvider) {
   database.exec(`CREATE TABLE IF NOT EXISTS leaderboard (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     run_id TEXT NOT NULL UNIQUE,
@@ -35,6 +38,21 @@ export async function createApp(database: Database.Database, now = () => new Dat
   await app.register(rateLimit, { global: false })
 
   app.get('/api/health', async () => ({ status: 'ok' }))
+  app.post('/api/instruction', { config: { rateLimit: { max: 30, timeWindow: '1 minute' } } }, async (request, reply) => {
+    const parsed = instructionRequestSchema.safeParse(request.body)
+    if (!parsed.success) return reply.code(400).send({ error: 'Invalid instruction request.' })
+    try {
+      const provider = getProvider()
+      const outcome = provider
+        ? await provider.requestOutcome(parsed.data)
+        : interpretInstruction(parsed.data.instruction, parsed.data.board)
+      const validated = outcomeSchema.safeParse(outcome)
+      if (!validated.success || !outcomeMatchesSource(parsed.data, validated.data)) throw new Error('Invalid instruction outcome')
+      return { roundId: parsed.data.roundId, outcome: validated.data }
+    } catch {
+      return reply.code(503).send({ error: "The teammate couldn't process that. Please rephrase; the board was not changed." })
+    }
+  })
   app.get('/api/leaderboard', async () => {
     const rows = database.prepare('SELECT * FROM leaderboard ORDER BY total DESC, completed_at ASC, id ASC LIMIT 50').all() as EntryRow[]
     return rows.map(toEntry)
