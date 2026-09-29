@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
-import { ArrowRight, Check, Clock3, GripVertical, X } from 'lucide-react'
+import { ArrowRight, Check, Clock3, GripVertical, Volume2, VolumeX, X } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { useGameMusic } from '../useGameMusic'
 import { cases, type CaseId } from './cases'
 import { draftDistractors } from './draft-distractors'
 import { circuitMs, finishRound, matchPair, ROUND_MS, startRound, type ResponseId, type Round } from './rules'
@@ -11,6 +12,7 @@ const responses: Record<ResponseId, string> = {
 } as Record<ResponseId, string>
 
 export function MatchTheSolution({ context, onComplete, onCancel, onError }: GameProps) {
+  const { audio, muted, toggleMute } = useGameMusic()
   const [round, setRound] = useState<Round | null>(null)
   const [selected, setSelected] = useState<ResponseId | null>(null)
   const [dragPosition, setDragPosition] = useState<{ x: number; y: number; responseId: ResponseId } | null>(null)
@@ -23,6 +25,7 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
 
   function begin() {
     if (roundRef.current || sentRef.current) return
+    void audio.start()
     deadlineRef.current = performance.now() + ROUND_MS
     roundRef.current = startRound()
     setRound(roundRef.current)
@@ -34,6 +37,7 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
     setRemainingMs(remaining)
     if (remaining > 0) return
     roundRef.current = finishRound(roundRef.current)
+    audio.stop()
     setRound(roundRef.current)
     setSelected(null)
   }
@@ -50,12 +54,14 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
       const remaining = deadlineRef.current - performance.now()
       const next = matchPair(roundRef.current, responseId, customerId, remaining)
       roundRef.current = next
+      if (next.phase === 'finished') audio.stop()
       setRound(next)
       setRemainingMs(Math.max(0, remaining))
       if (customerId) setSelected(null)
     } catch (error) {
       if (sentRef.current) return
       sentRef.current = true
+      audio.stop()
       onError(error instanceof Error ? error : new Error(String(error)))
     }
   }
@@ -77,12 +83,14 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
   function cancel() {
     if (sentRef.current || roundRef.current?.phase === 'finished') return
     sentRef.current = true
+    audio.stop()
     onCancel()
   }
 
   function continueJourney() {
     if (sentRef.current || roundRef.current?.phase !== 'finished' || roundRef.current.score === null) return
     sentRef.current = true
+    audio.stop()
     onComplete({ valueId: context.valueId, score: roundRef.current.score })
   }
 
@@ -92,7 +100,7 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
       <h2>Match the Solution</h2>
       <p>Cocokkan tiga kebutuhan nasabah dengan langkah layanan yang tepat sebelum waktu habis.</p>
       <p>Tarik solusi yang bergerak ke situasi di kiri, atau pilih solusi lalu situasi dengan Tab dan Enter. Kartu yang lewat akan kembali; jawaban salah dapat dicoba lagi.</p>
-      <div className="match-actions"><button type="button" className="primary-action" onClick={begin}>Mulai ronde <ArrowRight size={18} /></button><button type="button" className="secondary-action" onClick={cancel}>Batal <X size={17} /></button></div>
+      <div className="match-actions"><button type="button" className="primary-action" onClick={begin}>Mulai ronde <ArrowRight size={18} /></button><button type="button" className="secondary-action" onClick={toggleMute} aria-pressed={muted} aria-label={muted ? 'Nyalakan suara' : 'Matikan suara'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />} {muted ? 'Senyap' : 'Suara'}</button><button type="button" className="secondary-action" onClick={cancel}>Batal <X size={17} /></button></div>
     </section>
   )
 
@@ -108,7 +116,7 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
 
   return (
     <section className="match-game" aria-label="Match the Solution">
-      <div className="match-toolbar"><span className="match-kicker">MATCH THE SOLUTION</span><div className="match-stats"><span><Check size={17} /> {round.matched.length}/3 tepat</span><span className="match-streak">Runtun {round.streak}</span><span className="match-clock"><Clock3 size={17} /> <time aria-label="Sisa waktu">{Math.ceil(remainingMs / 1000)} dtk</time></span></div></div>
+      <div className="match-toolbar"><span className="match-kicker">MATCH THE SOLUTION</span><div className="match-stats"><span><Check size={17} /> {round.matched.length}/3 tepat</span><span className="match-streak">Runtun {round.streak}</span><span className="match-clock"><Clock3 size={17} /> <time aria-label="Sisa waktu">{Math.ceil(remainingMs / 1000)} dtk</time></span><button type="button" className="match-mute" onClick={toggleMute} aria-pressed={muted} aria-label={muted ? 'Nyalakan suara' : 'Matikan suara'} title={muted ? 'Nyalakan suara' : 'Matikan suara'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button></div></div>
       <p className="match-feedback" role="status" aria-live="polite">{round.feedback === 'correct' ? `Tepat! Pasangan terkunci. Runtun ${round.streak}.` : round.feedback === 'incorrect' ? 'Belum tepat. Kartu kembali; runtun 0.' : selected ? 'Solusi dipilih. Pilih situasi di kiri.' : 'Tarik solusi atau pilih solusi lalu situasi.'}</p>
       <div className="match-columns">
         <div className="match-column"><h3>Situasi pelanggan</h3><div className="match-options">{cases.map(({ id, customer }, index) => {

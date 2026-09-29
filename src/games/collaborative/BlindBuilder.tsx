@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
-import { ArrowRight, RotateCcw, Send, X } from 'lucide-react'
+import { ArrowRight, RotateCcw, Send, Volume2, VolumeX, X } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { useGameMusic } from '../useGameMusic'
 import { outcomeMatchesSource, parseCurrentInstructionResponse, type InstructionRequest } from './ai-contract'
 import { BOARD_SIZE, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, applyAction, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, type Board, type RoundState, type Score } from './game'
 import './style.css'
@@ -43,6 +44,7 @@ function formatTime(seconds: number) {
 }
 
 export function BlindBuilder({ context, onComplete, onCancel, onError }: GameProps) {
+  const { audio, muted, toggleMute } = useGameMusic()
   const [round, setRound] = useState<Round>(() => newRound(1))
   const [instruction, setInstruction] = useState('')
   const roundRef = useRef(round)
@@ -52,6 +54,7 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
   const committedRef = useRef(false)
   roundRef.current = round
 
+  useEffect(() => { void audio.start() }, [audio])
   useEffect(() => () => { closedRef.current = true; pendingRef.current?.abort() }, [])
 
   function finalize(current: Round, timedOut: boolean) {
@@ -63,6 +66,7 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
         remainingSeconds: remaining, timedOut,
       }) }
     pendingRef.current?.abort()
+    audio.stop()
     roundRef.current = result
     setRound(result)
   }
@@ -87,12 +91,14 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
       roundRef.current = next
       setInstruction('')
       setRound(next)
-    } catch (error) { onError(error instanceof Error ? error : new Error('Could not start a round.')) }
+      void audio.start()
+    } catch (error) { audio.stop(); onError(error instanceof Error ? error : new Error('Could not start a round.')) }
   }
 
   function leave() {
     closedRef.current = true
     pendingRef.current?.abort()
+    audio.stop()
     onCancel()
   }
 
@@ -162,12 +168,13 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
   }
 
   const playing = round.state === 'active' || round.state === 'resolving'
-  return <section className="blind-builder" aria-label="Blind Builder">
+  return <section className="blind-builder" aria-label="Blind Builder" onPointerDownCapture={() => { void audio.start() }} onKeyDownCapture={() => { void audio.start() }}>
     <div className="bb-toolbar">
       <strong>BLIND BUILDER <span>/ COLLABORATIVE</span></strong>
       <div className="bb-actions">
         {playing && <span className={round.remaining <= 10 ? 'bb-timer bb-urgent' : 'bb-timer'} aria-live="polite">{formatTime(round.remaining)} <small>REMAINING</small></span>}
         {playing && <button type="button" className="bb-quiet" onClick={() => finalize(roundRef.current, Date.now() >= deadlineRef.current)}>Submit round</button>}
+        <button type="button" className="bb-icon" onClick={toggleMute} aria-pressed={muted} aria-label={muted ? 'Nyalakan suara' : 'Matikan suara'} title={muted ? 'Nyalakan suara' : 'Matikan suara'}>{muted ? <VolumeX size={18} /> : <Volume2 size={18} />}</button>
         <button type="button" className="bb-icon" onClick={leave} aria-label="Exit game" title="Exit game"><X size={18} /></button>
       </div>
     </div>

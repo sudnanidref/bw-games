@@ -53,6 +53,18 @@ describe('createGameAudio', () => {
     expect(source.start).toHaveBeenCalledTimes(1)
   })
 
+  it('resumes a suspended audio context after a player interaction', async () => {
+    const { deps, context } = makeDeps()
+    const suspended = context as typeof context & { state: string; resume: ReturnType<typeof vi.fn> }
+    suspended.state = 'suspended'
+    suspended.resume = vi.fn(async () => { suspended.state = 'running' })
+    const audio = createGameAudio(deps)
+    await audio.start()
+    expect(suspended.resume).toHaveBeenCalledOnce()
+    await audio.start()
+    expect(suspended.resume).toHaveBeenCalledOnce()
+  })
+
   it('keeps music quieter than effects', async () => {
     const { deps, gains } = makeDeps()
     await createGameAudio(deps).start()

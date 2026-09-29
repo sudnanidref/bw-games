@@ -126,7 +126,12 @@ export function createGameAudio(deps: AudioDeps = defaultDeps): GameAudio {
 
   return {
     async start() {
-      if (context) return
+      if (context) {
+        if (context.state === 'suspended') {
+          try { await context.resume() } catch { /* Audio is optional. */ }
+        }
+        return
+      }
       try {
         const created = deps.createContext()
         if (!created) return
@@ -140,6 +145,9 @@ export function createGameAudio(deps: AudioDeps = defaultDeps): GameAudio {
         effectsGain.connect(master)
         master.connect(created.destination)
         applyMute()
+        if (created.state === 'suspended') {
+          try { await created.resume() } catch { /* Audio is optional. */ }
+        }
         await startMusic(created)
       } catch {
         context = null
