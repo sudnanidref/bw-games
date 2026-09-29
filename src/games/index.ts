@@ -1,7 +1,8 @@
 import type { PlayableGame } from './contract'
-import { GrowthMindsetGame } from './growth-mindset'
+import { AccountabilityGame } from './accountability/AccountabilityGame'
 import { BlindBuilder } from './collaborative/BlindBuilder'
 import { MatchTheSolution } from './customer-focus/MatchTheSolution'
+import { GrowthMindsetGame } from './growth-mindset'
 import { IntegrityGame } from './integrity/IntegrityGame'
 import { gameSlots, type GameSlotInfo, type ValueId } from './slots'
 
@@ -25,6 +26,10 @@ const playable: Partial<Record<ValueId, Pick<GameSlot, 'component' | 'briefing'>
   collaborative: {
     component: BlindBuilder,
     briefing: 'Arahkan rekanmu menyusun pola pada papan 5x5 dalam 180 detik. Beri instruksi warna, bentuk, dan posisi dengan jelas.',
+  },
+  accountability: {
+    component: AccountabilityGame,
+    briefing: 'Layani permintaan pembayaran tiga pembeli dengan cepat dan tepat selama 20 detik.',
   },
   'customer-focus': {
     component: MatchTheSolution,

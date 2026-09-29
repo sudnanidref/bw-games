@@ -11,10 +11,10 @@ describe('developer slots', () => {
     expect(games.map((game) => game.id)).toEqual([...valueIds])
   })
 
-  it('enables implemented games and leaves Accountability unavailable', () => {
+  it('enables all implemented games', () => {
     expect(games[0]).toMatchObject({ available: true, component: expect.any(Function) })
     expect(games[1]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/papan 5x5/i) })
-    expect(games[2]).toMatchObject({ available: false })
+    expect(games[2]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/20 detik/i) })
     expect(games[3]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/minimal 65 poin/i) })
     expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/tiga kebutuhan.*45 detik/i) })
     for (const game of games) {
