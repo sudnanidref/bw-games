@@ -3,11 +3,13 @@ import { describe, expect, it } from 'vitest'
 import { games } from './index'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered, unavailable games', () => {
+  it('keeps five ordered games and enables only the completed Accountability slot', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
-    expect(games.every((game) => game.available === false)).toBe(true)
+    expect(games.filter((game) => game.available).map((game) => game.id)).toEqual(['accountability'])
+    expect(games.find((game) => game.id === 'accountability')?.component).toBeDefined()
+    expect(games.find((game) => game.id === 'accountability')?.briefing).toBeTruthy()
   })
 
   it.each(games)('documents $title guardrails', ({ id }) => {
