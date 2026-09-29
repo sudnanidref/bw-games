@@ -4,9 +4,9 @@ The five values form one journey with five distinct stops, not five unrelated si
 
 ## Visual language
 
-- Use the CSS variables in `src/styles.css`: cool mint canvas `--canvas`, paper `--paper`, deep green ink `--ink`, restrained dividers `--line`, and a separate accent for each value. Use accents for value identity and interactive highlights, not as full-page backgrounds.
+- Use the CSS variables in `src/styles.css`: sky blue canvas `--canvas`, warm cream paper `--paper`, dark brown ink `--ink`, sand dividers `--line`, and a separate bright accent for each value. Keep the route and game content readable on cream surfaces.
 - Use Barlow Condensed bold for large value names and numerical score, DM Sans for instructions and controls. Provide local sans-serif fallbacks if web fonts cannot load. Keep letter spacing at zero.
-- Favor blocky silhouette, clear strokes, tight HUD labels, and concise action verbs. Draw original route markers and game art; do not recreate Kampung Bash's screens, logos, characters, or sprites.
+- Favor blocky silhouettes, thick dark outlines, layered button shadows, festive pennants, clear HUD labels, and concise action verbs. Draw original route markers and game art; do not recreate Kampung Bash's screens, logos, characters, or sprites.
 - The desktop play stage should remain legible at 1280x720 and 1440x900 with an unframed play area. At narrower widths, preserve reading order and avoid horizontal clipping; mobile gameplay is not a target for this phase.
 - Use shared 4/8/12/16/24/32px spacing increments. Repeated HUD indicators and controls need stable dimensions so scores cannot shift their layout.
 - A 180-260ms entrance or stage handoff can make progression visible. Avoid constant motion in status UI; honor `prefers-reduced-motion` and provide mute controls before adding audio.
