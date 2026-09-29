@@ -1,0 +1,202 @@
+.integrity-game {
+  --integrity-lane-height: 44px;
+  display: grid;
+  gap: 16px;
+  margin-top: 24px;
+  color: var(--ink);
+}
+
+.integrity-game button:focus-visible,
+.integrity-game .integrity-play:focus-visible {
+  outline: 3px solid var(--accountability);
+  outline-offset: 3px;
+}
+
+.integrity-game .integrity-panel {
+  display: grid;
+  gap: 16px;
+  max-width: 720px;
+  padding: 28px;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+}
+
+.integrity-game .integrity-panel h2 {
+  margin: 0;
+  font-family: var(--display-font);
+  font-size: 40px;
+  line-height: 1;
+}
+
+.integrity-game .integrity-panel p,
+.integrity-game .integrity-panel li {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.45;
+}
+
+.integrity-game .integrity-panel ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 22px;
+}
+
+.integrity-game .integrity-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.integrity-game .integrity-hud {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  font-family: var(--display-font);
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.integrity-game .integrity-hud-item {
+  display: inline-flex;
+  gap: 10px;
+  align-items: baseline;
+}
+
+.integrity-game .integrity-hud-value {
+  display: inline-block;
+  min-width: 4.5ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.integrity-game .integrity-hud .secondary-action { min-height: 40px; }
+
+.integrity-game .integrity-hud .integrity-mute { margin-left: auto; }
+
+.integrity-game .integrity-mute { gap: 8px; }
+
+.integrity-game .integrity-mute-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.integrity-game .integrity-play {
+  position: relative;
+  height: clamp(360px, 56vh, 520px);
+  overflow: hidden;
+  cursor: crosshair;
+  touch-action: none;
+  user-select: none;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  background-image: linear-gradient(var(--line) 1px, transparent 1px);
+  background-size: 100% 20%;
+}
+
+.integrity-game .integrity-target {
+  position: absolute;
+  left: 0;
+  width: 20%;
+  height: var(--integrity-lane-height);
+  margin-top: calc(var(--integrity-lane-height) / -2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0 8px;
+  white-space: nowrap;
+  font-family: var(--display-font);
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+  background: var(--integrity);
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+  will-change: transform;
+}
+
+.integrity-game .integrity-launcher {
+  position: absolute;
+  bottom: 4px;
+  width: 56px;
+  height: 77px;
+  margin-left: -28px;
+}
+
+.integrity-game .integrity-projectile {
+  position: absolute;
+  width: 22px;
+  height: 33px;
+  margin-left: -11px;
+  margin-top: -16px;
+}
+
+.integrity-game .integrity-feedback {
+  position: absolute;
+  padding: 4px 10px;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
+  font-family: var(--display-font);
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--paper);
+  background: var(--ink);
+  border-radius: 2px;
+  animation: integrity-feedback-rise 0.9s ease-out forwards;
+}
+
+@keyframes integrity-feedback-rise {
+  from { opacity: 1; margin-top: 0; }
+  to { opacity: 0.4; margin-top: -24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .integrity-game .integrity-feedback { animation: none; }
+}
+
+.integrity-game .integrity-summary {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  font-size: 18px;
+}
+
+.integrity-game .integrity-summary div {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  max-width: 320px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--line);
+}
+
+.integrity-game .integrity-summary dt,
+.integrity-game .integrity-summary dd { margin: 0; }
+
+.integrity-game .integrity-summary dd { font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.integrity-game .integrity-final-score {
+  font-family: var(--display-font);
+  font-size: 72px;
+  line-height: 1;
+}
+
+.integrity-game .integrity-feedback-icon {
+  width: 18px;
+  height: 18px;
+  vertical-align: -2px;
+}
+
+.integrity-game .integrity-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

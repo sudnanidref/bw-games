@@ -3,11 +3,16 @@ import { describe, expect, it } from 'vitest'
 import { games } from './index'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered, unavailable games', () => {
+  it('reserves exactly five ordered games', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
-    expect(games.every((game) => game.available === false)).toBe(true)
+  })
+
+  it('only marks a game available when it has a component', () => {
+    for (const game of games) {
+      if (game.available) expect(game.component, game.id).toBeDefined()
+    }
   })
 
   it.each(games)('documents $title guardrails', ({ id }) => {
