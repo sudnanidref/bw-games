@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
-import { Banknote, CreditCard, QrCode, type LucideIcon } from 'lucide-react'
+import { Banknote, CreditCard, QrCode, Volume2, VolumeX, type LucideIcon } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { useGameMusic } from '../useGameMusic'
 import { createCountdown } from './countdown'
 import { gameConfig, paymentMethods, type PaymentId } from './config'
 import { createGame, type GameSnapshot } from './engine'
@@ -16,6 +17,7 @@ const paymentIcons = {
 } satisfies Record<PaymentId, LucideIcon>
 
 export function AccountabilityGame({ context, onComplete, onCancel, onError }: GameProps) {
+  const { audio, muted, toggleMute } = useGameMusic()
   const engineRef = useRef<ReturnType<typeof createGame> | null>(null)
   if (!engineRef.current) engineRef.current = createGame()
   const engine = engineRef.current
@@ -71,13 +73,17 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
       burstTimersRef.current.forEach((handle) => window.clearTimeout(handle))
       burstTimersRef.current.clear()
       countdownRef.current = null
+      audio.stop()
       if (!terminalRef.current) callbacksRef.current.onCancel()
     }
-  }, [engine])
+  }, [audio, engine])
 
   useEffect(() => {
-    if (snapshot.phase === 'result') resultHeadingRef.current?.focus()
-  }, [snapshot.phase])
+    if (snapshot.phase === 'result') {
+      audio.stop()
+      resultHeadingRef.current?.focus()
+    }
+  }, [audio, snapshot.phase])
 
   function startManually() {
     countdownRef.current?.cancel()
@@ -87,18 +93,23 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
   function reportError(error: unknown) {
     if (terminalRef.current) return
     terminalRef.current = true
+    audio.stop()
     callbacksRef.current.onError(error instanceof Error ? error : new Error(String(error)))
   }
 
   function startRoundSafely() {
     try {
-      publishSnapshot(engine.startRound())
+      const next = engine.startRound()
+      if (next.phase === 'playing') void audio.start()
+      publishSnapshot(next)
     } catch (error) {
       reportError(error)
     }
   }
 
   function choosePayment(paymentId: PaymentId) {
+    if (snapshot.phase !== 'playing') return
+    void audio.start()
     const visibleBuyer = snapshot.queue[0]
     const gesture = gestureRef.current ?? (snapshot.roundId && visibleBuyer
       ? { roundId: snapshot.roundId, customerId: visibleBuyer.id }
@@ -115,7 +126,7 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
           burstTimersRef.current.delete(timer)
         }, 850)
         burstTimersRef.current.add(timer)
-        playCring()
+        if (!audio.isMuted()) playCring()
       }
       publishSnapshot(next)
     } catch (error) {
@@ -130,6 +141,7 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
   function continueJourney() {
     if (terminalRef.current || snapshot.phase !== 'result') return
     terminalRef.current = true
+    audio.stop()
     onComplete({ valueId: context.valueId, score: normalizeAccountabilityScore(snapshot.score) })
   }
 
@@ -141,6 +153,12 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
 
   return (
     <section className="accountability-game" data-phase={snapshot.phase}>
+      {snapshot.phase !== 'result' && (
+        <button className="kasir-audio-toggle" type="button" onClick={toggleMute} aria-label={muted ? 'Nyalakan suara' : 'Matikan suara'} aria-pressed={muted}>
+          {muted ? <VolumeX aria-hidden="true" size={18} /> : <Volume2 aria-hidden="true" size={18} />}
+          <span>{muted ? 'Suara mati' : 'Suara hidup'}</span>
+        </button>
+      )}
       {snapshot.phase === 'ready' ? (
         <main className="kasir-start">
           <h1>Kasir Sat Set</h1>

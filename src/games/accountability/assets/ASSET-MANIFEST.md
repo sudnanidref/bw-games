@@ -1,6 +1,6 @@
 # Accountability Game Asset Manifest
 
-All game-specific visuals and effects are available locally at runtime; custom scene art is authored in this project. No BRI logo, Vantis reference art, remote image, CDN font, or downloaded sound is used.
+All game-specific visuals and effects are available locally at runtime; custom scene art is authored in this project. The background music reuses the project's locally bundled CC0 track. No BRI logo, Vantis reference art, remote image, or CDN font is used.
 
 | Asset | Author / source | License or permission | Attribution | Usage | Status |
 | --- | --- | --- | --- | --- | --- |
@@ -8,6 +8,7 @@ All game-specific visuals and effects are available locally at runtime; custom s
 | Six buyer character variations | Original data in `customers.ts` and SVG geometry in `CharacterPortrait.tsx` | Project-authored code; no third-party asset or redistribution permission required | None | Anonymous FIFO queue | Implemented |
 | Payment method symbols | `Banknote`, `CreditCard`, and `QrCode` from existing `lucide-react` 1.48.0 | ISC; existing package dependency, no new runtime package | No icon-specific UI attribution; retain the package license notice | TUNAI, EDC, and QRIS controls/tokens | Implemented |
 | Success “cring” sound | Oscillator/gain synthesis in `effects.ts` using browser Web Audio | Generated at runtime; no third-party recording or sound file | None | Accepted correct answers only | Implemented |
+| Shared background music | `../integrity/assets/integrity-bgm.m4a`, "Level 1" from "5 Chiptunes (Action)" by Juhani Junkala (SubspaceAudio), https://opengameart.org/content/5-chiptunes-action | CC0 | None required | Looping music during the round, with the shared mute preference | Implemented |
 | AU Passata typeface | Official font file not present in either project; supplier/source and license not yet available | Requires verified license permitting local web embedding and any required distribution before adding a file | Follow the eventual license terms | Primary typeface when licensed file is supplied | **Blocked; do not source unofficially** |
 | Arial/sans-serif fallback | System/browser font stack | System-provided; no bundled file | None | Preview fallback while AU Passata is unavailable | Available; not typographically identical |
 

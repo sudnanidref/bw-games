@@ -22,7 +22,7 @@
 
 .gm-hud {
   display: grid;
-  grid-template-columns: 112px 1fr auto;
+  grid-template-columns: 112px minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 16px;
   font: 700 24px/1 var(--display-font);
@@ -31,7 +31,7 @@
 .gm-time { font-variant-numeric: tabular-nums; }
 .gm-level { justify-self: center; }
 
-.gm-exit, .gm-primary, .gm-secondary {
+.gm-exit, .gm-mute, .gm-primary, .gm-secondary {
   min-height: 44px;
   padding: 0 16px;
   font-size: 13px;
@@ -40,7 +40,7 @@
   border-radius: 2px;
 }
 
-.gm-exit, .gm-secondary { color: var(--ink); background: var(--paper); }
+.gm-exit, .gm-mute, .gm-secondary { color: var(--ink); background: var(--paper); }
 .gm-primary { color: var(--paper); background: var(--ink); }
 
 .gm-timer {
@@ -206,6 +206,13 @@
 @media (max-width: 900px) {
   .gm-play { grid-template-columns: 1fr; gap: 16px; }
   .gm-sprout { height: 200px; }
+}
+
+@media (max-width: 600px) {
+  .gm-hud { grid-template-columns: 1fr auto; gap: 10px; }
+  .gm-level { grid-column: 1 / -1; grid-row: 2; justify-self: start; }
+  .gm-mute { grid-column: 1; grid-row: 3; justify-self: start; }
+  .gm-exit { grid-column: 2; grid-row: 3; }
 }
 
 @media (prefers-reduced-motion: reduce) {

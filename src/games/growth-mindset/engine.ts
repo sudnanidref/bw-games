@@ -7,6 +7,12 @@ export interface GrowthGameOptions {
   onCancel: () => void
   onError: (error: Error) => void
   random?: () => number
+  music?: {
+    start: () => void
+    stop: () => void
+    isMuted: () => boolean
+    toggleMute: () => void
+  }
 }
 
 export interface GrowthGameHandle {
@@ -71,7 +77,19 @@ export function mountGrowthGame(root: HTMLElement, options: GrowthGameOptions): 
   const time = el('span', 'gm-time', formatTime(ROUND_MS))
   const levelLabel = el('span', 'gm-level', levelText(0))
   const exit = button('Keluar', 'gm-exit', () => guard(cancel))
-  hud.append(time, levelLabel, exit)
+  const mute = options.music && button('', 'gm-mute', () => {
+    options.music?.toggleMute()
+    updateMute()
+  })
+  function updateMute() {
+    if (!mute || !options.music) return
+    const muted = options.music.isMuted()
+    mute.textContent = muted ? '🔇 Suara mati' : '🔊 Suara hidup'
+    mute.setAttribute('aria-label', muted ? 'Nyalakan suara' : 'Matikan suara')
+    mute.setAttribute('aria-pressed', String(muted))
+  }
+  updateMute()
+  hud.append(time, levelLabel, ...(mute ? [mute] : []), exit)
 
   const bar = el('div', 'gm-timer')
   bar.setAttribute('aria-hidden', 'true')
@@ -135,6 +153,7 @@ export function mountGrowthGame(root: HTMLElement, options: GrowthGameOptions): 
     if (phase === 'done') return
     phase = 'done'
     clearTimers()
+    options.music?.stop()
     report()
   }
 
@@ -193,6 +212,7 @@ export function mountGrowthGame(root: HTMLElement, options: GrowthGameOptions): 
 
   function startRound() {
     clearTimers()
+    options.music?.start()
     level = 0
     bestCorrect = 0
     score = 0
@@ -279,6 +299,7 @@ export function mountGrowthGame(root: HTMLElement, options: GrowthGameOptions): 
 
   function endRound() {
     clearTimers()
+    options.music?.stop()
     renderTime()
     phase = 'result'
     score = scoreRound(level, bestCorrect)
@@ -330,6 +351,7 @@ export function mountGrowthGame(root: HTMLElement, options: GrowthGameOptions): 
     destroy() {
       phase = 'done'
       clearTimers()
+      options.music?.stop()
       game.removeEventListener('keydown', onKeyDown)
       game.remove()
     },

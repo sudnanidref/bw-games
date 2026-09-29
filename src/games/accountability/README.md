@@ -29,7 +29,7 @@ The displayed game score starts at 0. A correct choice adds 10; a wrong choice s
 
 ## Assets
 
-All scene and character art is original local SVG/CSS, payment symbols use the existing ISC-licensed `lucide-react` package, and the success sound is synthesized locally with Web Audio. No BRI logo or Vantis reference asset is used. See the [asset manifest](assets/ASSET-MANIFEST.md) for source, permission/license, attribution, and usage.
+All scene and character art is original local SVG/CSS, payment symbols use the existing ISC-licensed `lucide-react` package, and the success sound is synthesized locally with Web Audio. The round reuses the shared CC0 background track `../integrity/assets/integrity-bgm.m4a` ("Level 1" from "5 Chiptunes (Action)" by Juhani Junkala/SubspaceAudio, https://opengameart.org/content/5-chiptunes-action). Music starts with the round, stops at the result or on exit, and the mute button shares its saved preference with the other games. No BRI logo or Vantis reference asset is used. See the [asset manifest](assets/ASSET-MANIFEST.md) for source, permission/license, attribution, and usage.
 
 AU Passata is the requested primary font, but no official licensed web-font file is available. Do not fetch an unofficial copy. Until a locally supplied file with suitable web-embedding rights is available, the game uses Arial/sans-serif and does not claim identical typography.
 
