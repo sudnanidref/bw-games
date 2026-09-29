@@ -9,9 +9,10 @@ describe('developer slots', () => {
     ])
   })
 
-  it('enables Integrity and Customer Focus while leaving the middle three unavailable', () => {
+  it('enables Integrity, Collaborative, and Customer Focus', () => {
     expect(games[0]).toMatchObject({ available: true, component: expect.any(Function) })
-    expect(games.slice(1, 4).every((game) => game.available === false && !game.component)).toBe(true)
+    expect(games[1]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/papan 5x5/i) })
+    expect(games.slice(2, 4).every((game) => game.available === false && !game.component)).toBe(true)
     expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/tiga kebutuhan.*45 detik/i) })
     for (const game of games) {
       if (game.available) expect(game.component, game.id).toBeDefined()

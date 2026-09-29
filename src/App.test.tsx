@@ -6,18 +6,25 @@ import { createApp } from '../server/app'
 import type { GameProps } from './games/contract'
 import { App } from './App'
 
+const gameMode = vi.hoisted(() => ({ useRealCollaborative: false }))
+
 vi.mock('./games', async (importOriginal) => {
   const original = await importOriginal<typeof import('./games')>()
   return {
     ...original,
     games: original.games.map((game) => ({
       ...game, available: true, briefing: 'Selesaikan tantangan.',
-      component: ({ context, onComplete }: GameProps) => <button onClick={() => onComplete({ valueId: context.valueId, score: 20 })}>Selesaikan {context.valueId}</button>,
+      component: (props: GameProps) => {
+        const RealGame = game.component
+        return game.id === 'collaborative' && gameMode.useRealCollaborative && RealGame
+          ? <RealGame {...props} />
+          : <button onClick={() => props.onComplete({ valueId: props.context.valueId, score: 20 })}>Selesaikan {props.context.valueId}</button>
+      },
     })),
   }
 })
 
-afterEach(() => { cleanup(); vi.unstubAllGlobals() })
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); gameMode.useRealCollaborative = false })
 
 const fakeFetch = vi.fn(async (url: string, options?: RequestInit) => {
   if (options?.method === 'POST') return { ok: false, status: 503 }
@@ -26,6 +33,29 @@ const fakeFetch = vi.fn(async (url: string, options?: RequestInit) => {
 })
 
 describe('shell leaderboard flow', () => {
+  it('unlocks the real Collaborative game only after Integrity and preserves a non-scoring cancel', async () => {
+    gameMode.useRealCollaborative = true
+    vi.stubGlobal('crypto', { randomUUID: () => '11111111-1111-1111-1111-111111111111' })
+    const user = userEvent.setup()
+    render(<App />)
+    expect(screen.getByText('Collaborative', { selector: '.stop-copy strong' }).closest('li')?.textContent).toContain('Belum terbuka')
+    await user.type(screen.getByRole('textbox', { name: 'NAMA PEMAIN' }), 'Ayu')
+    await user.click(screen.getByRole('button', { name: /mulai perjalanan/i }))
+    expect(screen.getByRole('heading', { name: 'Integrity' })).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: /mulai game/i }))
+    await user.click(screen.getByRole('button', { name: 'Selesaikan integrity' }))
+    expect(screen.getByRole('heading', { name: 'Collaborative' })).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: /mulai game/i }))
+    expect(screen.getByRole('grid', { name: 'Your target board' })).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: 'Exit game' }))
+    expect(screen.getByText('Collaborative', { selector: '.stop-copy strong' }).closest('li')?.textContent).toContain('Tahap saat ini')
+    await user.click(screen.getByRole('button', { name: /mulai game/i }))
+    await user.click(screen.getByRole('button', { name: 'Submit round' }))
+    await user.click(screen.getByRole('button', { name: 'Continue journey' }))
+    expect(screen.getByRole('heading', { name: 'Accountability' })).toBeTruthy()
+    expect(screen.getByText('Collaborative', { selector: '.stop-copy strong' }).closest('li')?.textContent).toContain('30 / 100 poin')
+  })
+
   it('renders remote names as text and gates submission until five completions', async () => {
     vi.stubGlobal('crypto', { randomUUID: () => '11111111-1111-1111-1111-111111111111' })
     vi.stubGlobal('fetch', fakeFetch)
