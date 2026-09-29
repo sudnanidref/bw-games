@@ -26,10 +26,10 @@ Owner boundary: `src/games/integrity/`. Do not edit another value's code, the sh
 
 Provenance:
 
-- **Generator command:** `node --env-file=.env src/games/integrity/scripts/generate-words.mjs` (needs `FOUNDRY_ENDPOINT` (full Responses API URL, e.g. `https://bri-team-1-foundry.services.ai.azure.com/openai/v1/responses`) and `FOUNDRY_API_KEY`, optional `FOUNDRY_DEPLOYMENT` (default `gpt-5-mini`), in the gitignored `.env`; writes only `data/integrity-words.candidates.json`, never `words.json`).
+- **Generator command:** `node --env-file=.env src/games/integrity/scripts/generate-words.mjs` (needs `FOUNDRY_ENDPOINT` (either the project URL ending in `/api/projects/<project>` or the full Responses API URL ending in `/openai/v1/responses`) and `FOUNDRY_API_KEY`, optional `FOUNDRY_DEPLOYMENT` (default `gpt-5-mini`), in the gitignored `.env`; writes only `data/integrity-words.candidates.json`, never `words.json`).
 - **Model:** `gpt-5-mini` via Azure AI Foundry (`FOUNDRY_ENDPOINT`) (Responses API, structured output).
-- **Generation date:** none yet. Draft entries hand-written by Claude Sonnet 5.5 on 2026-09-29; generator not yet run; human review PENDING (reviewer: TBD).
-- **Reviewer:** TBD.
+- **Generation date:** 2026-09-29. Foundry produced 77 aligned and 72 violation candidates in the ignored `data/integrity-words.candidates.json`; human review PENDING. The committed `words.json` still contains the earlier manual draft, not these candidates.
+- **Reviewer:** TBD; generated candidates must be reviewed before replacing any committed entries.
 
 Review rules:
 

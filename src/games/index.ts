@@ -1,5 +1,7 @@
 import type { PlayableGame } from './contract'
 import { GrowthMindsetGame } from './growth-mindset'
+import { BlindBuilder } from './collaborative/BlindBuilder'
+import { MatchTheSolution } from './customer-focus/MatchTheSolution'
 import { IntegrityGame } from './integrity/IntegrityGame'
 import { gameSlots, type GameSlotInfo, type ValueId } from './slots'
 
@@ -19,6 +21,14 @@ const playable: Partial<Record<ValueId, Pick<GameSlot, 'component' | 'briefing'>
   'growth-mindset': {
     component: GrowthMindsetGame,
     briefing: 'Ingat pola panah dan ulangi urutannya. Salah? Pelajari dan coba lagi — raih minimal 65 poin dalam 20 detik.',
+  },
+  collaborative: {
+    component: BlindBuilder,
+    briefing: 'Arahkan rekanmu menyusun pola pada papan 5x5 dalam 180 detik. Beri instruksi warna, bentuk, dan posisi dengan jelas.',
+  },
+  'customer-focus': {
+    component: MatchTheSolution,
+    briefing: 'Tangkap kartu solusi yang bergerak dan cocokkan dengan tiga kebutuhan pelanggan dalam 45 detik.',
   },
 }
 

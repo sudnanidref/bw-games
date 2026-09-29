@@ -1,0 +1,76 @@
+.blind-builder {
+  --bb-ink: var(--ink);
+  --bb-green: var(--ink);
+  --bb-red: var(--accountability);
+  --bb-blue: var(--growth-mindset);
+  --bb-shape-green: var(--customer-focus);
+  --bb-line: var(--line);
+  width: 100%; min-width: 0; padding: 22px 0 35px; color: var(--bb-ink);
+}
+.blind-builder button, .blind-builder textarea { font: inherit; }
+.blind-builder button:focus-visible, .blind-builder textarea:focus-visible { outline: 3px solid var(--bb-red); outline-offset: 2px; }
+.blind-builder .bb-toolbar, .blind-builder .bb-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.blind-builder .bb-toolbar { border-bottom: 2px solid var(--bb-ink); padding-bottom: 15px; font-size: 12px; }
+.blind-builder .bb-toolbar strong { font-family: var(--display-font); font-size: 20px; }
+.blind-builder .bb-toolbar strong span { color: var(--bb-green); }
+.blind-builder .bb-timer { font: 700 22px var(--display-font); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.blind-builder .bb-timer small { font: 700 10px 'DM Sans', sans-serif; color: var(--muted); }
+.blind-builder .bb-urgent { color: var(--bb-red); }
+.blind-builder .bb-icon { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--bb-line); background: var(--paper); }
+.blind-builder .bb-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--bb-line); background: var(--paper); color: var(--bb-ink); padding: 9px 12px; cursor: pointer; font-size: 12px; font-weight: 700; }
+.blind-builder .bb-quiet:hover { border-color: var(--bb-ink); }
+.blind-builder .bb-heading { padding: 23px 0 20px; }
+.blind-builder .bb-heading > span, .blind-builder .bb-label, .blind-builder .bb-composer label { font-size: 10px; font-weight: 700; color: var(--bb-green); }
+.blind-builder .bb-heading h2 { margin: 8px 0; font: 800 32px/1.05 var(--display-font); }
+.blind-builder .bb-heading p { color: var(--muted); font-size: 13px; line-height: 1.45; }
+.blind-builder .bb-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(240px, .8fr); gap: 16px; }
+.blind-builder .bb-boards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-content: start; }
+.blind-builder .bb-panel { min-width: 0; background: var(--paper); border: 1px solid var(--bb-line); padding: 12px; }
+.blind-builder .bb-label { display: flex; justify-content: space-between; align-items: center; gap: 6px; min-height: 27px; margin-bottom: 9px; }
+.blind-builder .bb-label span { color: var(--muted); font-size: 8px; text-align: right; }
+.blind-builder .bb-panel > p { margin-top: 10px; font-size: 10px; color: var(--muted); }
+.blind-builder .bb-board { display: grid; aspect-ratio: 1; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--bb-line); border-left: 1px solid var(--bb-line); }
+.blind-builder .bb-cell { position: relative; min-width: 0; display: grid; place-items: center; border-right: 1px solid var(--bb-line); border-bottom: 1px solid var(--bb-line); background: var(--canvas); }
+.blind-builder .bb-coordinate { position: absolute; top: 2px; left: 3px; color: #688077; font-size: 9px; font-weight: 700; }
+.blind-builder .bb-piece { display: block; width: 48%; aspect-ratio: 1; }
+.blind-builder .bb-circle { border-radius: 50%; }
+.blind-builder .bb-square { border-radius: 2px; }
+.blind-builder .bb-red { background: var(--bb-red); }
+.blind-builder .bb-blue { background: var(--bb-blue); }
+.blind-builder .bb-green { background: var(--bb-shape-green); }
+.blind-builder .bb-piece.bb-triangle { width: 0; height: 0; border-left: clamp(8px, 1.5vw, 18px) solid transparent; border-right: clamp(8px, 1.5vw, 18px) solid transparent; border-bottom: clamp(16px, 3vw, 32px) solid var(--bb-blue); background: transparent; }
+.blind-builder .bb-piece.bb-triangle.bb-red { border-bottom-color: var(--bb-red); }
+.blind-builder .bb-piece.bb-triangle.bb-green { border-bottom-color: var(--bb-shape-green); }
+.blind-builder .bb-conversation { display: flex; flex-direction: column; min-width: 0; min-height: 350px; background: var(--paper); border: 1px solid var(--bb-line); padding: 12px; }
+.blind-builder .bb-transcript { flex: 1; min-height: 110px; max-height: 280px; overflow: auto; border-top: 1px solid var(--bb-line); padding: 12px 0; }
+.blind-builder .bb-message { margin: 0 0 12px; max-width: 92%; }
+.blind-builder .bb-message.bb-player { margin-left: auto; }
+.blind-builder .bb-message span { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; margin-bottom: 3px; }
+.blind-builder .bb-message p { padding: 8px 10px; background: var(--canvas); font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
+.blind-builder .bb-message.bb-player p { color: white; background: var(--bb-green); }
+.blind-builder .bb-wait { color: var(--muted); font-size: 11px; }
+.blind-builder .bb-composer { border-top: 1px solid var(--bb-line); padding-top: 10px; }
+.blind-builder .bb-composer label { display: block; }
+.blind-builder .bb-composer textarea { width: 100%; resize: vertical; border: 1px solid var(--bb-line); background: #fff; color: var(--bb-ink); padding: 8px; margin: 7px 0; font-size: 12px; }
+.blind-builder .bb-composer > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--muted); }
+.blind-builder .bb-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--bb-green); border: 1px solid var(--bb-green); color: #fff; padding: 9px 12px; cursor: pointer; font-size: 12px; font-weight: 700; }
+.blind-builder .bb-primary:hover { background: #235341; }
+.blind-builder button:disabled { opacity: .5; cursor: default; }
+.blind-builder .bb-score { display: flex; flex-direction: column; gap: 10px; background: var(--canvas); border: 1px solid var(--bb-line); padding: 16px; }
+.blind-builder .bb-score > span { color: var(--bb-green); font-size: 11px; font-weight: 700; }
+.blind-builder .bb-score > strong { font: 800 60px/1 var(--display-font); }
+.blind-builder .bb-score > strong small { font-size: 17px; color: var(--muted); }
+.blind-builder .bb-score dl { margin: 0; }
+.blind-builder .bb-score dl > div { display: flex; justify-content: space-between; border-top: 1px solid var(--bb-line); padding: 9px 0; font-size: 12px; }
+.blind-builder .bb-score dd { margin: 0; font-weight: 700; }
+.blind-builder .bb-score p { color: var(--muted); font-size: 12px; line-height: 1.5; }
+@media (max-width: 1120px) { .blind-builder .bb-layout { grid-template-columns: 1fr; } }
+@media (max-width: 510px) {
+  .blind-builder .bb-toolbar { align-items: flex-start; }
+  .blind-builder .bb-actions { flex-wrap: wrap; justify-content: flex-end; }
+  .blind-builder .bb-boards { gap: 6px; }
+  .blind-builder .bb-panel { padding: 6px; }
+  .blind-builder .bb-label { font-size: 8px; }
+  .blind-builder .bb-label span { font-size: 7px; }
+  .blind-builder .bb-coordinate { font-size: 7px; }
+}

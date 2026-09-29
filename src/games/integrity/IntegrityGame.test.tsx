@@ -12,6 +12,7 @@ vi.mock('./engine', async (importOriginal) => {
 
 const FRAME_MS = 16
 const HIT_LABEL = /^[+−]5 (benar|salah) \S/
+const storedPreferences = new Map<string, string>()
 
 let frameCallbacks: Map<number, FrameRequestCallback>
 let nextFrameId: number
@@ -82,6 +83,11 @@ async function flushPromises() {
 
 beforeEach(() => {
   StubAudioContext.instances = []
+  vi.stubGlobal('localStorage', {
+    clear: () => storedPreferences.clear(),
+    getItem: (key: string) => storedPreferences.get(key) ?? null,
+    setItem: (key: string, value: string) => { storedPreferences.set(key, value) },
+  })
   localStorage.clear()
   vi.stubGlobal('AudioContext', StubAudioContext)
   vi.stubGlobal('fetch', vi.fn(async () => ({ ok: true, arrayBuffer: async () => new ArrayBuffer(8) })))
