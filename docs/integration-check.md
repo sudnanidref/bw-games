@@ -1,0 +1,5 @@
+# Integration check
+
+The test-only five-game fixture in `src/App.test.tsx` exercises named entry, all five sequential stage completions, final 100/500 score, submission through the real Fastify API, SQLite persistence, and leaderboard display. Run `npm test -- src/App.test.tsx` to repeat it. Fixtures are mocked in the test runner and never registered in `src/games/index.ts` or included in the production build.
+
+On the ordinary app at 1440x900, entering a name reaches Integrity's unavailable state: the route remains 0/5, no final score appears, the original route illustration loads, and no leaderboard POST is sent. At 390x844, both the journey and leaderboard remain horizontally contained. This is the intended behavior until the five developer-owned games are integrated. Recheck the same browser paths after each new game is added.

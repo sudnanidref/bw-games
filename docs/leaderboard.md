@@ -1,0 +1,9 @@
+# Leaderboard operations
+
+Start both services with `npm run dev` after `npm ci`. Use `curl http://127.0.0.1:3001/api/health` for the API health check and `curl http://127.0.0.1:3001/api/leaderboard` for the top 50 entries. `npm test -- server/app.test.ts` exercises submission and storage without adding fixture scores to production. `npm run build` and `npm start` run the compiled API; serve the generated `dist/` separately with `/api` proxied to it.
+
+The API uses SQLite at `data/leaderboard.db` by default. Set `DATA_FILE=/persistent/path/leaderboard.db` for a persistent deployment; the parent directory is created when the API starts. Back up this file before replacing or pruning a deployment. To reset rankings intentionally, stop the API, back up and remove the database file (and any `-wal`/`-shm` companions), then restart the API. There is no retention job or delete endpoint yet: decide a data retention period and deletion process before collecting real employee names.
+
+Entries contain a public display name (trimmed to 1-24 characters), five scores in order, their total, and server completion time. Duplicate run IDs return the original entry, and conflicting repeats are rejected. The API rejects incomplete, out-of-order, or inconsistent score arrays and rate-limits submissions. The player name is visible to everyone who opens the leaderboard; use a pseudonym if appropriate. No login is collected.
+
+Game outcomes originate in the client and can be forged despite payload validation. This is a casual, unauthenticated leaderboard, not evidence of employee performance and not suitable for awards. A trustworthy competition would need authenticated identity, server-verifiable gameplay events, moderation, and a privacy/retention policy in a separate change.
