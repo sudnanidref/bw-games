@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type PointerEvent } from 'react'
 import { ArrowRight, Check, Clock3, GripVertical, Volume2, VolumeX, X } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { scoreStatus } from '../score-status'
 import { useGameMusic } from '../useGameMusic'
 import { cases, type CaseId } from './cases'
 import { draftDistractors } from './draft-distractors'
@@ -109,6 +110,7 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
       <span className="match-kicker">RONDE SELESAI</span>
       <h2>{round.matched.length === 3 ? 'Semua terpasang.' : 'Waktu habis.'}</h2>
       <div className="match-final-score">{round.score}<span> / 100</span></div>
+      <small className={`journey-status ${scoreStatus(round.score ?? 0).toLowerCase()}`}>{scoreStatus(round.score ?? 0)}</small>
       <p>{round.matched.length} dari 3 pasangan tepat &middot; {round.incorrectAttempts} percobaan keliru</p>
       <button type="button" className="primary-action" onClick={continueJourney}>Lanjutkan perjalanan <ArrowRight size={18} /></button>
     </section>

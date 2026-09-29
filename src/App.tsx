@@ -1,7 +1,7 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
 import { ArrowRight, Award, CircleHelp, Flag, LockKeyhole, Map, RotateCcw, Trophy, UserRound } from 'lucide-react'
 import { games } from './games'
-import { PASS_SCORE } from './games/growth-mindset/scoring'
+import { scoreStatus } from './games/score-status'
 import type { GameResult } from './games/contract'
 import { completeStage, createJourney, currentValue, stageStatus, totalScore, type Journey } from './journey'
 import type { LeaderboardEntry } from './leaderboard'
@@ -98,12 +98,10 @@ export function App() {
             {games.map((game, index) => {
               const state = journey ? stageStatus(journey, game.id) : index === 0 ? 'current' : 'locked'
               const result = journey?.results.find((item) => item.valueId === game.id)
-              const growthStatus = result?.valueId === 'growth-mindset'
-                ? result.score >= PASS_SCORE ? 'PASS' : 'FAIL'
-                : null
+              const status = result ? scoreStatus(result.score) : null
               return <li className={`route-stop ${state}`} key={game.id} style={{ '--stop-accent': game.accent } as CSSProperties}>
                 <span className="stop-index">{String(index + 1).padStart(2, '0')}</span>
-                <div className="stop-copy"><strong>{game.title}</strong>{state === 'complete' && growthStatus && <small className={`journey-status ${growthStatus.toLowerCase()}`}>{growthStatus}</small>}<span className="route-score">{state === 'complete' ? `${result?.score} / 100 poin` : state === 'current' ? 'Tahap saat ini' : 'Belum terbuka'}</span></div>
+                <div className="stop-copy"><strong>{game.title}</strong>{state === 'complete' && status && <small className={`journey-status ${status.toLowerCase()}`}>{status}</small>}<span className="route-score">{state === 'complete' ? `${result?.score} / 100 poin` : state === 'current' ? 'Tahap saat ini' : 'Belum terbuka'}</span></div>
                 {state === 'complete' ? <Award size={19} aria-label="Selesai" /> : state === 'locked' ? <LockKeyhole size={16} aria-label="Terkunci" /> : <span className="current-dot" aria-label="Saat ini" />}
               </li>
             })}
@@ -123,8 +121,8 @@ export function App() {
             </div>
           ) : score !== null ? (
             <div className="result-stage stage-content"><div className="eyebrow">PERJALANAN SELESAI</div><Trophy size={64} strokeWidth={1.5} /><h1>Hasil akhir</h1><div className="final-score">{score}<span>/ 500</span></div><ul className="result-list">{journey.results.map((result) => {
-              const growthStatus = result.valueId === 'growth-mindset' ? result.score >= PASS_SCORE ? 'PASS' : 'FAIL' : null
-              return <li key={result.valueId}><span>{games.find((game) => game.id === result.valueId)?.title}{growthStatus && <small className={`journey-status ${growthStatus.toLowerCase()}`}>{growthStatus}</small>}</span><strong>{result.score}</strong></li>
+              const status = scoreStatus(result.score)
+              return <li key={result.valueId}><span>{games.find((game) => game.id === result.valueId)?.title}<small className={`journey-status ${status.toLowerCase()}`}>{status}</small></span><strong>{result.score}</strong></li>
             })}</ul>{leaderboardError && <p role="alert" className="form-error">{leaderboardError}</p>}<div className="result-actions"><button type="button" className="primary-action" disabled={submitting || submitted} onClick={submitRun}>{submitted ? 'Hasil terkirim' : submitting ? 'Mengirim...' : 'Kirim ke peringkat'} <ArrowRight size={17} /></button><button type="button" className="secondary-action" onClick={() => { setJourney(null); setSubmitted(false); setLeaderboardError('') }}><RotateCcw size={17} /> Main lagi</button></div></div>
           ) : (
             <div className="active-stage stage-content" style={{ '--stage-accent': currentGame?.accent } as CSSProperties}>

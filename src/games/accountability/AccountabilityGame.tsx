@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type CSSProperties, type KeyboardEvent } from 'react'
 import { Banknote, CreditCard, QrCode, Volume2, VolumeX, type LucideIcon } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { scoreStatus } from '../score-status'
 import { useGameMusic } from '../useGameMusic'
 import { createCountdown } from './countdown'
 import { gameConfig, paymentMethods, type PaymentId } from './config'
@@ -150,6 +151,8 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
     : snapshot.feedback === 'wrong'
       ? `× Belum sesuai! Penalti ${gameConfig.wrongPenalty} poin`
       : ''
+  const journeyScore = normalizeAccountabilityScore(snapshot.score)
+  const status = scoreStatus(journeyScore)
 
   return (
     <section className="accountability-game" data-phase={snapshot.phase}>
@@ -255,6 +258,7 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
         <main className="kasir-result" aria-labelledby="kasir-result-title">
           <h2 id="kasir-result-title" ref={resultHeadingRef} tabIndex={-1}>Waktu Habis!</h2>
           <div className="kasir-result-score"><span>SKOR AKHIR</span><strong>{snapshot.score}</strong></div>
+          <p className="kasir-journey-score">Nilai perjalanan {journeyScore} / 100 <small className={`journey-status ${status.toLowerCase()}`}>{status}</small></p>
           <dl className="kasir-result-statistics">
             <div><dt>Pembeli terlayani</dt><dd>{snapshot.servedCount}</dd></div>
             <div><dt>Pilihan salah</dt><dd>{snapshot.wrongCount}</dd></div>

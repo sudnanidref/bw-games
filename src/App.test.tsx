@@ -20,6 +20,7 @@ vi.mock('./games', async (importOriginal) => {
           ? <RealGame {...props} />
           : <>
             <button onClick={() => props.onComplete({ valueId: props.context.valueId, score: 20 })}>Selesaikan {props.context.valueId}</button>
+            <button onClick={() => props.onComplete({ valueId: props.context.valueId, score: 65 })}>Selesaikan {props.context.valueId} dengan 65</button>
             {props.context.valueId === 'growth-mindset' && <>
               <button onClick={() => props.onComplete({ valueId: props.context.valueId, score: 64 })}>Growth Mindset 64</button>
               <button onClick={() => props.onComplete({ valueId: props.context.valueId, score: 65 })}>Growth Mindset 65</button>
@@ -39,6 +40,20 @@ const fakeFetch = vi.fn(async (url: string, options?: RequestInit) => {
 })
 
 describe('shell leaderboard flow', () => {
+  it('marks a score of 65 as PASS for every game', async () => {
+    vi.stubGlobal('crypto', { randomUUID: () => '55555555-5555-5555-5555-555555555555' })
+    const user = userEvent.setup()
+    const { container } = render(<App />)
+    await user.type(screen.getByRole('textbox', { name: 'NAMA PEMAIN' }), 'Ayu')
+    await user.click(screen.getByRole('button', { name: /mulai perjalanan/i }))
+    for (const valueId of ['integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus']) {
+      await user.click(screen.getByRole('button', { name: /mulai game/i }))
+      await user.click(screen.getByRole('button', { name: `Selesaikan ${valueId} dengan 65` }))
+    }
+    expect([...container.querySelectorAll('.route-stop .journey-status')].map((badge) => badge.textContent)).toEqual(Array(5).fill('PASS'))
+    expect([...container.querySelectorAll('.result-list .journey-status')].map((badge) => badge.textContent)).toEqual(Array(5).fill('PASS'))
+  })
+
   it.each([[64, 'FAIL'], [65, 'PASS']] as const)(
     'records Growth Mindset score %i as %s and continues in order',
     async (growthScore, expectedStatus) => {
@@ -55,10 +70,13 @@ describe('shell leaderboard flow', () => {
 
       await user.click(screen.getByRole('button', { name: /mulai game/i }))
       await user.click(screen.getByRole('button', { name: `Growth Mindset ${growthScore}` }))
-      expect(screen.getByText(expectedStatus, { selector: '.journey-status' })).toBeTruthy()
       expect(screen.getByText(`${growthScore} / 100 poin`)).toBeTruthy()
       const routeStops = container.querySelectorAll('.route-stop')
       expect(routeStops[3]?.className).toContain('complete')
+      expect(routeStops[3]?.querySelector('.journey-status')?.textContent).toBe(expectedStatus)
+      for (const stop of [...routeStops].slice(0, 3)) {
+        expect(stop.querySelector('.journey-status')?.textContent).toBe('FAIL')
+      }
       expect(routeStops[4]?.className).toContain('current')
 
       await user.click(screen.getByRole('button', { name: /mulai game/i }))
@@ -66,7 +84,8 @@ describe('shell leaderboard flow', () => {
       const resultRows = container.querySelectorAll('.result-list li')
       expect(resultRows[3]?.textContent).toContain(expectedStatus)
       expect(resultRows[3]?.textContent).toContain(String(growthScore))
-      expect(resultRows[0]?.textContent).not.toMatch(/PASS|FAIL/)
+      expect(resultRows[0]?.textContent).toContain('FAIL')
+      expect([...resultRows].map((row) => row.querySelector('.journey-status')?.textContent)).toEqual(['FAIL', 'FAIL', 'FAIL', expectedStatus, 'FAIL'])
     },
   )
 

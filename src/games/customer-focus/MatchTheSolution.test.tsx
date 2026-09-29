@@ -163,6 +163,7 @@ describe('Match the Solution', () => {
     act(() => vi.advanceTimersByTime(45_000))
     expect(screen.getByText('Waktu habis.')).toBeTruthy()
     expect(screen.getByText('20', { selector: '.match-final-score' })).toBeTruthy()
+    expect(screen.getByText('FAIL', { selector: '.journey-status' })).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
     fireEvent.click(screen.getByRole('button', { name: /lanjutkan perjalanan/i }))
     expect(onComplete).toHaveBeenCalledExactlyOnceWith({ valueId: 'customer-focus', score: 20 })

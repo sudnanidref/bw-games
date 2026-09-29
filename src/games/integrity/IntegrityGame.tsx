@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState, type KeyboardEvent, type PointerEvent } from 'react'
 import type { GameProps } from '../contract'
+import { scoreStatus } from '../score-status'
 import { CardProjectile, CheckIcon, CrossIcon, EdcLauncher, SpeakerIcon, SpeakerOffIcon } from './art'
 import { END_JINGLE_MS, createGameAudio, soundsFor } from './audio'
 import {
@@ -239,6 +240,7 @@ export function IntegrityGame({ context, onComplete, onCancel, onError, random =
             <div><dt>Kata pelanggaran kena</dt><dd>{state.violationHits}</dd></div>
           </dl>
           <p className="integrity-final-score" aria-label={`Skor akhir ${score} dari 100`}>{score}<small> / 100</small></p>
+          <small className={`journey-status ${scoreStatus(score).toLowerCase()}`}>{scoreStatus(score)}</small>
           <div className="integrity-actions">
             <button className="primary-action" type="button" autoFocus onClick={finish}>Lanjut</button>
           </div>

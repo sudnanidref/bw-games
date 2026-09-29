@@ -159,6 +159,8 @@ describe('Accountability game start screen', () => {
 
     expect(screen.getByRole('heading', { name: 'Waktu Habis!' })).toBeTruthy()
     expect(container.querySelector('.kasir-result-score strong')?.textContent).toBe('0')
+    expect(screen.getByText('Nilai perjalanan 0 / 100')).toBeTruthy()
+    expect(screen.getByText('FAIL', { selector: '.journey-status' })).toBeTruthy()
     expect([...container.querySelectorAll('.kasir-result-statistics dd')].map((value) => value.textContent)).toEqual(['0', '0'])
     expect(container.querySelectorAll('.kasir-payment-button')).toHaveLength(0)
     expect(screen.getByText('Cepat itu penting. Tepat melayani adalah tanggung jawab kita.')).toBeTruthy()

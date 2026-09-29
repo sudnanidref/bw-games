@@ -1,3 +1,7 @@
+import { PASS_SCORE } from '../score-status'
+
+export { PASS_SCORE } from '../score-status'
+
 export const LEVELS = [
   { length: 3, points: 15, stepMs: 550, hint: 'PELAN' },
   { length: 4, points: 18, stepMs: 450, hint: 'SEDANG' },
@@ -7,8 +11,6 @@ export const LEVELS = [
 ] as const
 
 export const ROUND_MS = 20000
-export const PASS_SCORE = 65
-
 export function scoreRound(clearedLevels: number, bestCorrect: number): number {
   const cleared = Math.min(Math.max(Math.trunc(clearedLevels), 0), LEVELS.length)
   let score = LEVELS.slice(0, cleared).reduce((sum, level) => sum + level.points, 0)

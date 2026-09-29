@@ -28,7 +28,7 @@ Owner boundary: `src/games/growth-mindset/`. Do not edit another value's code, t
   - Feedback uses ✓/✗ and text, not color alone.
   - `prefers-reduced-motion` removes transitions.
   - The shared background music starts with each round, stops on results or exit, and offers a mute button shared with other games.
-- **Completion:** the round ends when level 5 is cleared or time runs out. The 65-point PASS/FAIL threshold applies only to Growth Mindset.
+- **Completion:** the round ends when level 5 is cleared or time runs out. The 65-point PASS/FAIL threshold is shared by all five games.
   - Score ≥ 65: the result shows PASS and "Lanjut", which calls `onComplete({ valueId: context.valueId, score })` exactly once.
   - Score < 65: the result shows FAIL, the actual score, and the 65 target. "Coba lagi" starts a fresh round without recording this attempt. "Kembali ke menu" calls `onCancel()` and returns to the current stage briefing without points. "Lanjut ke stage berikutnya" records the actual failed score through `onComplete` and advances the journey; FAIL does not block progress.
   - Stages remain sequential; there is no way to navigate to a previous game. The journey route and final breakdown show the Growth Mindset score with PASS or FAIL. Other games retain their existing completion display.

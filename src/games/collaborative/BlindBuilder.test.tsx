@@ -120,6 +120,7 @@ describe('Blind Builder stage', () => {
     }
     await act(async () => { vi.advanceTimersByTime(180_000) })
     expect(screen.getByText('TEAM SCORE').nextElementSibling?.textContent).toContain('0/100')
+    expect(screen.getByText('FAIL', { selector: '.journey-status' })).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Continue journey' }))
     fireEvent.click(screen.getByRole('button', { name: 'Continue journey' }))
     expect(onComplete).toHaveBeenCalledTimes(1)

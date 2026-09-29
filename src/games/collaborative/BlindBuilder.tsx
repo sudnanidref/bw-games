@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { ArrowRight, RotateCcw, Send, Volume2, VolumeX, X } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { scoreStatus } from '../score-status'
 import { useGameMusic } from '../useGameMusic'
 import { outcomeMatchesSource, parseCurrentInstructionResponse, type InstructionRequest } from './ai-contract'
 import { BOARD_SIZE, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, applyAction, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, type Board, type RoundState, type Score } from './game'
@@ -180,7 +181,7 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
     </div>
 
     {round.state === 'results' && round.score ? <>
-      <div className="bb-heading"><span>ROUND COMPLETE</span><h2>{round.score.final >= 80 ? 'In sync.' : round.score.final >= 50 ? 'Getting closer.' : 'A first draft.'}</h2><p>Your teammate followed {round.score.exactMatches} of {round.target.length} target details exactly.</p></div>
+      <div className="bb-heading"><span>ROUND COMPLETE</span><h2>{round.score.final >= 80 ? 'In sync.' : round.score.final >= 50 ? 'Getting closer.' : 'A first draft.'}</h2><small className={`journey-status ${scoreStatus(round.score.final).toLowerCase()}`}>{scoreStatus(round.score.final)}</small><p>Your teammate followed {round.score.exactMatches} of {round.target.length} target details exactly.</p></div>
       <div className="bb-layout bb-results">
         <div className="bb-boards">
           <div className="bb-panel"><div className="bb-label">TARGET <span>REFERENCE</span></div><BoardView board={round.target} label="Target board" /></div>
