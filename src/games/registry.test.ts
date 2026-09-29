@@ -3,18 +3,26 @@ import { describe, expect, it } from 'vitest'
 import { games } from './index'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered, unavailable games', () => {
+  it('reserves exactly five ordered games and enables only Customer Focus', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
-    expect(games.every((game) => game.available === false)).toBe(true)
+    expect(games.slice(0, 4).every((game) => game.available === false && !game.component)).toBe(true)
+    expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/tiga kebutuhan.*45 detik/i) })
   })
 
-  it.each(games)('documents $title guardrails', ({ id }) => {
+  it.each(games.slice(0, 4))('documents $title guardrails', ({ id }) => {
     const guide = readFileSync(new URL(`./${id}/README.md`, import.meta.url), 'utf8')
     for (const section of ['OpenSpec', 'Entry point', 'Controls', 'Completion', 'Score rubric', 'Assets', 'Verification', 'Checklist']) {
       expect(guide).toContain(section)
     }
     expect(guide).toContain(id)
+  })
+
+  it('documents the Customer Focus controls, score, approved copy, and assets', () => {
+    const guide = readFileSync(new URL('./customer-focus/README.md', import.meta.url), 'utf8')
+    for (const section of ['customer-focus-match-the-solution', 'Play and score', 'Content review', 'Approved 2026-09-29', 'Asset manifest', 'Verification']) {
+      expect(guide).toContain(section)
+    }
   })
 })
