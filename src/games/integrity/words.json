@@ -1,0 +1,20 @@
+{
+  "aligned": [
+    "jujur", "transparan", "taat aturan", "lapor gratifikasi", "patuh prosedur", "cek dokumen",
+    "akurat", "tolak suap", "lapor temuan", "jaga rahasia", "arsip lengkap", "verifikasi data",
+    "audit terbuka", "tepat janji", "bertanggung jawab", "catat akurat", "patuhi sop", "kelola risiko",
+    "laporkan risiko", "buka fakta", "akui kesalahan", "tolak hadiah", "pisahkan tugas", "cek ulang",
+    "kode etik", "data valid", "jaga kerahasiaan", "sampaikan fakta", "lapor kecurangan", "izin tertulis",
+    "ikuti prosedur", "kenali nasabah", "amankan data", "sesuai fakta", "laporan jujur", "tolak pungli",
+    "patuh regulasi", "integritas", "bersikap adil", "jaga amanah", "berani melapor", "tolak gratifikasi",
+    "cek transaksi", "kepatuhan", "transparansi", "amanah", "objektif", "disiplin aturan"
+  ],
+  "violation": [
+    "suap", "mark-up", "titip absen", "bocorkan data", "pungli", "gratifikasi",
+    "korupsi", "manipulasi data", "dokumen palsu", "sembunyikan risiko", "abaikan prosedur", "langgar aturan",
+    "sogok", "curang", "bocor rahasia", "tutupi kesalahan", "pinjam password", "bagi password",
+    "gelapkan dana", "ubah laporan", "hapus log", "cuci uang", "pemalsuan", "rekayasa data",
+    "bohongi auditor", "terima amplop", "minta komisi", "nasabah fiktif", "data fiktif", "abaikan risiko",
+    "lewati otorisasi", "kongkalikong", "curi data", "manipulasi laporan", "tipu nasabah", "intimidasi"
+  ]
+}

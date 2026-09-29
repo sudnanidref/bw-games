@@ -1,4 +1,4 @@
-import { games, type ValueId } from './games'
+import { gameSlots, type ValueId } from './games/slots'
 import { validateCompletion, type GameResult } from './games/contract'
 
 export interface Journey {
@@ -15,11 +15,11 @@ export function createJourney(name: string, runId: string): Journey | null {
 }
 
 export function currentValue(journey: Journey): ValueId | null {
-  return games[journey.results.length]?.id ?? null
+  return gameSlots[journey.results.length]?.id ?? null
 }
 
 export function stageStatus(journey: Journey, valueId: ValueId): 'complete' | 'current' | 'locked' {
-  const index = games.findIndex((game) => game.id === valueId)
+  const index = gameSlots.findIndex((game) => game.id === valueId)
   return index < journey.results.length ? 'complete' : index === journey.results.length ? 'current' : 'locked'
 }
 
@@ -31,6 +31,6 @@ export function completeStage(journey: Journey, input: unknown, available: boole
 }
 
 export function totalScore(journey: Journey): number | null {
-  if (journey.results.length !== games.length) return null
+  if (journey.results.length !== gameSlots.length) return null
   return journey.results.reduce((sum, result) => sum + result.score, 0)
 }
