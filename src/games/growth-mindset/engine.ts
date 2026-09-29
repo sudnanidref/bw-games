@@ -289,11 +289,12 @@ export function mountGrowthGame(root: HTMLElement, options: GrowthGameOptions): 
         button('Lanjut', 'gm-primary', () => guard(() => finish(() => options.onComplete(score)))),
       ])
     } else {
-      showPanel(`Skor ${score} / 100`, [
-        `Target ${PASS_SCORE} poin belum tercapai. Kesalahan adalah bagian dari proses — coba lagi!`,
+      showPanel(`FAIL · ${score} / 100`, [
+        `Target ${PASS_SCORE} poin belum tercapai. Coba lagi, atau lanjut dan catat skor ini.`,
       ], [
         button('Coba lagi', 'gm-primary', () => guard(startRound)),
         button('Kembali ke menu', 'gm-secondary', () => guard(cancel)),
+        button('Lanjut ke stage berikutnya', 'gm-primary', () => guard(() => finish(() => options.onComplete(score)))),
       ])
     }
   }

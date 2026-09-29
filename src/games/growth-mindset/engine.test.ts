@@ -148,7 +148,7 @@ describe('Pola Tumbuh engine', () => {
     expect(text('.gm-message')).toContain('Giliranmu')
     vi.advanceTimersByTime(ROUND_MS)
     // Level 1 cleared (15) + best 1/4 on level 2 = floor(18 / 4) = 4.
-    expect(text('.gm-panel-title')).toBe('Skor 19 / 100')
+    expect(text('.gm-panel-title')).toBe('FAIL · 19 / 100')
     expect(onComplete).not.toHaveBeenCalled()
   })
 
@@ -171,16 +171,49 @@ describe('Pola Tumbuh engine', () => {
     expect(onCancel).not.toHaveBeenCalled()
   })
 
-  it('does not report a score under 65 and offers retry or menu', () => {
+  it('passes a 66-point round and reports the score through "Lanjut"', () => {
+    mount()
+    clickButton('Mulai')
+    for (let index = 0; index < 3; index += 1) {
+      clearLevel(index)
+      vi.advanceTimersByTime(LEVEL_PAUSE_MS)
+    }
+    showLevel(3)
+    press('ArrowUp')
+    press('ArrowUp')
+    press('ArrowUp')
+    vi.advanceTimersByTime(ROUND_MS)
+    expect(text('.gm-panel-title')).toBe('Lulus! 66 / 100')
+    clickButton('Lanjut')
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(onComplete).toHaveBeenCalledWith(66)
+  })
+
+  it('shows FAIL under 65 without reporting until a choice is made', () => {
     mount()
     clickButton('Mulai')
     clearLevel(0)
     vi.advanceTimersByTime(ROUND_MS)
-    expect(text('.gm-panel-title')).toBe('Skor 15 / 100')
+    expect(text('.gm-panel-title')).toBe('FAIL · 15 / 100')
     expect(text('.gm-panel')).toContain('Target 65')
     expect(findButton('Coba lagi')).toBeTruthy()
     expect(findButton('Kembali ke menu')).toBeTruthy()
+    expect(findButton('Lanjut ke stage berikutnya')).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
+    expect(onCancel).not.toHaveBeenCalled()
+  })
+
+  it('continues after a failing score and reports the actual score only once', () => {
+    mount()
+    clickButton('Mulai')
+    clearLevel(0)
+    vi.advanceTimersByTime(ROUND_MS)
+    const continueButton = findButton('Lanjut ke stage berikutnya')!
+    continueButton.click()
+    continueButton.click()
+    press('Enter')
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(onComplete).toHaveBeenCalledWith(15)
     expect(onCancel).not.toHaveBeenCalled()
   })
 
@@ -195,7 +228,7 @@ describe('Pola Tumbuh engine', () => {
     expect(text('.gm-level')).toBe('TAHAP 1 / 5 · PELAN')
     expect(text('.gm-sprout-caption')).toBe('Tumbuh 0 / 5')
     vi.advanceTimersByTime(ROUND_MS)
-    expect(text('.gm-panel-title')).toBe('Skor 0 / 100')
+    expect(text('.gm-panel-title')).toBe('FAIL · 0 / 100')
   })
 
   it('cancels without points from "Kembali ke menu"', () => {

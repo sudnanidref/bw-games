@@ -12,7 +12,13 @@ vi.mock('./games', async (importOriginal) => {
     ...original,
     games: original.games.map((game) => ({
       ...game, available: true, briefing: 'Selesaikan tantangan.',
-      component: ({ context, onComplete }: GameProps) => <button onClick={() => onComplete({ valueId: context.valueId, score: 20 })}>Selesaikan {context.valueId}</button>,
+      component: ({ context, onComplete }: GameProps) => <>
+        <button onClick={() => onComplete({ valueId: context.valueId, score: 20 })}>Selesaikan {context.valueId}</button>
+        {context.valueId === 'growth-mindset' && <>
+          <button onClick={() => onComplete({ valueId: context.valueId, score: 64 })}>Growth Mindset 64</button>
+          <button onClick={() => onComplete({ valueId: context.valueId, score: 65 })}>Growth Mindset 65</button>
+        </>}
+      </>,
     })),
   }
 })
@@ -26,6 +32,37 @@ const fakeFetch = vi.fn(async (url: string, options?: RequestInit) => {
 })
 
 describe('shell leaderboard flow', () => {
+  it.each([[64, 'FAIL'], [65, 'PASS']] as const)(
+    'records Growth Mindset score %i as %s and continues in order',
+    async (growthScore, expectedStatus) => {
+      vi.stubGlobal('crypto', { randomUUID: () => '44444444-4444-4444-4444-444444444444' })
+      const user = userEvent.setup()
+      const { container } = render(<App />)
+      await user.type(screen.getByRole('textbox', { name: 'NAMA PEMAIN' }), 'Ayu')
+      await user.click(screen.getByRole('button', { name: /mulai perjalanan/i }))
+
+      for (const valueId of ['integrity', 'collaborative', 'accountability']) {
+        await user.click(screen.getByRole('button', { name: /mulai game/i }))
+        await user.click(screen.getByRole('button', { name: `Selesaikan ${valueId}` }))
+      }
+
+      await user.click(screen.getByRole('button', { name: /mulai game/i }))
+      await user.click(screen.getByRole('button', { name: `Growth Mindset ${growthScore}` }))
+      expect(screen.getByText(expectedStatus, { selector: '.journey-status' })).toBeTruthy()
+      expect(screen.getByText(`${growthScore} / 100 poin`)).toBeTruthy()
+      const routeStops = container.querySelectorAll('.route-stop')
+      expect(routeStops[3]?.className).toContain('complete')
+      expect(routeStops[4]?.className).toContain('current')
+
+      await user.click(screen.getByRole('button', { name: /mulai game/i }))
+      await user.click(screen.getByRole('button', { name: 'Selesaikan customer-focus' }))
+      const resultRows = container.querySelectorAll('.result-list li')
+      expect(resultRows[3]?.textContent).toContain(expectedStatus)
+      expect(resultRows[3]?.textContent).toContain(String(growthScore))
+      expect(resultRows[0]?.textContent).not.toMatch(/PASS|FAIL/)
+    },
+  )
+
   it('renders remote names as text and gates submission until five completions', async () => {
     vi.stubGlobal('crypto', { randomUUID: () => '11111111-1111-1111-1111-111111111111' })
     vi.stubGlobal('fetch', fakeFetch)

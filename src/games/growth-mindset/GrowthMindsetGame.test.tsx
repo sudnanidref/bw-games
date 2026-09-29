@@ -24,15 +24,27 @@ describe('GrowthMindsetGame adapter', () => {
     expect(screen.getByText('20,0 d')).toBeTruthy()
   })
 
-  it('does not complete a failing round and cancels from the menu action', () => {
+  it('keeps a failing attempt unrecorded when the player returns to the menu', () => {
     vi.useFakeTimers()
     const { onComplete, onCancel } = setup()
     fireEvent.click(screen.getByRole('button', { name: 'Mulai' }))
     act(() => { vi.advanceTimersByTime(ROUND_MS) })
-    expect(screen.getByText('Skor 0 / 100')).toBeTruthy()
+    expect(screen.getByText('FAIL · 0 / 100')).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Kembali ke menu' }))
     expect(onComplete).not.toHaveBeenCalled()
     expect(onCancel).toHaveBeenCalledTimes(1)
+  })
+
+  it('reports an actual failing score when the player continues', () => {
+    vi.useFakeTimers()
+    const { onComplete, onCancel } = setup()
+    fireEvent.click(screen.getByRole('button', { name: 'Mulai' }))
+    act(() => { vi.advanceTimersByTime(ROUND_MS) })
+    expect(screen.getByText('FAIL · 0 / 100')).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Lanjut ke stage berikutnya' }))
+    expect(onComplete).toHaveBeenCalledTimes(1)
+    expect(onComplete).toHaveBeenCalledWith({ valueId: 'growth-mindset', score: 0 })
+    expect(onCancel).not.toHaveBeenCalled()
   })
 
   it('reports the passing result for the context value', () => {

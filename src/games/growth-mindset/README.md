@@ -19,7 +19,7 @@ Owner boundary: `src/games/growth-mindset/`. Do not edit another value's code, t
 
   | Action | Keyboard | Pointer |
   | --- | --- | --- |
-  | Start / confirm | Enter or Space | "Mulai" / "Lanjut" / "Coba lagi" |
+  | Start / confirm | Enter or Space | "Mulai" / "Lanjut" / "Coba lagi" / "Lanjut ke stage berikutnya" |
   | Arrow input | ← ↑ → ↓ or W A S D | Four on-screen arrow buttons |
   | Leave | Esc | "Keluar" / "Kembali ke menu" |
 
@@ -28,9 +28,10 @@ Owner boundary: `src/games/growth-mindset/`. Do not edit another value's code, t
   - Feedback uses ✓/✗ and text, not color alone.
   - `prefers-reduced-motion` removes transitions.
   - There is no audio.
-- **Completion:** the round ends when level 5 is cleared or time runs out.
-  - Score ≥ 65: a result screen shows "Lanjut", which calls `onComplete({ valueId: context.valueId, score })` exactly once.
-  - Score < 65: nothing is reported. The player sees the score and the 65 target, then chooses "Coba lagi" (a fresh round with new patterns and the full 20 s) or "Kembali ke menu" (`onCancel()`, no points). The stage stays current and Customer Focus stays locked until a round reaches 65.
+- **Completion:** the round ends when level 5 is cleared or time runs out. The 65-point PASS/FAIL threshold applies only to Growth Mindset.
+  - Score ≥ 65: the result shows PASS and "Lanjut", which calls `onComplete({ valueId: context.valueId, score })` exactly once.
+  - Score < 65: the result shows FAIL, the actual score, and the 65 target. "Coba lagi" starts a fresh round without recording this attempt. "Kembali ke menu" calls `onCancel()` and returns to the current stage briefing without points. "Lanjut ke stage berikutnya" records the actual failed score through `onComplete` and advances the journey; FAIL does not block progress.
+  - Stages remain sequential; there is no way to navigate to a previous game. The journey route and final breakdown show the Growth Mindset score with PASS or FAIL. Other games retain their existing completion display.
   - Esc or "Keluar" at any time calls `onCancel()`. An internal failure calls `onError(error)`. At most one outcome is reported per mount.
 - **Score rubric:** an integer from 0 to 100, earned only from play.
   - Cleared levels 1-5 award 15, 18, 20, 22, and 25 points.
