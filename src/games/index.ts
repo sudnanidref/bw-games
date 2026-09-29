@@ -1,4 +1,5 @@
 import type { PlayableGame } from './contract'
+import { MatchTheSolution } from './customer-focus/MatchTheSolution'
 import { IntegrityGame } from './integrity/IntegrityGame'
 import { gameSlots, type GameSlotInfo, type ValueId } from './slots'
 
@@ -14,6 +15,10 @@ const playable: Partial<Record<ValueId, Pick<GameSlot, 'component' | 'briefing'>
   integrity: {
     component: IntegrityGame,
     briefing: 'Tembak kata yang mencerminkan integritas (+5) dan hindari kata pelanggaran (−5) dalam 25 detik. Gerakkan mouse lalu klik, atau gunakan panah/A/D dan Spasi.',
+  },
+  'customer-focus': {
+    component: MatchTheSolution,
+    briefing: 'Tangkap kartu solusi yang bergerak dan cocokkan dengan tiga kebutuhan pelanggan dalam 45 detik.',
   },
 }
 
