@@ -41,9 +41,13 @@ function cleanCategory(entries, alreadySeen) {
   return kept
 }
 
-// FOUNDRY_ENDPOINT is the full Responses API URL, e.g. https://<resource>.services.ai.azure.com/openai/v1/responses.
+// Accept either the project endpoint or the full Responses API URL.
 async function requestCandidates(endpoint, apiKey) {
-  const response = await fetch(endpoint, {
+  const configuredUrl = new URL(endpoint)
+  const responseUrl = configuredUrl.pathname.startsWith('/api/projects/')
+    ? new URL('/openai/v1/responses', configuredUrl)
+    : configuredUrl
+  const response = await fetch(responseUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${apiKey}` },
     body: JSON.stringify({
@@ -53,7 +57,7 @@ async function requestCandidates(endpoint, apiKey) {
       text: { format: { type: 'json_schema', name: 'integrity_words', strict: true, schema: RESPONSE_SCHEMA } },
     }),
   })
-  if (!response.ok) throw new Error(`Foundry request failed with status ${response.status}: ${await response.text()}`)
+  if (!response.ok) throw new Error(`Foundry request failed with status ${response.status}`)
 
   const body = await response.json()
   const message = body.output?.find((item) => item.type === 'message')
