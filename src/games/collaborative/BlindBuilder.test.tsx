@@ -90,6 +90,21 @@ describe('Blind Builder stage', () => {
     expect(onComplete).not.toHaveBeenCalled()
   })
 
+  it('cancels an in-flight instruction without awarding points', async () => {
+    let resolveResponse: (value: unknown) => void = () => {}
+    vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => { resolveResponse = resolve })))
+    const onCancel = vi.fn()
+    const onComplete = vi.fn()
+    render(<BlindBuilder context={context} onComplete={onComplete} onCancel={onCancel} onError={vi.fn()} />)
+    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Exit game' }))
+    await act(async () => { resolveResponse({ ok: true, json: async () => ({ roundId: 1, outcome: { type: 'action', action: { type: 'place', object: { shape: 'circle', color: 'blue', row: 0, column: 0 } } } }) }) })
+    expect(onCancel).toHaveBeenCalledTimes(1)
+    expect(onComplete).not.toHaveBeenCalled()
+    expect(within(screen.getByRole('grid', { name: "Teammate's board" })).getByRole('gridcell', { name: 'Row 1, column 1, empty' })).toBeTruthy()
+  })
+
   it('commits a real zero score only once', async () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-01-01T00:00:00Z'))

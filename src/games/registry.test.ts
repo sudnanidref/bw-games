@@ -3,11 +3,12 @@ import { describe, expect, it } from 'vitest'
 import { games } from './index'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered, unavailable games', () => {
+  it('reserves five ordered games with only Collaborative available', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
-    expect(games.every((game) => game.available === false)).toBe(true)
+    expect(games.find((game) => game.id === 'collaborative')).toMatchObject({ available: true, component: expect.any(Function) })
+    expect(games.filter((game) => game.available).map((game) => game.id)).toEqual(['collaborative'])
   })
 
   it.each(games)('documents $title guardrails', ({ id }) => {

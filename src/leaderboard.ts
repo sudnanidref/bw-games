@@ -1,4 +1,4 @@
-import { games } from './games'
+import { valueIds } from './games/values'
 import { isGameResult, type GameResult } from './games/contract'
 
 export interface LeaderboardEntry {
@@ -24,8 +24,8 @@ export function parseSubmission(input: unknown): Submission | null {
   if (typeof value.playerName !== 'string') return null
   const playerName = value.playerName.trim()
   if (Array.from(playerName).length < 1 || Array.from(playerName).length > 24) return null
-  if (!Array.isArray(value.results) || value.results.length !== games.length) return null
-  if (!value.results.every((result, index) => isGameResult(result) && result.valueId === games[index].id)) return null
+  if (!Array.isArray(value.results) || value.results.length !== valueIds.length) return null
+  if (!value.results.every((result, index) => isGameResult(result) && result.valueId === valueIds[index])) return null
   const results = value.results.map((result: GameResult) => ({ valueId: result.valueId, score: result.score }))
   const total = results.reduce((sum: number, result: GameResult) => sum + result.score, 0)
   if (value.total !== total || typeof value.completedAt !== 'string' || !Number.isFinite(Date.parse(value.completedAt))) return null

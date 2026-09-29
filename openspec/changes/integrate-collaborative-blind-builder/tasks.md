@@ -13,12 +13,12 @@
 
 ## 3. Playable Stage
 
-- [ ] 3.1 Adapt `../collab-game/src/app/page.tsx` and `../collab-game/src/app/globals.css` as a scoped `PlayableGame` component within the hub stage, preserving boards, transcript, keyboard controls, visible focus, countdown, and result breakdown without importing the Next layout or global CSS; verify component interaction tests and visual checks at 1280x720, 1440x900, and a narrower viewport.
-- [ ] 3.2 Connect cancel, error, replay, timeout, and explicit result confirmation to the hub callbacks; verify fake-timer/component tests show no score before confirmation, exactly one completion including zero, and ignored responses after timeout, exit, or replay.
-- [ ] 3.3 Replace stale 60-second player copy with 180 seconds and complete `src/games/collaborative/README.md` with goal, controls, scoring formula, source OpenSpec change, asset provenance, and local verification; verify the guide matches the implemented behavior.
+- [x] 3.1 Adapt `../collab-game/src/app/page.tsx` and `../collab-game/src/app/globals.css` as a scoped `PlayableGame` component within the hub stage, preserving boards, transcript, keyboard controls, visible focus, countdown, and result breakdown without importing the Next layout or global CSS; verify component interaction tests and visual checks at 1280x720, 1440x900, and a narrower viewport.
+- [x] 3.2 Connect cancel, error, replay, timeout, and explicit result confirmation to the hub callbacks; verify fake-timer/component tests show no score before confirmation, exactly one completion including zero, and ignored responses after timeout, exit, or replay.
+- [x] 3.3 Replace stale 60-second player copy with 180 seconds and complete `src/games/collaborative/README.md` with goal, controls, scoring formula, source OpenSpec change, asset provenance, and local verification; verify the guide matches the implemented behavior.
 
 ## 4. Registry And Journey Integration
 
-- [ ] 4.1 Register only Collaborative as available with its briefing and update the registry test's all-unavailable assumption; verify ordered IDs and that other four slots remain unavailable.
-- [ ] 4.2 Verify the shell mounts Collaborative only after a valid Integrity result in a fixture journey, accepts its actual score once, and keeps cancellation non-scoring without allowing a production bypass; run the focused shell/journey tests.
+- [x] 4.1 Register only Collaborative as available with its briefing and update the registry test's all-unavailable assumption; verify ordered IDs and that other four slots remain unavailable.
+- [x] 4.2 Verify the shell mounts Collaborative only after a valid Integrity result in a fixture journey, accepts its actual score once, and keeps cancellation non-scoring without allowing a production bypass; run the focused shell/journey tests.
 - [ ] 4.3 Run `npm run typecheck`, `npm test`, and `npm run build`, then check the Fastify-backed instruction flow and stage visuals with and without configured provider credentials; record any live-provider check that cannot run without credentials rather than claiming it passed.
