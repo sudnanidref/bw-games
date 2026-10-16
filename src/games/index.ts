@@ -33,7 +33,7 @@ const playable: Partial<Record<ValueId, Pick<GameSlot, 'component' | 'briefing'>
   },
   'customer-focus': {
     component: MatchTheSolution,
-    briefing: 'Tangkap kartu solusi yang bergerak dan cocokkan dengan tiga kebutuhan pelanggan dalam 45 detik.',
+    briefing: 'Jadilah customer service: dengarkan enam nasabah dan pilih kartu tindakan yang tepat dalam 120 detik.',
   },
 }
 
