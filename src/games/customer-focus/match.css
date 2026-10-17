@@ -261,7 +261,7 @@
   color:#68796c;
 }
 
-.cf-ready,.cf-result {
+.cf-phase-ready,.cf-phase-result {
   height:560px;
   border-radius:18px;
   display:flex;
@@ -415,7 +415,7 @@
   .cf-score small {
     display:block;
   }
-  .cf-ready,.cf-result {
+  .cf-phase-ready,.cf-phase-result {
     height:auto;
     min-height:550px;
   }
@@ -576,7 +576,7 @@
 }
 
 .cf-game .cf-resolved p { margin: 0 0 18px; font-size: 21px; }
-.cf-game .cf-ready, .cf-game .cf-result { display: flex; padding-top: 70px; }
+.cf-game .cf-phase-ready, .cf-game .cf-phase-result { display: flex; padding-top: 70px; }
 .cf-game .cf-overlay { margin: 24px; }
 
 @media (min-width: 901px) and (max-height: 800px) {

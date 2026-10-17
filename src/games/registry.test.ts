@@ -16,7 +16,7 @@ describe('developer slots', () => {
     expect(games[1]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/papan 5x5/i) })
     expect(games[2]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/20 detik/i) })
     expect(games[3]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/minimal 65 poin/i) })
-    expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/enam nasabah.*120 detik/i) })
+    expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/enam nasabah.*10 detik/i) })
     for (const game of games) {
       expect(Boolean(game.component)).toBe(game.available)
       expect(Boolean(game.briefing)).toBe(game.available)

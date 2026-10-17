@@ -27,5 +27,5 @@ export const customers: readonly Customer[] = [
     { speech: 'Ini nomor laporannya. Kapan saya bisa tahu perkembangannya?', correct: 1, hint: 'Sampaikan status yang terverifikasi dan ekspektasi yang realistis.', cards: [{ title: 'Janji selesai sejam', text: 'Pasti selesai satu jam lagi, tidak perlu saya cek.' }, { title: 'Berikan kepastian proses', text: 'Sampaikan status dan estimasi sesuai informasi resmi, kanal pemantauan, serta langkah jika melewati estimasi.' }, { title: 'Tutup laporan', text: 'Kita tutup saja agar antrean tidak panjang.' }] },
   ], resolution: 'Nasabah mendapat status, ekspektasi waktu yang realistis, dan cara memantau penyelesaian.' },
 ]
-export const SHIFT_MS = 120_000
-export function serviceScore(resolved: number, mistakes: number) { return Math.max(0, Math.min(100, Math.round(resolved / customers.length * 100) - mistakes * 5)) }
+export const TIMEOUT_PENALTY = 10
+export function serviceScore(resolved: number, mistakes: number, timeouts = 0) { return Math.max(0, Math.min(100, Math.round(resolved / customers.length * 100) - mistakes * 5 - timeouts * TIMEOUT_PENALTY)) }

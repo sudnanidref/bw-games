@@ -95,3 +95,29 @@ Use case: identity-preserve. Edit this existing transparent customer game sprite
 Edit target: `worried.png`.
 
 Use case: identity-preserve. Edit this existing transparent customer game sprite. Preserve the EXACT same character identity, head and body proportions, face placement, outfit, colours, phone/receipt, camera, lighting, pose, silhouette, feet, canvas size and framing. Keep the cute matte low-poly 3D toy style. Change ONLY facial expression and any floating emotion mark; no other redesign. Maintain genuine transparent background, no scenery, logos, text, shadows or extra characters. Make her clearly HAPPY and reassured: cheerful smiling mouth, relaxed eyebrows, joyful crescent eyes and warm rosy cheeks. Preserve her hijab, phone, receipt and both hands exactly as they are.
+
+## Timeout attack assets
+
+Generated with the built-in image generator. All outputs request transparent backgrounds.
+
+### angry-attack.png
+
+Character reference: `angry.png`.
+
+Use case: stylized-concept. Create a transparent sprite for the existing cute low-poly 3D customer-service arcade game. Preserve the reference character identity, outfit, proportions, colours and matte toy finish. Front view, full body, centered, no cropping, clear alpha edges, same 1212x1298 portrait framing. Exaggerated slapstick only, no injuries, blood or weapons. No text, scenery, desk, or other characters. The angry woman in the orange cardigan lunges toward the viewer with one oversized cute clenched fist punching toward the camera, her blue phone held in her other hand. Angry determined eyebrows and pout. Strong foreshortened fist, dynamic readable pose, feet visible.
+
+### confused-attack.png
+
+Character reference: `confused-angry.png`.
+
+Use case: stylized-concept. Create a transparent sprite for the existing cute low-poly 3D customer-service arcade game. Preserve the reference character identity, outfit, proportions, colours and matte toy finish. Front view, full body, centered, no cropping, clear alpha edges, same 1212x1298 portrait framing. Exaggerated slapstick only, no injuries, blood or weapons. No text, scenery, desk, or other characters. The angry elderly man with blue round glasses, mint shirt and gray hair makes an exaggerated cartoon forward kick toward the viewer, one large rounded sneaker sole facing the camera, other foot planted. Hands clenched by torso, phone safely held. Angry eyebrows, comic pout. Dynamic readable kick pose.
+
+### worried-attack.png
+
+Character reference: `worried-angry.png`.
+
+Use case: stylized-concept. Create a transparent sprite for the existing cute low-poly 3D customer-service arcade game. Preserve the reference character identity, outfit, proportions, colours and matte toy finish. Front view, full body, centered, no cropping, clear alpha edges, same 1212x1298 portrait framing. Exaggerated slapstick only, no injuries, blood or weapons. No text, scenery, desk, or other characters. The angry woman in the cream hijab and blue blouse raises one oversized cute clenched fist for an exaggerated downward punch toward the viewer, other hand holds her orange phone and receipt. Angry eyebrows, comic pout. Dynamic forward leaning pose, feet visible.
+
+### fx-impact.png
+
+Use case: stylized-concept. A single intense arcade impact VFX sprite, 1024 square, real transparent background. Cute low-poly toy 3D style matching a blue white orange customer-service game. Big chunky orange and golden comic impact starburst around an EMPTY transparent center, curved blue shockwave, white motion streaks and a few faceted orange fragments. High contrast readable silhouette, energetic but no flashing or bloody content. No text, letters, weapons, people, scenery or backdrop.

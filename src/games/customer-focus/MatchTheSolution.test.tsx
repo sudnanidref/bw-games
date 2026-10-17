@@ -4,7 +4,8 @@ import { afterEach, describe, expect, it, vi } from 'vitest'
 import type { GameProps } from '../contract'
 import { MatchTheSolution } from './MatchTheSolution'
 import { CustomerFocusPreview } from './Preview'
-import { customers, serviceScore, SHIFT_MS } from './service'
+import { customers, serviceScore } from './service'
+import { ATTACK_MS, CUSTOMER_MS } from './shift'
 
 afterEach(() => { cleanup(); vi.useRealTimers(); vi.restoreAllMocks() })
 function setup() {
@@ -22,7 +23,7 @@ describe('Customer Focus service shift', () => {
     vi.spyOn(performance, 'now').mockReturnValue(0)
     const props = setup()
     start()
-    expect(screen.getByLabelText('Sisa waktu').textContent).toBe('120 dtk')
+    expect(screen.getByLabelText('Sisa waktu nasabah').textContent).toBe('10.0 dtk')
     for (let i = 0; i < customers.length; i++) {
       expect(screen.getByText(customers[i].steps[0].speech)).toBeTruthy()
       solve(i)
@@ -47,27 +48,61 @@ describe('Customer Focus service shift', () => {
     fireEvent.click(screen.getByRole('button', { name: /periksa & tindak lanjuti/i }))
     expect(screen.getByText('12', { selector: '.cf-score' })).toBeTruthy()
   })
-  it('ends at the deadline with partial credit and never accepts a late action', () => {
+  it('warns at three seconds, attacks once at timeout, and automatically advances with a point penalty', () => {
     vi.useFakeTimers()
-    let time = 0
-    vi.spyOn(performance, 'now').mockImplementation(() => time)
+    let now = 0
+    vi.spyOn(performance, 'now').mockImplementation(() => now)
     const props = setup(); start(); solve(0)
     fireEvent.click(screen.getByRole('button', { name: /nasabah berikutnya/i }))
-    time = SHIFT_MS
-    act(() => vi.advanceTimersByTime(100))
-    expect(screen.getByText('17', { selector: '.match-final-score' })).toBeTruthy()
+    now = 7000
+    act(() => vi.advanceTimersByTime(50))
+    expect(screen.getByRole('alert').textContent).toContain('3 DETIK')
+    expect(screen.queryByRole('img', { name: /menyerang/i })).toBeNull()
+    fireEvent.click(screen.getByRole('button', { name: /panduan perlahan/i }))
+    expect(screen.getByLabelText('Sisa waktu nasabah').textContent).toBe('3.0 dtk')
+    now = CUSTOMER_MS
+    act(() => vi.advanceTimersByTime(50))
+    expect(screen.getByRole('img', { name: 'Pak Budi, menyerang' }).getAttribute('src')).toContain('confused-attack.png')
+    expect(screen.queryByRole('group', { name: 'Kartu tindakan di tangan' })).toBeNull()
+    expect(screen.getByText('7', { selector: '.cf-score' })).toBeTruthy()
+    now += ATTACK_MS
+    act(() => vi.advanceTimersByTime(50))
+    expect(screen.getByRole('img', { name: 'Mbak Sari, cemas' })).toBeTruthy()
+    expect(screen.getByLabelText('Sisa waktu nasabah').textContent).toBe('10.0 dtk')
     expect(props.onComplete).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('button', { name: /lanjutkan perjalanan/i }))
-    expect(props.onComplete).toHaveBeenCalledExactlyOnceWith({ valueId: 'customer-focus', score: 17 })
   })
-  it('checks elapsed time at input even before the next timer tick', () => {
-    const clock = vi.spyOn(performance, 'now').mockReturnValue(0)
+  it('rejects a late click before the next tick, finishes six timeouts, and submits only once', () => {
+    vi.useFakeTimers()
+    let now = 0
+    vi.spyOn(performance, 'now').mockImplementation(() => now)
     const props = setup(); start()
-    clock.mockReturnValue(SHIFT_MS + 1)
+    now = CUSTOMER_MS
     fireEvent.click(screen.getByRole('button', { name: /dengarkan & pahami/i }))
-    expect(screen.queryByText(customers[0].steps[1].speech)).toBeNull()
-    fireEvent.click(screen.getByRole('button', { name: /lanjutkan perjalanan/i }))
+    expect(screen.getByRole('img', { name: 'Bu Rina, menyerang' })).toBeTruthy()
+    for (let i = 0; i < customers.length; i++) {
+      if (i > 0) { now += CUSTOMER_MS; act(() => vi.advanceTimersByTime(50)) }
+      now += ATTACK_MS
+      act(() => vi.advanceTimersByTime(50))
+    }
+    expect(screen.getByText(/6 serangan/)).toBeTruthy()
+    expect(props.onComplete).not.toHaveBeenCalled()
+    const button = screen.getByRole('button', { name: /lanjutkan perjalanan/i })
+    fireEvent.click(button); fireEvent.click(button)
     expect(props.onComplete).toHaveBeenCalledExactlyOnceWith({ valueId: 'customer-focus', score: 0 })
+  })
+  it('stops a timeout transition after cancellation', () => {
+    vi.useFakeTimers()
+    let now = 0
+    vi.spyOn(performance, 'now').mockImplementation(() => now)
+    const props = setup(); start()
+    now = CUSTOMER_MS
+    act(() => vi.advanceTimersByTime(50))
+    fireEvent.click(screen.getByRole('button', { name: 'Batal' }))
+    now += ATTACK_MS
+    act(() => vi.advanceTimersByTime(1000))
+    expect(screen.queryByRole('img', { name: 'Pak Budi, bingung' })).toBeNull()
+    expect(props.onCancel).toHaveBeenCalledOnce()
+    expect(props.onComplete).not.toHaveBeenCalled()
   })
   it('cancels once without a score and the preview can restart', () => {
     const props = setup(); start()
