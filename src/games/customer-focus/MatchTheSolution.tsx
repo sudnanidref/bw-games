@@ -54,12 +54,6 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
   }, [])
 
   useEffect(() => {
-    const previousOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
-    return () => { document.body.style.overflow = previousOverflow }
-  }, [])
-
-  useEffect(() => {
     if (round.phase !== 'playing' && round.phase !== 'attacking') return
     const tick = () => commit({ type: 'tick', now: performance.now() })
     const timer = window.setInterval(tick, 50)
@@ -140,8 +134,9 @@ export function MatchTheSolution({ context, onComplete, onCancel, onError }: Gam
           <p className="cf-fine">Dengarkan kebutuhan, jaga data pribadi, dan berikan tindak lanjut yang jelas.</p>
           <button type="button" className="cf-primary" onClick={complete}>Lanjutkan perjalanan <ArrowRight size={18} /></button>
         </div>}
+        {inScene && <div className="cf-hand-heading"><div><span className="cf-eyebrow">{attacking ? 'WAKTU HABIS' : resolved ? 'KASUS SELESAI' : `LANGKAH ${round.step + 1} DARI 2`}</span><h3>{attacking ? 'Aduh! Nasabah pergi.' : resolved ? 'Nasabah terbantu!' : round.step === 0 ? 'Bagaimana kamu merespons?' : 'Apa langkah berikutnya?'}</h3></div><span className="cf-score">{score}<small> / 100 poin</small></span></div>}
         {inScene && <div className="cf-desk">
-          <div className="cf-hand-heading"><div><span className="cf-eyebrow">{attacking ? 'WAKTU HABIS' : resolved ? 'KASUS SELESAI' : `LANGKAH ${round.step + 1} DARI 2`}</span><h3>{attacking ? 'Aduh! Nasabah pergi.' : resolved ? 'Nasabah terbantu!' : round.step === 0 ? 'Bagaimana kamu merespons?' : 'Apa langkah berikutnya?'}</h3></div><span className="cf-score">{score}<small> / 100 poin</small></span></div>
+
           {resolved ? <div className="cf-resolved"><p>{customer.resolution}</p><button className="cf-primary" type="button" onClick={() => commit({ type: 'next', now: performance.now() })}>{round.index === customers.length - 1 ? 'Selesaikan shift' : 'Nasabah berikutnya'} <ArrowRight size={18} /></button></div>
             : attacking ? <div className="cf-attack-notice">Nasabah pergi. Menyiapkan antrean berikutnya…</div>
               : <ActionHand key={`${round.index}-${round.step}`} cards={current.cards} rejected={round.wrong} onChoose={choose} />}

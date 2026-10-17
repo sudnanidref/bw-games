@@ -373,7 +373,7 @@
   margin-top:20px;
 }
 
-@media(max-width:700px) {
+@container cf-frame (max-width:700px) {
   .cf-toolbar h2>span {
     display:none;
   }
@@ -443,7 +443,7 @@
   }
 }
 
-@media(max-width:420px) {
+@container cf-frame (max-width:420px) {
   .cf-toolbar h2 {
     font-size:26px;
   }
@@ -463,14 +463,21 @@
   }
 }
 
-/* One edge-to-edge game world, with the hand layered over the lobby. */
+/* The complete scene stays inside the shared journey frame. */
 .cf-game {
-  position: fixed;
-  inset: 0;
-  z-index: 100;
+  position: relative;
+  inset: auto;
+  z-index: 0;
+  isolation: isolate;
+  container: cf-frame / inline-size;
+  min-width: 0;
+  flex: none;
   width: 100%;
-  height: 100dvh;
-  overflow: auto;
+  height: 760px;
+  overflow: clip;
+  border: 2px solid var(--ink, #224d6b);
+  border-radius: 14px;
+  margin: 16px 0;
   padding: 0;
   background: #cce8fa;
 }
@@ -480,7 +487,7 @@
   overflow: clip;
   width: 100%;
   height: 100%;
-  min-height: 700px;
+  min-height: 0;
   border-radius: 0;
 }
 
@@ -524,6 +531,7 @@
 
 .cf-game .cf-hand-heading {
   position: absolute;
+  z-index: 8;
   left: 28px;
   bottom: 126px;
   display: block;
@@ -579,8 +587,8 @@
 .cf-game .cf-phase-ready, .cf-game .cf-phase-result { display: flex; padding-top: 70px; }
 .cf-game .cf-overlay { margin: 24px; }
 
-@media (min-width: 901px) and (max-height: 800px) {
-  .cf-game .cf-scene { min-height: 650px; }
+@container cf-frame (min-width: 901px) {
+
   .cf-game .cf-customer { height: 69%; bottom: 24%; }
   .cf-game .cf-dialogue { top: 18%; }
   .cf-game .cf-dialogue p { font-size: 16px; }
@@ -588,7 +596,7 @@
   .cf-game .cf-counter { bottom: -16%; }
 }
 
-@media (max-width: 1000px) {
+@container cf-frame (max-width: 1000px) {
   .cf-game .cf-hand-heading { left: auto; right: 22px; bottom: 140px; width: 155px; }
   .cf-game .cf-hand-heading h3 { font-size: 15px; }
   .cf-game .cf-card-table { margin-right: 140px; }
@@ -596,7 +604,7 @@
   .cf-game .cf-hand { padding-left: 18px; }
 }
 
-@media (max-width: 800px) {
+@container cf-frame (max-width: 800px) {
   .cf-game .cf-toolbar { inset: 12px 12px auto; padding: 12px; }
   .cf-game .cf-toolbar h2 { font-size: 21px; }
   .cf-game .cf-toolbar h2>span { display: none; }
@@ -612,7 +620,7 @@
     bottom: auto;
     width: auto;
     padding: 8px 12px;
-    position: fixed;
+    position: absolute;
   }
   .cf-game .cf-hand-heading>div { display: none; }
   .cf-game .cf-hand-heading .cf-score { margin: 0; font-size: 20px; }
@@ -622,8 +630,8 @@
   .cf-game .cf-resolved { margin-bottom: 30px; }
 }
 
-@media (max-width: 520px) {
-  .cf-game .cf-scene { min-height: 760px; }
+@container cf-frame (max-width: 520px) {
+
   .cf-game .cf-toolbar .match-kicker { font-size: 8px; letter-spacing: 1px; }
   .cf-game .cf-toolbar h2 { font-size: 19px; }
   .cf-game .cf-tools { gap: 6px; }
@@ -667,12 +675,31 @@
 .cf-game .cf-hand { padding-left: 18px; }
 .cf-game .cf-deck { left: auto; right: 40px; top: 105px; transform: rotate(12deg); }
 
-@media (max-width: 800px) {
+@container cf-frame (max-width: 800px) {
   .cf-game .cf-dialogue { top: 22%; }
   .cf-game .cf-dialogue .cf-feedback { margin-top: 10px; padding-top: 8px; font-size: 10px; }
 }
-@media (max-width: 520px) {
+@container cf-frame (max-width: 520px) {
   .cf-game .cf-interaction { top: 23%; left: 0; width: 54%; height: 37%; }
   .cf-game .cf-dialogue { top: 24%; }
   .cf-game .cf-dialogue .cf-feedback { line-height: 1.3; font-size: 9px; }
+}
+
+/* Match the compact host framing used by the other implemented games. */
+.main-stage:has(.cf-game) > .active-stage.stage-content { padding: 10px 32px; }
+.main-stage:has(.cf-game) .stage-heading { padding-bottom: 8px; }
+.main-stage:has(.cf-game) .stage-heading h1 { margin: 8px 0 5px; padding: 5px 12px 8px; font-size: 48px; box-shadow: 4px 4px 0 var(--ink); }
+.main-stage:has(.cf-game) .stage-heading p { font-size: 13px; line-height: 1.35; }
+.main-stage:has(.cf-game) .previous-result { margin-top: 10px; padding-top: 7px; font-size: 11px; }
+
+@media (max-width: 760px) {
+  .main-stage:has(.cf-game) > .active-stage.stage-content { padding-inline: 12px; }
+}
+@container cf-frame (max-width: 360px) {
+  .cf-game .cf-toolbar { inset-inline: 8px; padding: 10px 8px; gap: 8px; }
+  .cf-game .cf-toolbar h2 { font-size: 16px; }
+  .cf-game .cf-toolbar .match-kicker { font-size: 7px; letter-spacing: .5px; }
+  .cf-game .cf-tools { gap: 4px; }
+  .cf-game .cf-customer-clock { min-width: 58px; gap: 4px; }
+  .cf-game .cf-icon { width: 27px; height: 27px; }
 }
