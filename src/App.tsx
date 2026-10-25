@@ -1,9 +1,9 @@
 import { useEffect, useState, type CSSProperties, type FormEvent } from 'react'
-import { ArrowRight, Award, CircleHelp, Flag, LockKeyhole, Map, RotateCcw, Trophy, UserRound } from 'lucide-react'
+import { ArrowRight, Award, CircleHelp, Flag, LockKeyhole, Map, RotateCcw, SkipForward, Trophy, UserRound } from 'lucide-react'
 import { games } from './games'
 import { scoreStatus } from './games/score-status'
 import type { GameResult } from './games/contract'
-import { completeStage, createJourney, currentValue, stageStatus, totalScore, type Journey } from './journey'
+import { completeStage, createJourney, currentValue, isSkipped, skipStage, stageStatus, totalScore, type Journey } from './journey'
 import type { LeaderboardEntry } from './leaderboard'
 import { submissionFor } from './leaderboard-client'
 
@@ -61,8 +61,15 @@ export function App() {
     setGameError('')
   }
 
+  function skip() {
+    if (!journey || !currentGame) return
+    setJourney(skipStage(journey))
+    setGameStarted(false)
+    setGameError('')
+  }
+
   async function submitRun() {
-    if (!journey || submitting || submitted) return
+    if (!journey || submitting || submitted || journey.skipped?.length) return
     const payload = submissionFor(journey)
     if (!payload) return
     setSubmitting(true)
@@ -98,10 +105,10 @@ export function App() {
             {games.map((game, index) => {
               const state = journey ? stageStatus(journey, game.id) : index === 0 ? 'current' : 'locked'
               const result = journey?.results.find((item) => item.valueId === game.id)
-              const status = result ? scoreStatus(result.score) : null
+              const status = result ? (isSkipped(journey!, game.id) ? 'LEWATI' : scoreStatus(result.score)) : null
               return <li className={`route-stop ${state}`} key={game.id} style={{ '--stop-accent': game.accent } as CSSProperties}>
                 <span className="stop-index">{String(index + 1).padStart(2, '0')}</span>
-                <div className="stop-copy"><strong>{game.title}</strong>{state === 'complete' && status && <small className={`journey-status ${status.toLowerCase()}`}>{status}</small>}<span className="route-score">{state === 'complete' ? `${result?.score} / 100 poin` : state === 'current' ? 'Tahap saat ini' : 'Belum terbuka'}</span></div>
+                <div className="stop-copy"><strong>{game.title}</strong>{state === 'complete' && status && <small className={`journey-status ${status.toLowerCase()}`}>{status}</small>}<span className="route-score">{state === 'complete' ? (status === 'LEWATI' ? 'Dilewati' : `${result?.score} / 100 poin`) : state === 'current' ? 'Tahap saat ini' : 'Belum terbuka'}</span></div>
                 {state === 'complete' ? <Award size={19} aria-label="Selesai" /> : state === 'locked' ? <LockKeyhole size={16} aria-label="Terkunci" /> : <span className="current-dot" aria-label="Saat ini" />}
               </li>
             })}
@@ -121,9 +128,9 @@ export function App() {
             </div>
           ) : score !== null ? (
             <div className="result-stage stage-content"><div className="eyebrow">PERJALANAN SELESAI</div><Trophy size={64} strokeWidth={1.5} /><h1>Hasil akhir</h1><div className="final-score">{score}<span>/ 500</span></div><ul className="result-list">{journey.results.map((result) => {
-              const status = scoreStatus(result.score)
+              const status = isSkipped(journey!, result.valueId) ? 'LEWATI' : scoreStatus(result.score)
               return <li key={result.valueId}><span>{games.find((game) => game.id === result.valueId)?.title}<small className={`journey-status ${status.toLowerCase()}`}>{status}</small></span><strong>{result.score}</strong></li>
-            })}</ul>{leaderboardError && <p role="alert" className="form-error">{leaderboardError}</p>}<div className="result-actions"><button type="button" className="primary-action" disabled={submitting || submitted} onClick={submitRun}>{submitted ? 'Hasil terkirim' : submitting ? 'Mengirim...' : 'Kirim ke peringkat'} <ArrowRight size={17} /></button><button type="button" className="secondary-action" onClick={() => { setJourney(null); setSubmitted(false); setLeaderboardError('') }}><RotateCcw size={17} /> Main lagi</button></div></div>
+            })}</ul>{leaderboardError && <p role="alert" className="form-error">{leaderboardError}</p>}{journey.skipped?.length ? <p className="skip-note">Ada game yang dilewati, jadi hasil ini tidak dikirim ke peringkat. Main lagi tanpa melewati game untuk masuk peringkat.</p> : null}<div className="result-actions"><button type="button" className="primary-action" disabled={submitting || submitted || Boolean(journey.skipped?.length)} onClick={submitRun}>{submitted ? 'Hasil terkirim' : submitting ? 'Mengirim...' : 'Kirim ke peringkat'} <ArrowRight size={17} /></button><button type="button" className="secondary-action" onClick={() => { setJourney(null); setSubmitted(false); setLeaderboardError('') }}><RotateCcw size={17} /> Main lagi</button></div></div>
           ) : (
             <div className="active-stage stage-content" style={{ '--stage-accent': currentGame?.accent } as CSSProperties}>
               <div className="stage-heading"><span className="eyebrow">NILAI {String(journey.results.length + 1).padStart(2, '0')} / 05</span><h1>{currentGame?.title}</h1><p>{currentGame?.description}</p></div>
@@ -132,6 +139,7 @@ export function App() {
               ) : <div className="stage-notice"><CircleHelp size={29} /><h2>Siap untuk tantangan?</h2><p>{currentGame.briefing ?? 'Baca tujuan permainan sebelum memulai.'}</p><button className="primary-action" type="button" onClick={() => setGameStarted(true)}>Mulai game <ArrowRight size={18} /></button></div> : (
                 <div className="stage-notice"><span className="notice-symbol">{String(journey.results.length + 1).padStart(2, '0')}</span><h2>Game sedang disiapkan</h2><p>Slot {currentGame?.title} belum tersedia. Tahap berikutnya terbuka setelah game ini selesai, tanpa skor sementara.</p><span className="coming-soon">BELUM TERSEDIA</span></div>
               )}
+              {currentGame && <div className="skip-row"><button type="button" className="skip-action" onClick={skip}><SkipForward size={15} /> Lewati game</button><span>Skor 0, tidak masuk peringkat</span></div>}
               {gameError && <p role="alert" className="form-error">{gameError}</p>}
               {journey.results.length > 0 && <div className="previous-result"><Award size={18} /> Nilai terakhir: {games[journey.results.length - 1].title} <strong>{journey.results[journey.results.length - 1].score} / 100</strong></div>}
             </div>

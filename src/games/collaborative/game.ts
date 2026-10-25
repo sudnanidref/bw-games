@@ -30,6 +30,13 @@ export function isPosition(value: Position): boolean {
     && value.row >= 0 && value.row < BOARD_SIZE && value.column >= 0 && value.column < BOARD_SIZE
 }
 
+const SHAPE_LABEL: Record<Shape, string> = { circle: 'lingkaran', square: 'kotak', triangle: 'segitiga' }
+const COLOR_LABEL: Record<Color, string> = { red: 'merah', blue: 'biru', green: 'hijau' }
+
+function describePiece(color: Color, shape: Shape): string {
+  return `${SHAPE_LABEL[shape]} ${COLOR_LABEL[color]}`
+}
+
 function isValidObject(object: GameObject): boolean {
   return SHAPES.includes(object.shape) && COLORS.includes(object.color) && isPosition(object)
 }
@@ -46,7 +53,7 @@ export function applyAction(board: Board, action: GameAction): ActionResult {
   if (action.type === 'place') {
     if (!isValidObject(action.object)) return { ok: false, error: 'invalid-object' }
     if (board.some((object) => samePosition(object, action.object))) return { ok: false, error: 'occupied' }
-    return { ok: true, board: [...board, { ...action.object }], summary: `Placed the ${action.object.color} ${action.object.shape}.` }
+    return { ok: true, board: [...board, { ...action.object }], summary: `Menaruh ${describePiece(action.object.color, action.object.shape)}.` }
   }
 
   if (action.type === 'move') {
@@ -58,13 +65,13 @@ export function applyAction(board: Board, action: GameAction): ActionResult {
     if (rowDistance + columnDistance !== 1) return { ok: false, error: 'invalid-move' }
     if (board.some((object) => samePosition(object, action.to))) return { ok: false, error: 'occupied' }
     const nextBoard = board.map((object, index) => index === sourceIndex ? { ...object, ...action.to } : object)
-    return { ok: true, board: nextBoard, summary: `Moved the ${action.color} ${action.shape}.` }
+    return { ok: true, board: nextBoard, summary: `Memindahkan ${describePiece(action.color, action.shape)}.` }
   }
 
   if (!isPosition(action.at)) return { ok: false, error: 'out-of-bounds' }
   const sourceIndex = findObjectIndex(board, action.shape, action.color, action.at)
   if (sourceIndex < 0) return { ok: false, error: 'object-not-found' }
-  return { ok: true, board: board.filter((_, index) => index !== sourceIndex), summary: `Removed the ${action.color} ${action.shape}.` }
+  return { ok: true, board: board.filter((_, index) => index !== sourceIndex), summary: `Menghapus ${describePiece(action.color, action.shape)}.` }
 }
 
 export function generateTarget(random: () => number = Math.random): Board {

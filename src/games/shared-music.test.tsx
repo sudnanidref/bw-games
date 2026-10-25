@@ -37,7 +37,7 @@ it('loops the shared music across games, stops it at results or exit, and keeps 
   expect(sources[0].loop).toBe(true)
   fireEvent.click(screen.getByRole('button', { name: 'Matikan suara' }))
   expect(preferences.get(MUTE_STORAGE_KEY)).toBe('1')
-  fireEvent.click(screen.getByRole('button', { name: 'Submit round' }))
+  fireEvent.click(screen.getByRole('button', { name: 'Selesaikan ronde' }))
   expect(sources[0].stop).toHaveBeenCalledOnce()
   collaborative.unmount()
 

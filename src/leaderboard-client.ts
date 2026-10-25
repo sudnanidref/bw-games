@@ -3,7 +3,7 @@ import type { Submission } from './leaderboard'
 
 export function submissionFor(journey: Journey): Submission | null {
   const total = totalScore(journey)
-  if (total === null) return null
+  if (total === null || journey.skipped?.length) return null
   return {
     runId: journey.runId,
     playerName: journey.playerName,

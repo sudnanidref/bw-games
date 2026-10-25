@@ -1,6 +1,8 @@
 import { act, cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { BlindBuilder } from './BlindBuilder'
+import { GUIDE_GROUPS } from './guide'
+import { interpretInstruction } from './instructions'
 
 const context = { valueId: 'collaborative' as const, playerName: 'Ayu', priorResults: [{ valueId: 'integrity' as const, score: 80 }] }
 afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.useRealTimers() })
@@ -13,19 +15,19 @@ describe('Blind Builder stage', () => {
     } }) }))
     vi.stubGlobal('fetch', fetchMock)
     render(<BlindBuilder context={context} onComplete={onComplete} onCancel={vi.fn()} onError={vi.fn()} />)
-    expect(within(screen.getByRole('grid', { name: 'Your target board' })).getAllByRole('gridcell')).toHaveLength(25)
-    expect(within(screen.getByRole('grid', { name: "Teammate's board" })).getAllByRole('gridcell')).toHaveLength(25)
-    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
-    await screen.findByText('Placed the blue circle.')
+    expect(within(screen.getByRole('grid', { name: 'Papan target kamu' })).getAllByRole('gridcell')).toHaveLength(25)
+    expect(within(screen.getByRole('grid', { name: "Papan rekan" })).getAllByRole('gridcell')).toHaveLength(25)
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    await screen.findByText('Menaruh lingkaran biru.')
     expect(JSON.parse(fetchMock.mock.calls[0]?.[1]?.body as string)).not.toHaveProperty('target')
-    expect(within(screen.getByRole('grid', { name: "Teammate's board" })).getByRole('gridcell', { name: /Row 1, column 1, blue circle/ })).toBeTruthy()
+    expect(within(screen.getByRole('grid', { name: "Papan rekan" })).getByRole('gridcell', { name: /Baris 1, kolom 1, lingkaran biru/ })).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('button', { name: 'Submit round' }))
-    expect(screen.getByText('TEAM SCORE')).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Selesaikan ronde' }))
+    expect(screen.getByText('SKOR TIM')).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('button', { name: 'Continue journey' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Continue journey' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
     expect(onComplete).toHaveBeenCalledTimes(1)
     expect(onComplete).toHaveBeenCalledWith({ valueId: 'collaborative', score: expect.any(Number) })
   })
@@ -37,13 +39,13 @@ describe('Blind Builder stage', () => {
     vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => { resolveResponse = resolve })))
     const onComplete = vi.fn()
     render(<BlindBuilder context={context} onComplete={onComplete} onCancel={vi.fn()} onError={vi.fn()} />)
-    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
     await act(async () => { vi.advanceTimersByTime(180_000) })
-    expect(screen.getByText('TEAM SCORE')).toBeTruthy()
-    expect(screen.getByText('Time left').parentElement?.textContent).toContain('0%')
+    expect(screen.getByText('SKOR TIM')).toBeTruthy()
+    expect(screen.getByText('Sisa waktu').parentElement?.textContent).toContain('0%')
     await act(async () => { resolveResponse({ ok: true, json: async () => ({ roundId: 1, outcome: { type: 'action', action: { type: 'place', object: { shape: 'circle', color: 'blue', row: 0, column: 0 } } } }) }) })
-    expect(within(screen.getByRole('grid', { name: 'Final teammate board' })).getByRole('gridcell', { name: 'Row 1, column 1, empty' })).toBeTruthy()
+    expect(within(screen.getByRole('grid', { name: 'Papan akhir rekan' })).getByRole('gridcell', { name: 'Baris 1, kolom 1, kosong' })).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
   })
 
@@ -51,11 +53,11 @@ describe('Blind Builder stage', () => {
     const onComplete = vi.fn()
     const onCancel = vi.fn()
     render(<BlindBuilder context={context} onComplete={onComplete} onCancel={onCancel} onError={vi.fn()} />)
-    fireEvent.click(screen.getByRole('button', { name: 'Submit round' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Play again' }))
-    expect(screen.getByRole('grid', { name: "Teammate's board" })).toBeTruthy()
+    fireEvent.click(screen.getByRole('button', { name: 'Selesaikan ronde' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Main lagi' }))
+    expect(screen.getByRole('grid', { name: "Papan rekan" })).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
-    fireEvent.click(screen.getByRole('button', { name: 'Exit game' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Keluar permainan' }))
     expect(onCancel).toHaveBeenCalledTimes(1)
     expect(onComplete).not.toHaveBeenCalled()
   })
@@ -66,13 +68,13 @@ describe('Blind Builder stage', () => {
     }) })
     vi.stubGlobal('fetch', fetchMock)
     render(<BlindBuilder context={context} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
-    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
-    await screen.findByText(/Please rephrase; I haven't changed the board/)
-    expect(within(screen.getByRole('grid', { name: "Teammate's board" })).getByRole('gridcell', { name: 'Row 1, column 1, empty' })).toBeTruthy()
-    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
-    await screen.findByText('Placed the blue circle.')
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    await screen.findByText(/Coba ucapkan ulang; papan belum saya ubah/)
+    expect(within(screen.getByRole('grid', { name: "Papan rekan" })).getByRole('gridcell', { name: 'Baris 1, kolom 1, kosong' })).toBeTruthy()
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    await screen.findByText('Menaruh lingkaran biru.')
     expect(fetchMock).toHaveBeenCalledTimes(2)
   })
 
@@ -81,12 +83,12 @@ describe('Blind Builder stage', () => {
     vi.stubGlobal('fetch', vi.fn(() => new Promise((resolve) => { resolveResponse = resolve })))
     const onComplete = vi.fn()
     render(<BlindBuilder context={context} onComplete={onComplete} onCancel={vi.fn()} onError={vi.fn()} />)
-    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Submit round' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Play again' }))
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Selesaikan ronde' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Main lagi' }))
     await act(async () => { resolveResponse({ ok: true, json: async () => ({ roundId: 1, outcome: { type: 'action', action: { type: 'place', object: { shape: 'circle', color: 'blue', row: 0, column: 0 } } } }) }) })
-    expect(within(screen.getByRole('grid', { name: "Teammate's board" })).getByRole('gridcell', { name: 'Row 1, column 1, empty' })).toBeTruthy()
+    expect(within(screen.getByRole('grid', { name: "Papan rekan" })).getByRole('gridcell', { name: 'Baris 1, kolom 1, kosong' })).toBeTruthy()
     expect(onComplete).not.toHaveBeenCalled()
   })
 
@@ -96,13 +98,13 @@ describe('Blind Builder stage', () => {
     const onCancel = vi.fn()
     const onComplete = vi.fn()
     render(<BlindBuilder context={context} onComplete={onComplete} onCancel={onCancel} onError={vi.fn()} />)
-    fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Put blue circle at top left' } })
-    fireEvent.click(screen.getByRole('button', { name: 'Send' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Exit game' }))
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Put blue circle at top left' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Keluar permainan' }))
     await act(async () => { resolveResponse({ ok: true, json: async () => ({ roundId: 1, outcome: { type: 'action', action: { type: 'place', object: { shape: 'circle', color: 'blue', row: 0, column: 0 } } } }) }) })
     expect(onCancel).toHaveBeenCalledTimes(1)
     expect(onComplete).not.toHaveBeenCalled()
-    expect(within(screen.getByRole('grid', { name: "Teammate's board" })).getByRole('gridcell', { name: 'Row 1, column 1, empty' })).toBeTruthy()
+    expect(within(screen.getByRole('grid', { name: "Papan rekan" })).getByRole('gridcell', { name: 'Baris 1, kolom 1, kosong' })).toBeTruthy()
   })
 
   it('commits a real zero score only once', async () => {
@@ -113,17 +115,57 @@ describe('Blind Builder stage', () => {
     render(<BlindBuilder context={context} onComplete={onComplete} onCancel={vi.fn()} onError={vi.fn()} />)
     for (let index = 0; index < 16; index += 1) {
       await act(async () => {
-        fireEvent.change(screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }), { target: { value: 'Undo' } })
-        fireEvent.click(screen.getByRole('button', { name: 'Send' }))
+        fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Undo' } })
+        fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
       })
-      expect((screen.getByRole('textbox', { name: 'YOUR INSTRUCTION' }) as HTMLTextAreaElement).disabled).toBe(false)
+      expect((screen.getByRole('textbox', { name: 'INSTRUKSIMU' }) as HTMLTextAreaElement).disabled).toBe(false)
     }
     await act(async () => { vi.advanceTimersByTime(180_000) })
-    expect(screen.getByText('TEAM SCORE').nextElementSibling?.textContent).toContain('0/100')
+    expect(screen.getByText('SKOR TIM').nextElementSibling?.textContent).toContain('0/100')
     expect(screen.getByText('FAIL', { selector: '.journey-status' })).toBeTruthy()
-    fireEvent.click(screen.getByRole('button', { name: 'Continue journey' }))
-    fireEvent.click(screen.getByRole('button', { name: 'Continue journey' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
     expect(onComplete).toHaveBeenCalledTimes(1)
     expect(onComplete).toHaveBeenCalledWith({ valueId: 'collaborative', score: 0 })
+  })
+
+  it('says the server is unreachable (not "rephrase") when the API is down', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce({ ok: false, status: 500 }).mockRejectedValueOnce(new TypeError('Failed to fetch')))
+    render(<BlindBuilder context={context} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Taruh lingkaran biru di kiri atas' } })
+      fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+      await waitFor(() => expect(screen.getAllByText(/tidak terhubung ke server instruksi/)).toHaveLength(attempt))
+    }
+    expect(screen.queryByText(/Coba ucapkan ulang/)).toBeNull()
+  })
+
+  it('explains the per-minute limit on HTTP 429', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce({ ok: false, status: 429 }))
+    render(<BlindBuilder context={context} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Taruh lingkaran biru di kiri atas' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    await screen.findByText(/Terlalu banyak instruksi dalam satu menit/)
+  })
+
+  it('plays every guide example from the chatbox in order', async () => {
+    // Route the instruction service to the real deterministic interpreter.
+    vi.stubGlobal('fetch', vi.fn(async (_url: string, options?: RequestInit) => {
+      const request = JSON.parse(options?.body as string)
+      return { ok: true, json: async () => ({ roundId: request.roundId, outcome: interpretInstruction(request.instruction, request.board) }) }
+    }))
+    render(<BlindBuilder context={context} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+    fireEvent.click(screen.getByText('Cara memberi instruksi'))
+    const textbox = screen.getByRole('textbox', { name: 'INSTRUKSIMU' }) as HTMLTextAreaElement
+    let replies = 1
+    for (const example of GUIDE_GROUPS.flatMap((group) => group.examples)) {
+      fireEvent.click(screen.getByRole('button', { name: example }))
+      expect(textbox.value).toBe(example)
+      fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+      replies += 1
+      await waitFor(() => expect(document.querySelectorAll('.bb-message.bb-teammate')).toHaveLength(replies))
+      const reply = [...document.querySelectorAll('.bb-message.bb-teammate p')].at(-1)?.textContent ?? ''
+      expect(reply, example).toMatch(/^(Menaruh|Memindahkan|Menghapus) /)
+    }
   })
 })

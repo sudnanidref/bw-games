@@ -39,4 +39,23 @@ describe('Blind Builder instructions', () => {
       expect(interpretInstruction(text, unique)).toMatchObject({ type: 'clarification' })
     }
   })
+
+  it('understands Indonesian instructions for place, remove, and move', () => {
+    // Place with Indonesian verbs, colors, shapes, and named positions.
+    expect(interpretInstruction('Taruh lingkaran merah di kiri atas', [])).toMatchObject({ type: 'action', action: { type: 'place', object: { shape: 'circle', color: 'red', row: 0, column: 0 } } })
+    expect(interpretInstruction('Letakkan kotak biru di baris 2 kolom 4', [])).toMatchObject({ type: 'action', action: { type: 'place', object: { shape: 'square', color: 'blue', row: 1, column: 3 } } })
+    expect(interpretInstruction('Tempatkan segitiga hijau di tengah', [])).toMatchObject({ type: 'action', action: { type: 'place', object: { shape: 'triangle', color: 'green', row: 2, column: 2 } } })
+
+    // Remove with Indonesian verb; ambiguous without a cell, resolved with a cell.
+    expect(interpretInstruction('Hapus kotak biru', board)).toMatchObject({ type: 'clarification' })
+    expect(interpretInstruction('Hapus kotak biru di baris 3 kolom 3', board)).toMatchObject({ type: 'action', action: { type: 'remove', at: { row: 2, column: 2 } } })
+
+    // Move with Indonesian direction words; one-cell cardinal steps only.
+    expect(interpretInstruction('Pindahkan kotak biru di C3 ke kiri', board)).toMatchObject({ type: 'action', action: { type: 'move', from: { row: 2, column: 2 }, to: { row: 2, column: 1 } } })
+    expect(interpretInstruction('Geser kotak biru C3 ke bawah', board)).toMatchObject({ type: 'action', action: { type: 'move', from: { row: 2, column: 2 }, to: { row: 3, column: 2 } } })
+    expect(interpretInstruction('Pindahkan kotak biru C3 dua sel ke kanan', board)).toMatchObject({ type: 'clarification' })
+
+    // Unsupported Indonesian verb falls back to a message.
+    expect(interpretInstruction('Batalkan langkah terakhir', board)).toMatchObject({ type: 'message' })
+  })
 })

@@ -40,6 +40,25 @@ const fakeFetch = vi.fn(async (url: string, options?: RequestInit) => {
 })
 
 describe('shell leaderboard flow', () => {
+  it('skips every game before or during play, shows LEWATI, and never submits the run', async () => {
+    vi.stubGlobal('crypto', { randomUUID: () => '66666666-6666-6666-6666-666666666666' })
+    vi.stubGlobal('fetch', fakeFetch)
+    fakeFetch.mockClear()
+    const user = userEvent.setup()
+    const { container } = render(<App />)
+    await user.type(screen.getByRole('textbox', { name: 'NAMA PEMAIN' }), 'Ayu')
+    await user.click(screen.getByRole('button', { name: /mulai perjalanan/i }))
+    for (const [index, title] of ['Integrity', 'Collaborative', 'Accountability', 'Growth Mindset', 'Customer Focus'].entries()) {
+      expect(screen.getByRole('heading', { name: title })).toBeTruthy()
+      // Odd stages are skipped mid-game, even ones from the briefing screen.
+      if (index % 2) await user.click(screen.getByRole('button', { name: /mulai game/i }))
+      await user.click(screen.getByRole('button', { name: /lewati game/i }))
+    }
+    expect([...container.querySelectorAll('.result-list .journey-status')].map((badge) => badge.textContent)).toEqual(Array(5).fill('LEWATI'))
+    expect(screen.getByText(/tidak dikirim ke peringkat/)).toBeTruthy()
+    expect((screen.getByRole('button', { name: /kirim ke peringkat/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(fakeFetch.mock.calls.some(([, options]) => options?.method === 'POST')).toBe(false)
+  })
   it('marks a score of 65 as PASS for every game', async () => {
     vi.stubGlobal('crypto', { randomUUID: () => '55555555-5555-5555-5555-555555555555' })
     const user = userEvent.setup()
@@ -102,12 +121,12 @@ describe('shell leaderboard flow', () => {
     await user.click(screen.getByRole('button', { name: 'Selesaikan integrity' }))
     expect(screen.getByRole('heading', { name: 'Collaborative' })).toBeTruthy()
     await user.click(screen.getByRole('button', { name: /mulai game/i }))
-    expect(screen.getByRole('grid', { name: 'Your target board' })).toBeTruthy()
-    await user.click(screen.getByRole('button', { name: 'Exit game' }))
+    expect(screen.getByRole('grid', { name: 'Papan target kamu' })).toBeTruthy()
+    await user.click(screen.getByRole('button', { name: 'Keluar permainan' }))
     expect(screen.getByText('Collaborative', { selector: '.stop-copy strong' }).closest('li')?.textContent).toContain('Tahap saat ini')
     await user.click(screen.getByRole('button', { name: /mulai game/i }))
-    await user.click(screen.getByRole('button', { name: 'Submit round' }))
-    await user.click(screen.getByRole('button', { name: 'Continue journey' }))
+    await user.click(screen.getByRole('button', { name: 'Selesaikan ronde' }))
+    await user.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
     expect(screen.getByRole('heading', { name: 'Accountability' })).toBeTruthy()
     expect(screen.getByText('Collaborative', { selector: '.stop-copy strong' }).closest('li')?.textContent).toContain('30 / 100 poin')
   })
