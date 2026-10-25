@@ -127,7 +127,7 @@
 
 .kasir-play {
   display: grid;
-  grid-template-rows: 50px minmax(160px, 1fr) 28px 60px;
+  grid-template-rows: 50px minmax(160px, 1fr) 28px auto;
   gap: 6px;
   width: min(100%, 850px);
   min-width: 0;
@@ -177,12 +177,43 @@
 .kasir-feedback { display: flex; align-items: center; justify-content: center; min-width: 0; color: var(--kasir-ink-soft); font-size: 14px; font-weight: 800; }
 .kasir-feedback.correct { color: #075a49; }
 .kasir-feedback.wrong { color: #9b3328; }
-.kasir-payment-controls { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
-.kasir-payment-button { display: flex; align-items: center; justify-content: center; gap: 10px; min-width: 0; min-height: 54px; padding: 8px 12px; color: var(--kasir-paper); background: var(--kasir-blue); border: 2px solid var(--kasir-blue-dark); box-shadow: 0 4px 0 var(--kasir-blue-dark); font: inherit; font-size: 16px; font-weight: 900; }
-.kasir-payment-button:hover { background: var(--kasir-blue-dark); }
-.kasir-payment-button[aria-disabled='true'] { color: var(--kasir-ink-soft); background: var(--kasir-paper-deep); cursor: not-allowed; }
-.kasir-payment-button:active:not([aria-disabled='true']) { transform: translateY(3px); box-shadow: 0 1px 0 var(--kasir-blue-dark); }
-.kasir-payment-button:focus-visible { outline: 3px solid var(--kasir-yellow-dark); outline-offset: 3px; }
+.kasir-payment-controls {
+  --payment-height: clamp(136px, 21vh, 190px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.65fr) minmax(0, 1fr);
+  align-items: end;
+  justify-items: center;
+  gap: clamp(6px, 2vw, 24px);
+  min-width: 0;
+  padding: 4px 6px 6px;
+}
+.kasir-payment-button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  max-width: 180px;
+  height: calc(var(--payment-height) * .9);
+  min-width: 0;
+  min-height: 48px;
+  padding: 3px;
+  appearance: none;
+  background: transparent;
+  border: 0;
+  border-radius: 12px;
+  box-shadow: none;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform 140ms ease, opacity 140ms ease;
+}
+.kasir-payment-button[data-payment='cash'] { max-width: 320px; height: var(--payment-height); }
+.kasir-payment-illustration { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center bottom; pointer-events: none; user-select: none; }
+@media (hover: hover) {
+  .kasir-payment-button:hover:not([aria-disabled='true']):not(:disabled) { transform: translateY(-3px); }
+}
+.kasir-payment-button[aria-disabled='true'], .kasir-payment-button:disabled { opacity: .65; cursor: not-allowed; }
+.kasir-payment-button:active:not([aria-disabled='true']):not(:disabled) { transform: translateY(2px); }
+.kasir-payment-button:focus-visible { outline: 3px solid var(--kasir-blue); outline-offset: 2px; }
 
 .kasir-result { display: grid; justify-items: center; align-content: center; gap: 14px; width: min(100%, 560px); min-height: 380px; margin: 0 auto; padding: 28px 24px; text-align: center; background: var(--kasir-paper); border: 2px solid var(--kasir-blue-dark); box-shadow: 7px 7px 0 var(--kasir-blue-dark); }
 .kasir-result h2 { margin: 0; color: var(--kasir-blue-dark); font-size: 34px; line-height: 1; }
@@ -200,15 +231,14 @@
 .kasir-continue-button:focus-visible { outline: 3px solid var(--kasir-blue); outline-offset: 4px; }
 
 @media (max-width: 700px) {
-  .kasir-play { grid-template-rows: 50px minmax(160px, 1fr) 30px 68px; gap: 5px; min-height: 320px; }
+  .kasir-play { grid-template-rows: 50px minmax(160px, 1fr) 30px auto; gap: 5px; min-height: 320px; }
   .kasir-hud > div { min-width: 110px; }
   .kasir-hud strong { font-size: 23px; }
   .kasir-request { left: 35%; width: 60%; font-size: 12px; }
   .kasir-customer { width: 82px; }
   .kasir-character { width: 66px; height: 94px; }
   .kasir-customer.active .kasir-character { width: 76px; height: 102px; }
-  .kasir-payment-controls { gap: 6px; }
-  .kasir-payment-button { gap: 6px; padding: 6px; font-size: 13px; }
+  .kasir-payment-controls { --payment-height: clamp(100px, 28vw, 156px); gap: 6px; }
   .kasir-start { padding: 34px 15px 42px; }
   .kasir-start h1 { font-size: 52px; }
   .kasir-start-scores { gap: 6px 12px; font-size: 12px; }
@@ -216,14 +246,14 @@
 }
 
 @media (max-height: 500px) and (orientation: landscape) {
-  .kasir-play { grid-template-rows: 38px minmax(105px, 1fr) 24px 54px; gap: 3px; min-height: 224px; }
+  .kasir-play { grid-template-rows: 38px minmax(105px, 1fr) 24px auto; gap: 3px; min-height: 224px; }
   .kasir-scene { min-height: 105px; }
   .kasir-hud > div { min-width: 98px; }
   .kasir-hud strong { font-size: 19px; }
   .kasir-request { top: 28%; min-height: 44px; padding: 5px 8px; font-size: 10px; }
   .kasir-character, .kasir-customer.active .kasir-character { width: 52px; height: 76px; }
   .kasir-role { font-size: 8px; }
-  .kasir-payment-button { min-height: 48px; font-size: 12px; }
+  .kasir-payment-controls { --payment-height: 110px; }
   .kasir-result { min-height: 224px; gap: 6px; padding: 12px 18px; }
   .kasir-result h2 { font-size: 26px; }
   .kasir-result-score strong { font-size: 48px; }

@@ -7,7 +7,7 @@ Provide a complete, locally playable Kasir Sat Set experience for the Accountabi
 ## ADDED Requirements
 
 ### Requirement: Payment choices are limited to the three defined methods
-The game MUST provide exactly three payment choices, in the fixed order TUNAI, EDC, QRIS, mapped to `cash`, `edc`, and `qris`. It MUST compare the selected method ID with the active buyer's requested method; names, colors, icons, and copy MUST NOT affect correctness. Payment is simulated and MUST NOT initiate a real transaction.
+The playable game MUST provide exactly three illustrated payment choices in the visual and focus order QRIS, cash register, EDC, mapped to `qris`, `cash`, and `edc`. This presentation order MUST NOT reorder the underlying `paymentMethods` data used by buyer RNG. It MUST compare the selected method ID with the active buyer's requested method; names, colors, illustrations, array positions, and copy MUST NOT affect correctness. Payment is simulated and MUST NOT initiate a real transaction.
 
 #### Scenario: L02 and U03 - each payment method can be answered correctly
 - **WHEN** the active buyer requests cash, EDC, or QRIS and the matching choice is activated during an unlocked live round
@@ -95,7 +95,7 @@ At round start, raw score, served count, and wrong count MUST be zero. A correct
 - **THEN** only correct choices produce the checkmark, three dollar effects, and local sound; wrong choices show their penalty without those effects; the final statistics match accepted decisions and payment controls are inactive
 
 ### Requirement: Start, round, result, and journey handoff are single-use
-The game MUST provide its own start, play, and result states. The start screen MUST contain only the title Kasir Sat Set, correct/wrong/minimum-score values, the three payment methods, and a Mulai button showing a 5-to-1 countdown. The countdown MUST start exactly one round automatically at zero if untouched; activating Mulai MUST cancel auto-start and start one round immediately. Repeated starts while playing MUST NOT reset or duplicate loops. Starting a new round after a result MUST use new identities and reset its deadline, score, counters, queue, feedback, and locks. The result screen MUST show `Waktu Habis!`, raw score, served count, wrong count, and `Cepat itu penting. Tepat melayani adalah tanggung jawab kita.` Per the latest product-owner decision, it MUST NOT show “Main Lagi”; it MUST show a Lanjut action. Activating Lanjut MUST emit exactly one `accountability` result with an integer score from 0 to 100 and MUST complete the stage through the existing game contract. The game MUST NOT mutate prior results or other stages. Replaying the complete experience starts from the journey's first mini-game.
+The game MUST provide its own start, play, and result states. The start screen MUST contain only the title Kasir Sat Set, correct/wrong/minimum-score values, the three payment methods, and a Mulai button showing a 5-to-1 countdown. The countdown MUST start exactly one round automatically at zero if untouched; activating Mulai MUST cancel auto-start and start one round immediately. Repeated starts while playing MUST NOT reset or duplicate loops. Starting a new round after a result MUST use new identities and reset its deadline, score, counters, queue, feedback, and locks. The result screen MUST show `Waktu Habis!`, `SKOR AKHIR / 100`, the capped final score, the raw total under `Poin permainan`, shared PASS/FAIL status, served count, wrong count, and `Cepat itu penting. Tepat melayani adalah tanggung jawab kita.` It MUST provide Lanjut rather than an in-game Main Lagi action. Activating Lanjut MUST emit exactly one `accountability` result with the same integer final score shown on screen and MUST complete the stage through the existing game contract. The game MUST NOT mutate prior results or other stages. Replaying the complete experience starts from the journey's first mini-game.
 
 #### Scenario: L22 and U14 - untouched countdown starts one round
 - **WHEN** the start screen countdown displays 5, 4, 3, 2, 1 and receives no activation until zero
@@ -122,18 +122,32 @@ The game MUST provide its own start, play, and result states. The start screen M
 - **THEN** one normalized integer score in 0–100 is emitted for `accountability`, the hub advances once, and the completed result cannot be emitted again
 
 ### Requirement: Raw game performance maps deterministically to the hub score
-The game MUST preserve and display its raw round score and MUST provide the shared journey only one integer score in the contract range 0–100. The mapping MUST be `clamp(round(rawScore * 100 / 1670), 0, 100)`, where 1,670 is the theoretical maximum of 167 correct answers at the 120 ms correct lock during a 20-second round. The mapping MUST NOT alter the game's scoring, feedback, or displayed raw result.
+The game MUST preserve its earned round points and provide the shared journey one integer score in 0–100. The mapping MUST be `clamp(round(rawScore), 0, 100)`, with non-finite input mapped to zero. Earned points MUST NOT be divided by a theoretical maximum. The same mapped score MUST appear as the primary final score and be sent on Lanjut. The raw total MUST remain available under `Poin permainan`. The shared `scoreStatus` rule MUST yield PASS for scores at least 65 and FAIL below 65. The mapping MUST NOT change in-round +10/−5 scoring, the per-decision zero floor, timing, input locks, or feedback.
 
 #### Scenario: Hub score mapping preserves boundaries and integer output
-- **WHEN** a player continues from results with raw scores at the minimum, an intermediate value, and the theoretical maximum or higher
-- **THEN** the game displays the respective raw score and emits only integer contract scores 0, an in-range proportional value, and 100
+- **WHEN** a player continues with raw scores 0, 45, 65, 70, 100, or 115
+- **THEN** the primary final score and emitted contract score are respectively 0, 45, 65, 70, 100, or 100, while `Poin permainan` retains the corresponding raw total
+
+#### Scenario: Passing uses the shared threshold without compressing earned points
+- **WHEN** a player makes six correct payments; seven correct then one wrong; seven correct with no errors; or ten correct with no errors
+- **THEN** the final results are respectively 60/FAIL, 65/PASS, 70/PASS, and 100/PASS, and Lanjut emits each displayed score exactly once
+
+#### Scenario: The final cap does not replace the running point counter
+- **WHEN** a player makes twelve correct payments and then one wrong payment
+- **THEN** the in-round counter and `Poin permainan` show 115, the final score is 100/PASS, and the statistics remain twelve served and one wrong
 
 ### Requirement: Visual presentation follows the Kasir Sat Set product direction
 The interface MUST be in Indonesian, depict an original 2D Indonesian warung and at least six distinguishable anonymous character variations, and keep the active request, queue, time, score, and three controls visible during play at target viewports. The active request MUST show both its sentence and payment label. The interface MUST use the blue, white, and yellow palette `#00549A`, `#003E73`, `#F8FAFC`, and `#FFC629` (adjustable for contrast), without a BRI logo or claim of official affiliation. It MUST use AU Passata from a locally available, licensed, web-embeddable font file when provided. If unavailable, it MUST use Arial/sans-serif and MUST NOT claim identical typography. No font or asset may be fetched from a CDN or unofficial source.
 
 #### Scenario: U06 and U13 - target viewports retain the full playable layout
-- **WHEN** play is rendered at the desktop targets 1280×720 and 1440×900
-- **THEN** time, score, active request, three buyers, and ordered payment controls remain visible without clipping, overlap, or scrolling; narrower viewports retain all controls without horizontal clipping and may scroll vertically
+- **WHEN** play is rendered at 1280×720, 1440×900, 390×844, 320×740, or 844×390
+- **THEN** the QRIS stand, larger central cash register, and EDC terminal remain complete, do not overlap each other or the buyer/request area, and do not cause horizontal scrolling; shorter layouts may scroll vertically while preserving the other UI
+
+#### Scenario: Payment objects replace visible button boxes and captions
+- **WHEN** the playable payment controls are rendered
+- **THEN** they show local transparent SVG illustrations with navy outlines, depth, and soft shadows, with no normal blue button box and no caption underneath
+- **AND** the QRIS stand includes acrylic edges, support foot, and a QR sheet; the cash register includes a display, keypad, drawer, and receipt; the EDC terminal includes a display, keypad, colored confirmation keys, and receipt printer
+- **AND** native buttons retain accessible names “Bayar dengan QRIS”, “Bayar tunai”, and “Bayar dengan EDC”, keyboard focus, and the existing input lock guards
 
 #### Scenario: U15 - buyers remain anonymous in every state
 - **WHEN** the game shows active, waiting, transitioned, or completed buyers
@@ -178,7 +192,7 @@ An accepted correct choice MUST show a checkmark, exactly three `$` glyphs float
 - **THEN** all game assets and effects are local and no CDN or external asset/service request is required
 
 ### Requirement: The game is self-contained, testable, and documented
-The Accountability game MUST run without a backend, database, account, leaderboard write, real payment, analytics, tracking, device permission, music, or runtime download. It MUST retain game state only in memory, export one component compatible with the existing game contract, call `onComplete` only after an actual completed round is continued, call `onCancel` for an early exit, and call `onError` on failure without awarding a score. The change MUST update only the Accountability game area and the single Accountability registry entry needed to expose it. Its README MUST document controls, scoring, provenance and license/permission/attribution/usage for every added asset, commands, and the AU Passata prerequisite. Focused deterministic unit and integration tests MUST cover the scenarios in this specification and the implementation MUST be verifiable with the repository's typecheck, test, and build commands.
+The Accountability game MUST run without a backend, database, account, leaderboard write, real payment, analytics, tracking, device permission, or external runtime download. Shared locally bundled background music MAY play during the round and MUST stop at results or exit, respecting the shared mute preference. The game MUST retain state only in memory, export one component compatible with the existing game contract, call `onComplete` only after an actual completed round is continued, call `onCancel` for an early exit, and call `onError` on failure without awarding a score. The change MUST update only the Accountability game area, its OpenSpec documents, and any single Accountability registry entry needed to expose it. Its README MUST document controls, scoring, provenance and license/permission/attribution/usage for every added asset, commands, and the AU Passata prerequisite. Focused deterministic unit and integration tests MUST cover the scenarios in this specification and the implementation MUST be verifiable with the repository's typecheck, test, and build commands.
 
 #### Scenario: U09 and U10 - the registered production game plays without service dependencies
 - **WHEN** the Accountability slot is enabled and the production build is served locally
