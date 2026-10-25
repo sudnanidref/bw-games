@@ -3,11 +3,13 @@ import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/re
 import { afterEach, expect, it, vi } from 'vitest'
 import { BlindBuilder } from './collaborative/BlindBuilder'
 import { MatchTheSolution } from './customer-focus/MatchTheSolution'
+import { GrowthMindsetGame } from './growth-mindset/GrowthMindsetGame'
+import { AccountabilityGame } from './accountability/AccountabilityGame'
 import { MUTE_STORAGE_KEY } from './integrity/audio'
 
-afterEach(() => { cleanup(); vi.unstubAllGlobals() })
+afterEach(() => { cleanup(); vi.unstubAllGlobals(); vi.restoreAllMocks() })
 
-it('loops the shared music in both games, stops it at results or exit, and keeps mute preference', async () => {
+it('loops the shared music across games, stops it at results or exit, and keeps mute preference', async () => {
   const preferences = new Map<string, string>()
   vi.stubGlobal('localStorage', {
     getItem: (key: string) => preferences.get(key) ?? null,
@@ -49,4 +51,30 @@ it('loops the shared music in both games, stops it at results or exit, and keeps
   expect(preferences.get(MUTE_STORAGE_KEY)).toBe('0')
   fireEvent.click(screen.getByRole('button', { name: 'Batal' }))
   expect(sources[1].stop).toHaveBeenCalledOnce()
+  cleanup()
+
+  const growth = render(<GrowthMindsetGame context={{ valueId: 'growth-mindset', playerName: 'Ayu', priorResults: [] }} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+  expect(screen.getByRole('button', { name: 'Matikan suara' }).getAttribute('aria-pressed')).toBe('false')
+  fireEvent.click(screen.getByRole('button', { name: 'Mulai' }))
+  await waitFor(() => expect(sources[2]?.start).toHaveBeenCalledOnce())
+  expect(sources[2].loop).toBe(true)
+  fireEvent.click(screen.getByRole('button', { name: 'Matikan suara' }))
+  expect(preferences.get(MUTE_STORAGE_KEY)).toBe('1')
+  fireEvent.click(screen.getByRole('button', { name: 'Keluar' }))
+  expect(sources[2].stop).toHaveBeenCalledOnce()
+  growth.unmount()
+
+  const accountability = render(<AccountabilityGame context={{ valueId: 'accountability', playerName: 'Ayu', priorResults: [] }} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+  expect(screen.getByRole('button', { name: 'Nyalakan suara' }).getAttribute('aria-pressed')).toBe('true')
+  fireEvent.click(screen.getByRole('button', { name: /Mulai.*5/ }))
+  await waitFor(() => expect(sources[3]?.start).toHaveBeenCalledOnce())
+  expect(sources[3].loop).toBe(true)
+  fireEvent.click(screen.getByRole('button', { name: 'Nyalakan suara' }))
+  expect(preferences.get(MUTE_STORAGE_KEY)).toBe('0')
+  const endTime = performance.now() + 20_001
+  vi.spyOn(performance, 'now').mockReturnValue(endTime)
+  fireEvent(document, new Event('visibilitychange'))
+  expect(screen.getByRole('heading', { name: 'Waktu Habis!' })).toBeTruthy()
+  expect(sources[3].stop).toHaveBeenCalledOnce()
+  accountability.unmount()
 })

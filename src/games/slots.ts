@@ -14,3 +14,5 @@ export const gameSlots: readonly GameSlotInfo[] = [
   { id: 'growth-mindset', title: 'Growth Mindset', accent: 'var(--growth-mindset)', description: 'Terus belajar, beradaptasi, dan bertumbuh.' },
   { id: 'customer-focus', title: 'Customer Focus', accent: 'var(--customer-focus)', description: 'Melayani dengan cepat, tepat, dan memberi nilai tambah.' },
 ]
+
+export const valueIds = gameSlots.map((game) => game.id)

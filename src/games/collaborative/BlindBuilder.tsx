@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react'
 import { ArrowRight, RotateCcw, Send, Volume2, VolumeX, X } from 'lucide-react'
 import type { GameProps } from '../contract'
+import { scoreStatus } from '../score-status'
 import { useGameMusic } from '../useGameMusic'
 import { outcomeMatchesSource, parseCurrentInstructionResponse, type InstructionRequest } from './ai-contract'
 import { BOARD_SIZE, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, applyAction, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, type Board, type RoundState, type Score } from './game'

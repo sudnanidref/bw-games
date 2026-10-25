@@ -60,6 +60,9 @@ button:focus-visible, input:focus-visible, a:focus-visible {
 .stop-copy { display: grid; gap: 4px; min-width: 0; flex: 1; }
 .stop-copy strong { font: 800 20px/1 var(--display-font); overflow-wrap: anywhere; }
 .stop-copy span { font-size: 11px; }
+.journey-status { display: inline-flex; align-items: center; justify-content: center; width: max-content; min-width: 44px; padding: 3px 5px; border: 1px solid currentColor; border-radius: 2px; font: 700 10px/1 var(--display-font); }
+.journey-status.pass { color: #205e45; background: #d9ebe0; }
+.journey-status.fail { color: #873b31; background: #f6ded9; }
 .current-dot, .live-dot { display: inline-block; flex: none; height: 8px; width: 8px; border-radius: 50%; background: var(--accountability); }
 .route-footer { display: flex; align-items: flex-start; gap: 10px; margin-top: auto; padding: 24px 9px 0; font-size: 12px; line-height: 1.5; color: var(--muted); }
 .route-footer svg { flex: none; }
@@ -108,6 +111,7 @@ h1, h2, p { margin: 0; }
 .final-score span { font-size: 28px; color: var(--muted); }
 .result-list { list-style: none; margin: 20px 0; padding: 0; width: min(100%, 450px); text-align: left; }
 .result-list li { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--line); }
+.result-list li > span { display: flex; align-items: center; gap: 10px; }
 .result-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
 .result-actions button:disabled { cursor: default; opacity: .65; }
 .leaderboard-stage h1 { margin: 18px 0 8px; font: 800 74px/.95 var(--display-font); }
@@ -123,6 +127,6 @@ h1, h2, p { margin: 0; }
 .empty-ranking p, .ranking-loading { color: var(--muted); font-size: 14px; }
 @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (max-width: 1050px) { .welcome { grid-template-columns: 1fr; } .journey-art { display: none; } .edition { display: none; } }
-@media (max-width: 760px) { .workspace { grid-template-columns: 1fr; } .route { border-right: 0; border-bottom: 2px solid var(--ink); padding: 16px; } .route-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin-top: 12px; } .route-stop { display: grid; justify-items: center; min-height: 65px; padding: 7px 2px; text-align: center; } .route-stop svg, .route-stop .current-dot, .stop-copy span, .route-footer { display: none; } .stop-index { width: 30px; height: 30px; font-size: 15px; } .stop-copy strong { font-size: 12px; } .main-stage { min-height: 540px; } .stage-bottom span:first-child { display: none; } .topbar { min-height: 68px; } }
+@media (max-width: 760px) { .workspace { grid-template-columns: 1fr; } .route { border-right: 0; border-bottom: 2px solid var(--ink); padding: 16px; } .route-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin-top: 12px; } .route-stop { display: grid; justify-items: center; min-height: 65px; padding: 7px 2px; text-align: center; } .route-stop svg, .route-stop .current-dot, .stop-copy .route-score, .route-footer { display: none; } .stop-index { width: 30px; height: 30px; font-size: 15px; } .stop-copy strong { font-size: 12px; } .main-stage { min-height: 540px; } .stage-bottom span:first-child { display: none; } .topbar { min-height: 68px; } }
 @media (max-width: 520px) { .topbar { padding: 10px 14px; flex-wrap: wrap; } .brand { font-size: 20px; } .brand-mark { width: 36px; height: 36px; font-size: 15px; } .topbar-right { width: 100%; justify-content: space-between; } .view-tabs button { padding: 7px; font-size: 11px; } .session { padding-left: 0; border: 0; font-size: 11px; } .stage-content { padding: 36px 22px; } .intro-copy h1 { font-size: 64px; } .entry-row { flex-direction: column; } .entry-row .primary-action { width: 100%; } .stage-heading h1 { font-size: 56px; } .leaderboard-stage h1 { font-size: 56px; } .stop-copy strong { font-size: 11px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }

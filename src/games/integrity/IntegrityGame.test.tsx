@@ -189,6 +189,7 @@ describe('result', () => {
     playWithKeyboard(playArea, 26_000)
 
     expect(screen.getByText('Ronde selesai')).toBeTruthy()
+    expect(screen.getByText('FAIL', { selector: '.journey-status' })).toBeTruthy()
     expect(frameCallbacks.size).toBe(0)
     expect(onComplete).not.toHaveBeenCalled()
 

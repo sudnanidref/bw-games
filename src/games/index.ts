@@ -1,6 +1,8 @@
 import type { PlayableGame } from './contract'
+import { AccountabilityGame } from './accountability/AccountabilityGame'
 import { BlindBuilder } from './collaborative/BlindBuilder'
 import { MatchTheSolution } from './customer-focus/MatchTheSolution'
+import { GrowthMindsetGame } from './growth-mindset'
 import { IntegrityGame } from './integrity/IntegrityGame'
 import { gameSlots, type GameSlotInfo, type ValueId } from './slots'
 
@@ -17,13 +19,21 @@ const playable: Partial<Record<ValueId, Pick<GameSlot, 'component' | 'briefing'>
     component: IntegrityGame,
     briefing: 'Tembak kata yang mencerminkan integritas (+5) dan hindari kata pelanggaran (−5) dalam 25 detik. Gerakkan mouse lalu klik, atau gunakan panah/A/D dan Spasi.',
   },
+  'growth-mindset': {
+    component: GrowthMindsetGame,
+    briefing: 'Ingat pola panah dan ulangi urutannya. Salah? Pelajari dan coba lagi — raih minimal 65 poin dalam 20 detik.',
+  },
   collaborative: {
     component: BlindBuilder,
     briefing: 'Arahkan rekanmu menyusun pola pada papan 5x5 dalam 180 detik. Beri instruksi warna, bentuk, dan posisi dengan jelas.',
   },
+  accountability: {
+    component: AccountabilityGame,
+    briefing: 'Layani permintaan pembayaran tiga pembeli dengan cepat dan tepat selama 20 detik.',
+  },
   'customer-focus': {
     component: MatchTheSolution,
-    briefing: 'Tangkap kartu solusi yang bergerak dan cocokkan dengan tiga kebutuhan pelanggan dalam 45 detik.',
+    briefing: 'Jadilah customer service: layani enam nasabah, masing-masing dalam 10 detik. Waspadai serangan saat waktu habis!',
   },
 }
 

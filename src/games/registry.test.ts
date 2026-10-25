@@ -1,21 +1,25 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { games } from './index'
+import { valueIds } from './slots'
 
 describe('developer slots', () => {
-  it('reserves exactly five ordered games', () => {
+  it('reserves exactly five ordered slots, registering only real games', () => {
     expect(games.map((game) => game.id)).toEqual([
       'integrity', 'collaborative', 'accountability', 'growth-mindset', 'customer-focus',
     ])
+    expect(games.map((game) => game.id)).toEqual([...valueIds])
   })
 
-  it('enables Integrity, Collaborative, and Customer Focus', () => {
+  it('enables all implemented games', () => {
     expect(games[0]).toMatchObject({ available: true, component: expect.any(Function) })
     expect(games[1]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/papan 5x5/i) })
-    expect(games.slice(2, 4).every((game) => game.available === false && !game.component)).toBe(true)
-    expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/tiga kebutuhan.*45 detik/i) })
+    expect(games[2]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/20 detik/i) })
+    expect(games[3]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/minimal 65 poin/i) })
+    expect(games[4]).toMatchObject({ available: true, component: expect.any(Function), briefing: expect.stringMatching(/enam nasabah.*10 detik/i) })
     for (const game of games) {
-      if (game.available) expect(game.component, game.id).toBeDefined()
+      expect(Boolean(game.component)).toBe(game.available)
+      expect(Boolean(game.briefing)).toBe(game.available)
     }
   })
 
@@ -29,7 +33,7 @@ describe('developer slots', () => {
 
   it('documents the Customer Focus controls, score, approved copy, and assets', () => {
     const guide = readFileSync(new URL('./customer-focus/README.md', import.meta.url), 'utf8')
-    for (const section of ['customer-focus-match-the-solution', 'Play and score', 'Content review', 'Approved 2026-09-29', 'Asset manifest', 'Verification']) {
+    for (const section of ['Meja Layanan', 'Play and score', 'Content review', 'Asset manifest', 'Verification']) {
       expect(guide).toContain(section)
     }
   })
