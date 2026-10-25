@@ -1,76 +1,363 @@
-.blind-builder {
-  --bb-ink: var(--ink);
-  --bb-green: var(--ink);
-  --bb-red: var(--accountability);
-  --bb-blue: var(--growth-mindset);
-  --bb-shape-green: var(--customer-focus);
-  --bb-line: var(--line);
-  width: 100%; min-width: 0; padding: 22px 0 35px; color: var(--bb-ink);
+/* Blind Builder adopts the Customer Focus visual theme: blue/teal palette, a framed
+   lobby+counter scene, a floating glassy toolbar, and a reacting teammate portrait.
+   Structure/labels are unchanged from the logic spec; only presentation changed. */
+
+.blind-builder.cf-game {
+  --bb-ink: #224d6b;
+  --bb-teal: #347eaf;
+  --bb-accent: #287eb7;
+  --bb-accent-hover: #176798;
+  --bb-line: #c7dfef;
+  --bb-glass: #f7fcfff0;
+  --bb-glass-solid: #f4fbfff2;
+  --bb-muted: #5c829e;
+  /* Board piece colors reuse the hub value tokens for continuity. */
+  --bb-red: var(--accountability, #c0533b);
+  --bb-blue: var(--growth-mindset, #347eaf);
+  --bb-shape-green: var(--customer-focus, #2f9e78);
+
+  position: relative;
+  container: bb-frame / inline-size;
+  isolation: isolate;
+  width: 100%;
+  min-width: 0;
+  overflow: clip;
+  border: 2px solid var(--bb-ink);
+  border-radius: 14px;
+  margin: 16px 0;
+  padding: 0;
+  color: var(--bb-ink);
+  background: #cce8fa;
+  font-family: Arial, sans-serif;
 }
-.blind-builder button, .blind-builder textarea { font: inherit; }
-.blind-builder button:focus-visible, .blind-builder textarea:focus-visible { outline: 3px solid var(--bb-red); outline-offset: 2px; }
-.blind-builder .bb-toolbar, .blind-builder .bb-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.blind-builder .bb-toolbar { border-bottom: 2px solid var(--bb-ink); padding-bottom: 15px; font-size: 12px; }
-.blind-builder .bb-toolbar strong { font-family: var(--display-font); font-size: 20px; }
-.blind-builder .bb-toolbar strong span { color: var(--bb-green); }
-.blind-builder .bb-timer { font: 700 22px var(--display-font); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.blind-builder .bb-timer small { font: 700 10px 'DM Sans', sans-serif; color: var(--muted); }
-.blind-builder .bb-urgent { color: var(--bb-red); }
-.blind-builder .bb-icon { width: 36px; height: 36px; display: grid; place-items: center; border: 1px solid var(--bb-line); background: var(--paper); }
-.blind-builder .bb-quiet { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--bb-line); background: var(--paper); color: var(--bb-ink); padding: 9px 12px; cursor: pointer; font-size: 12px; font-weight: 700; }
-.blind-builder .bb-quiet:hover { border-color: var(--bb-ink); }
-.blind-builder .bb-heading { padding: 23px 0 20px; }
-.blind-builder .bb-heading > span, .blind-builder .bb-label, .blind-builder .bb-composer label { font-size: 10px; font-weight: 700; color: var(--bb-green); }
-.blind-builder .bb-heading h2 { margin: 8px 0; font: 800 32px/1.05 var(--display-font); }
-.blind-builder .bb-heading p { color: var(--muted); font-size: 13px; line-height: 1.45; }
-.blind-builder .bb-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(240px, .8fr); gap: 16px; }
-.blind-builder .bb-boards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-content: start; }
-.blind-builder .bb-panel { min-width: 0; background: var(--paper); border: 1px solid var(--bb-line); padding: 12px; }
-.blind-builder .bb-label { display: flex; justify-content: space-between; align-items: center; gap: 6px; min-height: 27px; margin-bottom: 9px; }
-.blind-builder .bb-label span { color: var(--muted); font-size: 8px; text-align: right; }
-.blind-builder .bb-panel > p { margin-top: 10px; font-size: 10px; color: var(--muted); }
-.blind-builder .bb-board { display: grid; aspect-ratio: 1; grid-template-columns: repeat(5, minmax(0, 1fr)); border-top: 1px solid var(--bb-line); border-left: 1px solid var(--bb-line); }
-.blind-builder .bb-cell { position: relative; min-width: 0; display: grid; place-items: center; border-right: 1px solid var(--bb-line); border-bottom: 1px solid var(--bb-line); background: var(--canvas); }
-.blind-builder .bb-coordinate { position: absolute; top: 2px; left: 3px; color: #688077; font-size: 9px; font-weight: 700; }
-.blind-builder .bb-piece { display: block; width: 48%; aspect-ratio: 1; }
-.blind-builder .bb-circle { border-radius: 50%; }
-.blind-builder .bb-square { border-radius: 2px; }
-.blind-builder .bb-red { background: var(--bb-red); }
-.blind-builder .bb-blue { background: var(--bb-blue); }
-.blind-builder .bb-green { background: var(--bb-shape-green); }
-.blind-builder .bb-piece.bb-triangle { width: 0; height: 0; border-left: clamp(8px, 1.5vw, 18px) solid transparent; border-right: clamp(8px, 1.5vw, 18px) solid transparent; border-bottom: clamp(16px, 3vw, 32px) solid var(--bb-blue); background: transparent; }
-.blind-builder .bb-piece.bb-triangle.bb-red { border-bottom-color: var(--bb-red); }
-.blind-builder .bb-piece.bb-triangle.bb-green { border-bottom-color: var(--bb-shape-green); }
-.blind-builder .bb-conversation { display: flex; flex-direction: column; min-width: 0; min-height: 350px; background: var(--paper); border: 1px solid var(--bb-line); padding: 12px; }
-.blind-builder .bb-transcript { flex: 1; min-height: 110px; max-height: 280px; overflow: auto; border-top: 1px solid var(--bb-line); padding: 12px 0; }
-.blind-builder .bb-message { margin: 0 0 12px; max-width: 92%; }
-.blind-builder .bb-message.bb-player { margin-left: auto; }
-.blind-builder .bb-message span { display: block; color: var(--muted); font-size: 9px; text-transform: uppercase; margin-bottom: 3px; }
-.blind-builder .bb-message p { padding: 8px 10px; background: var(--canvas); font-size: 12px; line-height: 1.4; overflow-wrap: anywhere; }
-.blind-builder .bb-message.bb-player p { color: white; background: var(--bb-green); }
-.blind-builder .bb-wait { color: var(--muted); font-size: 11px; }
-.blind-builder .bb-composer { border-top: 1px solid var(--bb-line); padding-top: 10px; }
-.blind-builder .bb-composer label { display: block; }
-.blind-builder .bb-composer textarea { width: 100%; resize: vertical; border: 1px solid var(--bb-line); background: #fff; color: var(--bb-ink); padding: 8px; margin: 7px 0; font-size: 12px; }
-.blind-builder .bb-composer > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--muted); }
-.blind-builder .bb-primary { display: inline-flex; align-items: center; justify-content: center; gap: 8px; background: var(--bb-green); border: 1px solid var(--bb-green); color: #fff; padding: 9px 12px; cursor: pointer; font-size: 12px; font-weight: 700; }
-.blind-builder .bb-primary:hover { background: #235341; }
-.blind-builder button:disabled { opacity: .5; cursor: default; }
-.blind-builder .bb-score { display: flex; flex-direction: column; gap: 10px; background: var(--canvas); border: 1px solid var(--bb-line); padding: 16px; }
-.blind-builder .bb-score > span { color: var(--bb-green); font-size: 11px; font-weight: 700; }
-.blind-builder .bb-score > strong { font: 800 60px/1 var(--display-font); }
-.blind-builder .bb-score > strong small { font-size: 17px; color: var(--muted); }
-.blind-builder .bb-score dl { margin: 0; }
-.blind-builder .bb-score dl > div { display: flex; justify-content: space-between; border-top: 1px solid var(--bb-line); padding: 9px 0; font-size: 12px; }
-.blind-builder .bb-score dd { margin: 0; font-weight: 700; }
-.blind-builder .bb-score p { color: var(--muted); font-size: 12px; line-height: 1.5; }
-@media (max-width: 1120px) { .blind-builder .bb-layout { grid-template-columns: 1fr; } }
-@media (max-width: 510px) {
-  .blind-builder .bb-toolbar { align-items: flex-start; }
-  .blind-builder .bb-actions { flex-wrap: wrap; justify-content: flex-end; }
-  .blind-builder .bb-boards { gap: 6px; }
-  .blind-builder .bb-panel { padding: 6px; }
-  .blind-builder .bb-label { font-size: 8px; }
-  .blind-builder .bb-label span { font-size: 7px; }
-  .blind-builder .bb-coordinate { font-size: 7px; }
+
+/* Scene layers --------------------------------------------------------------- */
+.blind-builder.cf-game .bb-scene-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 48%;
+  z-index: -2;
+}
+
+.blind-builder.cf-game .bb-teammate {
+  position: absolute;
+  left: 1%;
+  bottom: 4%;
+  height: 86%;
+  width: 36%;
+  object-fit: contain;
+  object-position: bottom center;
+  z-index: 1;
+  pointer-events: none;
+  filter: drop-shadow(0 12px 14px #27373922);
+  animation: bb-portrait-in .4s ease-out;
+}
+
+.blind-builder.cf-game .bb-scene-counter {
+  position: absolute;
+  left: -2%;
+  bottom: -18%;
+  width: 104%;
+  height: 46%;
+  object-fit: fill;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Stage: the interactive content floats above the scene, offset from the portrait. */
+.blind-builder.cf-game .bb-stage {
+  position: relative;
+  z-index: 3;
+  padding: 86px 26px 26px;
+  margin-left: 32%;
+}
+
+.blind-builder.cf-game button,
+.blind-builder.cf-game textarea { font: inherit; }
+.blind-builder.cf-game button:focus-visible,
+.blind-builder.cf-game textarea:focus-visible { outline: 3px solid var(--bb-teal); outline-offset: 3px; }
+.blind-builder.cf-game button:disabled { opacity: .5; cursor: default; }
+
+/* Floating glassy toolbar ---------------------------------------------------- */
+.blind-builder.cf-game .bb-toolbar {
+  position: absolute;
+  inset: 18px 20px auto;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 0;
+  padding: 12px 18px;
+  border: 1px solid #ffffffd9;
+  border-radius: 18px;
+  background: var(--bb-glass);
+  box-shadow: 0 5px 20px #1e5c7c14;
+  backdrop-filter: blur(10px);
+  font-size: 12px;
+}
+.blind-builder.cf-game .bb-actions { display: flex; align-items: center; gap: 10px; }
+.blind-builder.cf-game .bb-toolbar strong { font: 800 18px Arial, sans-serif; letter-spacing: .5px; }
+.blind-builder.cf-game .bb-toolbar strong span { color: var(--bb-teal); font-weight: 700; }
+.blind-builder.cf-game .bb-timer { font: 700 20px Arial, sans-serif; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.blind-builder.cf-game .bb-timer small { font: 700 10px Arial, sans-serif; color: var(--bb-muted); margin-left: 2px; }
+.blind-builder.cf-game .bb-urgent { color: #a0432b; }
+.blind-builder.cf-game .bb-icon {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border: 1px solid #bcd3e4;
+  background: #faffff;
+  border-radius: 50%;
+  color: var(--bb-ink);
+  cursor: pointer;
+}
+.blind-builder.cf-game .bb-icon:hover { border-color: var(--bb-teal); }
+.blind-builder.cf-game .bb-quiet {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid var(--bb-line);
+  background: #f6fcff;
+  color: var(--bb-ink);
+  border-radius: 8px;
+  padding: 9px 13px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+}
+.blind-builder.cf-game .bb-quiet:hover { border-color: var(--bb-teal); }
+
+/* Headings ------------------------------------------------------------------- */
+.blind-builder.cf-game .bb-heading {
+  margin-bottom: 16px;
+  padding: 16px 20px;
+  border: 1px solid #ffffffd9;
+  border-radius: 16px;
+  background: var(--bb-glass-solid);
+  box-shadow: 0 6px 22px #1e5c7c12;
+  backdrop-filter: blur(6px);
+}
+.blind-builder.cf-game .bb-heading > span,
+.blind-builder.cf-game .bb-label,
+.blind-builder.cf-game .bb-composer label {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  color: var(--bb-muted);
+}
+.blind-builder.cf-game .bb-heading h2 { margin: 8px 0 6px; font: 800 28px/1.08 Arial, sans-serif; color: #275b80; }
+.blind-builder.cf-game .bb-heading p { color: #567a94; font-size: 13px; line-height: 1.5; margin: 0; }
+.blind-builder.cf-game .bb-heading .journey-status { display: inline-block; margin-top: 4px; }
+
+/* Layout --------------------------------------------------------------------- */
+.blind-builder.cf-game .bb-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(240px, .85fr);
+  gap: 14px;
+  align-items: start;
+}
+.blind-builder.cf-game .bb-boards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-content: start; }
+
+/* Glass panels --------------------------------------------------------------- */
+.blind-builder.cf-game .bb-panel,
+.blind-builder.cf-game .bb-conversation,
+.blind-builder.cf-game .bb-score {
+  min-width: 0;
+  border: 1px solid #ffffffd9;
+  border-radius: 16px;
+  background: var(--bb-glass-solid);
+  box-shadow: 0 8px 24px #1e5c7c14;
+  backdrop-filter: blur(6px);
+}
+.blind-builder.cf-game .bb-panel { padding: 14px; }
+.blind-builder.cf-game .bb-label { display: flex; justify-content: space-between; align-items: center; gap: 6px; min-height: 26px; margin-bottom: 10px; }
+.blind-builder.cf-game .bb-label span { color: var(--bb-muted); font-size: 8px; text-align: right; letter-spacing: .6px; }
+.blind-builder.cf-game .bb-panel > p { margin-top: 10px; font-size: 10px; color: var(--bb-muted); }
+
+/* Board ---------------------------------------------------------------------- */
+.blind-builder.cf-game .bb-board {
+  display: grid;
+  aspect-ratio: 1;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--bb-line);
+  border-left: 1px solid var(--bb-line);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.blind-builder.cf-game .bb-cell {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  place-items: center;
+  border-right: 1px solid var(--bb-line);
+  border-bottom: 1px solid var(--bb-line);
+  background: #ffffffcc;
+}
+.blind-builder.cf-game .bb-coordinate { position: absolute; top: 2px; left: 3px; color: #7aa0bb; font-size: 9px; font-weight: 700; }
+.blind-builder.cf-game .bb-piece { display: block; width: 48%; aspect-ratio: 1; }
+.blind-builder.cf-game .bb-circle { border-radius: 50%; }
+.blind-builder.cf-game .bb-square { border-radius: 2px; }
+.blind-builder.cf-game .bb-red { background: var(--bb-red); }
+.blind-builder.cf-game .bb-blue { background: var(--bb-blue); }
+.blind-builder.cf-game .bb-green { background: var(--bb-shape-green); }
+.blind-builder.cf-game .bb-piece.bb-triangle {
+  width: 0;
+  height: 0;
+  background: transparent;
+  border-left: clamp(8px, 1.5vw, 18px) solid transparent;
+  border-right: clamp(8px, 1.5vw, 18px) solid transparent;
+  border-bottom: clamp(16px, 3vw, 32px) solid var(--bb-blue);
+}
+.blind-builder.cf-game .bb-piece.bb-triangle.bb-red { border-bottom-color: var(--bb-red); }
+.blind-builder.cf-game .bb-piece.bb-triangle.bb-green { border-bottom-color: var(--bb-shape-green); }
+
+/* Conversation --------------------------------------------------------------- */
+.blind-builder.cf-game .bb-conversation { display: flex; flex-direction: column; min-height: 350px; padding: 14px; }
+.blind-builder.cf-game .bb-transcript { flex: 1; min-height: 110px; max-height: 280px; overflow: auto; border-top: 1px solid var(--bb-line); padding: 12px 0; }
+.blind-builder.cf-game .bb-message { margin: 0 0 12px; max-width: 92%; }
+.blind-builder.cf-game .bb-message.bb-player { margin-left: auto; }
+.blind-builder.cf-game .bb-message span { display: block; color: var(--bb-muted); font-size: 9px; text-transform: uppercase; letter-spacing: .8px; margin-bottom: 3px; }
+.blind-builder.cf-game .bb-message p {
+  padding: 9px 11px;
+  background: #eaf4fc;
+  border-radius: 12px 12px 12px 3px;
+  font-size: 12px;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  margin: 0;
+}
+.blind-builder.cf-game .bb-message.bb-player p { color: #fffdf0; background: var(--bb-accent); border-radius: 12px 12px 3px 12px; }
+.blind-builder.cf-game .bb-wait { color: var(--bb-muted); font-size: 11px; font-style: italic; }
+
+/* Instruction guide ---------------------------------------------------------- */
+.blind-builder.cf-game .bb-guide {
+  margin-top: 12px;
+  border: 1px solid var(--bb-line);
+  border-radius: 12px;
+  background: #eaf4fc;
+  overflow: hidden;
+}
+.blind-builder.cf-game .bb-guide > summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  cursor: pointer;
+  padding: 10px 12px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .4px;
+  color: #275b80;
+  list-style: none;
+}
+.blind-builder.cf-game .bb-guide > summary::-webkit-details-marker { display: none; }
+.blind-builder.cf-game .bb-guide > summary::after { content: '⌄'; font-size: 14px; color: var(--bb-muted); transition: transform .2s ease; }
+.blind-builder.cf-game .bb-guide[open] > summary::after { transform: rotate(180deg); }
+.blind-builder.cf-game .bb-guide > summary > span { font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--bb-muted); text-transform: uppercase; }
+.blind-builder.cf-game .bb-guide-body { padding: 4px 12px 14px; border-top: 1px solid var(--bb-line); }
+.blind-builder.cf-game .bb-guide-lead { margin: 10px 0 12px; font-size: 11px; line-height: 1.5; color: #567a94; }
+.blind-builder.cf-game .bb-guide-group { margin-bottom: 12px; }
+.blind-builder.cf-game .bb-guide-group > strong { display: block; font-size: 12px; color: var(--bb-ink); }
+.blind-builder.cf-game .bb-guide-group > small { display: block; margin: 2px 0 7px; font-size: 10px; line-height: 1.45; color: var(--bb-muted); }
+.blind-builder.cf-game .bb-guide-group ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.blind-builder.cf-game .bb-guide-group li { min-width: 0; }
+.blind-builder.cf-game .bb-guide-group li button {
+  max-width: 100%;
+  border: 1px solid var(--bb-line);
+  border-radius: 999px;
+  background: #fff;
+  color: #275b80;
+  padding: 6px 11px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.blind-builder.cf-game .bb-guide-group li button:hover { border-color: var(--bb-teal); background: #f0f8ff; }
+.blind-builder.cf-game .bb-guide-group li button:disabled { opacity: .5; cursor: default; }
+.blind-builder.cf-game .bb-guide-vocab { margin: 12px 0 0; padding-top: 10px; border-top: 1px dashed var(--bb-line); display: grid; gap: 6px; }
+.blind-builder.cf-game .bb-guide-vocab > div { display: grid; grid-template-columns: 78px 1fr; gap: 8px; font-size: 10.5px; line-height: 1.4; }
+.blind-builder.cf-game .bb-guide-vocab dt { font-weight: 800; color: var(--bb-ink); letter-spacing: .3px; }
+.blind-builder.cf-game .bb-guide-vocab dd { margin: 0; color: #567a94; overflow-wrap: anywhere; }
+
+/* Composer ------------------------------------------------------------------- */
+.blind-builder.cf-game .bb-composer { border-top: 1px solid var(--bb-line); padding-top: 10px; }
+.blind-builder.cf-game .bb-composer label { display: block; }
+.blind-builder.cf-game .bb-composer textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1px solid var(--bb-line);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--bb-ink);
+  padding: 9px 11px;
+  margin: 7px 0;
+  font-size: 12px;
+}
+.blind-builder.cf-game .bb-composer > div { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 10px; color: var(--bb-muted); }
+.blind-builder.cf-game .bb-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--bb-accent);
+  color: #fffdf0;
+  padding: 11px 16px;
+  cursor: pointer;
+  font: 700 12px Arial, sans-serif;
+}
+.blind-builder.cf-game .bb-primary:hover { background: var(--bb-accent-hover); }
+
+/* Score panel ---------------------------------------------------------------- */
+.blind-builder.cf-game .bb-score { display: flex; flex-direction: column; gap: 10px; padding: 18px; }
+.blind-builder.cf-game .bb-score > span { color: var(--bb-muted); font-size: 11px; font-weight: 800; letter-spacing: 1.2px; }
+.blind-builder.cf-game .bb-score > strong { font: 800 56px/1 Arial, sans-serif; color: #275b80; }
+.blind-builder.cf-game .bb-score > strong small { font-size: 17px; color: var(--bb-muted); }
+.blind-builder.cf-game .bb-score dl { margin: 0; }
+.blind-builder.cf-game .bb-score dl > div { display: flex; justify-content: space-between; border-top: 1px solid var(--bb-line); padding: 9px 0; font-size: 12px; }
+.blind-builder.cf-game .bb-score dd { margin: 0; font-weight: 700; }
+.blind-builder.cf-game .bb-score p { color: #567a94; font-size: 12px; line-height: 1.5; }
+
+@keyframes bb-portrait-in {
+  from { opacity: 0; transform: translateX(-16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .blind-builder.cf-game .bb-teammate { animation: none; }
+}
+
+/* Responsive ----------------------------------------------------------------- */
+@container bb-frame (max-width: 1120px) {
+  .blind-builder.cf-game .bb-layout { grid-template-columns: 1fr; }
+}
+
+@container bb-frame (max-width: 820px) {
+  /* Shrink the portrait to a corner cameo and give the stage full width. */
+  .blind-builder.cf-game .bb-teammate { width: 30%; height: 54%; left: -2%; bottom: 0; opacity: .9; }
+  .blind-builder.cf-game .bb-stage { margin-left: 0; padding: 82px 16px 20px; }
+  .blind-builder.cf-game .bb-scene-counter { height: 32%; bottom: -10%; }
+}
+
+@container bb-frame (max-width: 520px) {
+  .blind-builder.cf-game .bb-teammate { display: none; }
+  .blind-builder.cf-game .bb-scene-counter { display: none; }
+  .blind-builder.cf-game .bb-stage { padding: 92px 12px 18px; }
+  .blind-builder.cf-game .bb-toolbar { inset: 12px 12px auto; flex-wrap: wrap; padding: 10px 12px; }
+  .blind-builder.cf-game .bb-toolbar strong { font-size: 15px; }
+  .blind-builder.cf-game .bb-heading h2 { font-size: 23px; }
+  .blind-builder.cf-game .bb-boards { gap: 8px; }
+  .blind-builder.cf-game .bb-panel { padding: 9px; }
+  .blind-builder.cf-game .bb-label { font-size: 8px; }
+  .blind-builder.cf-game .bb-label span { font-size: 7px; }
+  .blind-builder.cf-game .bb-coordinate { font-size: 7px; }
+  .blind-builder.cf-game .bb-score > strong { font-size: 46px; }
 }
