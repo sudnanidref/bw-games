@@ -1,6 +1,46 @@
 # Accountability Game Verification
 
-Status: **implementation available, browser verification incomplete**. This is the target-project verification record; it does not inherit results from `docs/reference/docs/verification.md`.
+Status: **scoring update verified automatically; some browser acceptance remains incomplete**. This is the target-project verification record; it does not inherit results from `docs/reference/docs/verification.md`.
+
+## Latest scoring verification — 2026-09-30
+
+The final-score rule is now `clamp(round(rawScore), 0, 100)`, following Integrity's earned-points-and-cap approach. The shared PASS threshold remains 65. The former theoretical-speed divisor is no longer used. The result's primary score and the value sent on Lanjut are identical; the uncapped total remains visible as `Poin permainan`.
+
+| Check | Actual result |
+| --- | --- |
+| `npm test -- src/games/accountability` | PASS: 7 files, 79 tests. |
+| `npm test` | PASS: 30 files, 235 tests, including shared shell, journey, other games, and server checks. |
+| `npm run build` | PASS: both app/server TypeScript checks, Vite client build, and tsup server build. |
+| `git diff --check` | PASS. |
+| Rules preserved | Existing engine tests pass for +10/−5, zero floor, 20-second deadline, 120/500 ms locks, FIFO buyers, RNG, stale inputs, and no duplicated scoring. |
+| Result and handoff | Component tests use the real engine and confirm displayed score, raw detail, PASS/FAIL, buyer counts, and exactly-once Lanjut output. |
+| Archived sources | Eight source-package documents remain unchanged; their local index links to the current target rules. |
+
+Tested end-to-end component cases:
+
+| Accepted choices (correct, then wrong) | Raw points | Displayed/submitted final score | Status |
+| --- | --- | --- | --- |
+| 1 correct | 10 | 10 | FAIL |
+| 6 correct | 60 | 60 | FAIL |
+| 7 correct, 1 wrong | 65 | 65 | PASS |
+| 7 correct | 70 | 70 | PASS |
+| 10 correct | 100 | 100 | PASS |
+| 12 correct, 1 wrong | 115 | 100 | PASS |
+| 1 wrong at zero | 0 | 0 | FAIL |
+
+Unit coverage also checks negative, fractional, non-finite, and far-above-cap inputs. No changes were made to the shared PASS threshold, other games, database, or saved leaderboard entries.
+
+The [payment illustration report](payment-illustrations-verification.md) records actual desktop/mobile viewport and production asset checks from the preceding visual update. Those measurements are not new browser runs for this scoring change. The scoring/result changes were checked by automated component tests; native browser keyboard completion, physical touch testing, and a complete manual five-game replay were not repeated. The existing Vitest `environmentMatchGlobs` deprecation notice remains; all tests and the build passed.
+
+## Editor SVG import fix — 2026-09-30
+
+The TypeScript language server reproduced `TS2307` for all three payment SVG imports in `AccountabilityGame.test.tsx`. The file belonged to an inferred project because the repository had no root `tsconfig.json`; the existing app configuration already included `vite/client`, but the editor did not discover it.
+
+A root solution `tsconfig.json` now references the existing app and server configurations. A fresh TypeScript language-server check assigns the component, its test, and the shared audio module to `tsconfig.app.json`, and `server/index.ts` to `tsconfig.server.json`; all four files have zero semantic diagnostics. `npm run build`, including both TypeScript checks, passed again. This check used the installed language server directly; if an existing editor session retains stale diagnostics, restart its TypeScript server.
+
+## Initial integration record — 2026-09-29
+
+The sections below preserve the original implementation evidence. Their test counts, slot-availability blockers, and desktop no-scroll observations describe that earlier revision. Use the latest scoring section and payment illustration report above for current outcomes and limitations.
 
 ## Environment
 

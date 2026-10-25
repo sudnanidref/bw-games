@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="240" height="260" viewBox="0 0 240 260" fill="none">
+  <defs>
+    <linearGradient id="shell" x1="86" y1="81" x2="167" y2="224" gradientUnits="userSpaceOnUse"><stop stop-color="#648ab7"/><stop offset=".5" stop-color="#32669e"/><stop offset="1" stop-color="#244d83"/></linearGradient>
+    <linearGradient id="side" x1="156" y1="78" x2="202" y2="195" gradientUnits="userSpaceOnUse"><stop stop-color="#416b9e"/><stop offset="1" stop-color="#1a3c6a"/></linearGradient>
+    <linearGradient id="screen" x1="91" y1="111" x2="151" y2="151" gradientUnits="userSpaceOnUse"><stop stop-color="#d9f3ff"/><stop offset=".5" stop-color="#8dc9f5"/><stop offset="1" stop-color="#68a9de"/></linearGradient>
+    <linearGradient id="key" x1="0" y1="0" x2="0" y2="13" gradientUnits="userSpaceOnUse"><stop stop-color="#a9bfd8"/><stop offset="1" stop-color="#5f7fa7"/></linearGradient>
+  </defs>
+  <ellipse cx="123" cy="238" rx="103" ry="14" fill="#173c69" opacity=".13" transform="rotate(-6 123 238)"/>
+  <g stroke="#173c69" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Receipt printer housing and visible right-hand depth. -->
+    <path d="m125 78 57-11q27-4 32 19c9 29-2 57-23 64l-24-1Z" fill="url(#side)"/>
+    <path d="M191 75c18-3 21 19 15 43-3 13-10 21-19 24" stroke="#769ac4" stroke-width="2"/>
+    <ellipse cx="195" cy="108" rx="7" ry="17" fill="#173c69" stroke-width="1.5" transform="rotate(13 195 108)"/>
+    <path d="m161 101 23 7q12 6 6 22l-41 101q-5 12-17 12l-76-7Z" fill="#244c7e"/>
+    <path d="m179 121-44 106" stroke="#5a82b0" stroke-width="3"/>
+    <!-- Paper curls back into the printer. -->
+    <path d="m109 87 11-31q5-15 18-14l48 5q13 2 12 23l-12-1-12 29Z" fill="#fafdff"/>
+    <path d="M186 47q-8 0-12 15l-11 33m14-27 20 2" stroke="#738cac" stroke-width="2"/>
+    <path d="m133 53 15 1m6 1 18 2m-43 8 35 3m-39 7 16 1m6 1 13 1" stroke="#8da3bf" stroke-width="1.5"/>
+    <!-- Main sloping terminal body. -->
+    <path d="m98 87 74 8q13 1 8 15l-41 119q-3 9-13 9l-79-7q-15-1-10-18L78 103q6-17 20-16Z" fill="url(#shell)"/>
+    <path d="m96 95 72 8-43 127-79-8 41-116q3-9 9-11Z" fill="#406d9f" stroke="#81a3cb" stroke-width="1.5"/>
+    <path d="m98 100 69 7" stroke="#132e52" stroke-width="5"/>
+    <!-- Recessed glass display with reflection. -->
+    <path d="m92 107 73 7-13 37-74-7Z" fill="#203d64" stroke-width="2"/>
+    <path d="m96 113 60 6-9 25-61-5Z" fill="url(#screen)" stroke="#a0c5e8" stroke-width="1.5"/>
+    <path d="m115 115-22 25m37-23-22 25" stroke="#f5fcff" stroke-width="5" opacity=".45"/>
+    <!-- Twelve tactile number keys and colored action keys. -->
+    <g transform="matrix(1 .095 -.34 .94 81 152)" stroke-width="1.6">
+      <g fill="url(#key)">
+        <rect width="20" height="12" rx="2.5"/><rect x="24" width="20" height="12" rx="2.5"/><rect x="48" width="20" height="12" rx="2.5"/>
+        <rect y="16" width="20" height="12" rx="2.5"/><rect x="24" y="16" width="20" height="12" rx="2.5"/><rect x="48" y="16" width="20" height="12" rx="2.5"/>
+        <rect y="32" width="20" height="12" rx="2.5"/><rect x="24" y="32" width="20" height="12" rx="2.5"/><rect x="48" y="32" width="20" height="12" rx="2.5"/>
+      </g>
+      <g fill="#eef5fc" stroke="none"><circle cx="10" cy="5" r="1.4"/><circle cx="34" cy="5" r="1.4"/><circle cx="58" cy="5" r="1.4"/><circle cx="10" cy="21" r="1.4"/><circle cx="34" cy="21" r="1.4"/><circle cx="58" cy="21" r="1.4"/><circle cx="10" cy="37" r="1.4"/><circle cx="34" cy="37" r="1.4"/><circle cx="58" cy="37" r="1.4"/></g>
+      <rect y="49" width="20" height="14" rx="3" fill="#ed655e"/>
+      <rect x="24" y="49" width="20" height="14" rx="3" fill="#ffc629"/>
+      <rect x="48" y="49" width="20" height="14" rx="3" fill="#6fc788"/>
+      <path d="m7 53 6 6m0-6-6 6m23-3h8m16 0 3 3 6-6" stroke="#fff" stroke-width="1.5"/>
+    </g>
+    <path d="m52 222 62 6" stroke="#132d52" stroke-width="5"/>
+    <path d="m54 221 59 5" stroke="#84a9d1" stroke-width="1.5"/>
+  </g>
+</svg>

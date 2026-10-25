@@ -9,6 +9,9 @@ import { createGame, type GameSnapshot } from './engine'
 import { CharacterPortrait } from './CharacterPortrait'
 import { playCring } from './effects'
 import { normalizeAccountabilityScore } from './score'
+import qrisIllustration from './assets/payment-qris.svg'
+import cashIllustration from './assets/payment-cash.svg'
+import edcIllustration from './assets/payment-edc.svg'
 import './accountability-game.css'
 
 const paymentIcons = {
@@ -16,6 +19,13 @@ const paymentIcons = {
   edc: CreditCard,
   qris: QrCode,
 } satisfies Record<PaymentId, LucideIcon>
+
+// Presentation order is independent of paymentMethods, which also drives buyer RNG.
+const paymentChoices = [
+  { id: 'qris', label: 'Bayar dengan QRIS', image: qrisIllustration },
+  { id: 'cash', label: 'Bayar tunai', image: cashIllustration },
+  { id: 'edc', label: 'Bayar dengan EDC', image: edcIllustration },
+] as const satisfies readonly { id: PaymentId; label: string; image: string }[]
 
 export function AccountabilityGame({ context, onComplete, onCancel, onError }: GameProps) {
   const { audio, muted, toggleMute } = useGameMusic()
@@ -200,7 +210,6 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
             <div className="kasir-shop-sign" aria-hidden="true">WARUNG</div>
             <div className="kasir-request" aria-live="polite" aria-atomic="true">
               <span>{paymentMethods.find(({ id }) => id === snapshot.queue[0]?.paymentId)?.request}</span>
-              <strong>{paymentMethods.find(({ id }) => id === snapshot.queue[0]?.paymentId)?.label}</strong>
             </div>
             <div className="kasir-queue">
               {snapshot.queue.map((buyer, index) => {
@@ -230,35 +239,32 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
             {feedbackText}
           </div>
           <footer className="kasir-payment-controls" aria-label="Pilih metode pembayaran">
-            {paymentMethods.map((method) => {
-              const Icon = paymentIcons[method.id]
-              return (
-                <button
-                  className="kasir-payment-button"
-                  type="button"
-                  key={method.id}
-                  aria-label={method.label}
-                  aria-disabled={snapshot.lockReason !== 'none'}
-                  onPointerDown={() => {
-                    const buyer = snapshot.queue[0]
-                    if (snapshot.roundId && buyer) gestureRef.current = { roundId: snapshot.roundId, customerId: buyer.id }
-                  }}
-                  onPointerCancel={() => { gestureRef.current = null }}
-                  onKeyDown={handlePaymentKeyDown}
-                  onClick={() => choosePayment(method.id)}
-                >
-                  <Icon aria-hidden="true" size={23} strokeWidth={2.2} />
-                  <span>{method.label}</span>
-                </button>
-              )
-            })}
+            {paymentChoices.map((method) => (
+              <button
+                className="kasir-payment-button"
+                data-payment={method.id}
+                type="button"
+                key={method.id}
+                aria-label={method.label}
+                aria-disabled={snapshot.lockReason !== 'none'}
+                onPointerDown={() => {
+                  const buyer = snapshot.queue[0]
+                  if (snapshot.roundId && buyer) gestureRef.current = { roundId: snapshot.roundId, customerId: buyer.id }
+                }}
+                onPointerCancel={() => { gestureRef.current = null }}
+                onKeyDown={handlePaymentKeyDown}
+                onClick={() => choosePayment(method.id)}
+              >
+                <img className="kasir-payment-illustration" src={method.image} alt="" draggable={false} />
+              </button>
+            ))}
           </footer>
         </main>
       ) : (
         <main className="kasir-result" aria-labelledby="kasir-result-title">
           <h2 id="kasir-result-title" ref={resultHeadingRef} tabIndex={-1}>Waktu Habis!</h2>
-          <div className="kasir-result-score"><span>SKOR AKHIR</span><strong>{snapshot.score}</strong></div>
-          <p className="kasir-journey-score">Nilai perjalanan {journeyScore} / 100 <small className={`journey-status ${status.toLowerCase()}`}>{status}</small></p>
+          <div className="kasir-result-score" aria-label={`Skor akhir ${journeyScore} dari 100`}><span>SKOR AKHIR / 100</span><strong>{journeyScore}</strong></div>
+          <p className="kasir-journey-score">Poin permainan {snapshot.score} <small className={`journey-status ${status.toLowerCase()}`}>{status}</small></p>
           <dl className="kasir-result-statistics">
             <div><dt>Pembeli terlayani</dt><dd>{snapshot.servedCount}</dd></div>
             <div><dt>Pilihan salah</dt><dd>{snapshot.wrongCount}</dd></div>

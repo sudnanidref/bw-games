@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="280" viewBox="0 0 400 280" fill="none">
+  <defs>
+    <linearGradient id="body" x1="126" y1="97" x2="243" y2="194" gradientUnits="userSpaceOnUse"><stop stop-color="#fff"/><stop offset=".62" stop-color="#e5edf6"/><stop offset="1" stop-color="#a6bad3"/></linearGradient>
+    <linearGradient id="drawer" x1="76" y1="194" x2="209" y2="275" gradientUnits="userSpaceOnUse"><stop stop-color="#5d7599"/><stop offset="1" stop-color="#283f64"/></linearGradient>
+    <linearGradient id="side" x1="286" y1="169" x2="351" y2="238" gradientUnits="userSpaceOnUse"><stop stop-color="#627c9f"/><stop offset="1" stop-color="#293f63"/></linearGradient>
+    <linearGradient id="screen" x1="211" y1="38" x2="260" y2="66" gradientUnits="userSpaceOnUse"><stop stop-color="#a6d6d1"/><stop offset="1" stop-color="#527f8b"/></linearGradient>
+    <linearGradient id="key" x1="0" y1="0" x2="0" y2="16" gradientUnits="userSpaceOnUse"><stop stop-color="#a9bdd7"/><stop offset="1" stop-color="#6b86aa"/></linearGradient>
+  </defs>
+  <ellipse cx="204" cy="255" rx="184" ry="17" fill="#173c69" opacity=".13"/>
+  <g stroke="#173c69" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <!-- Rear cabinet and open cash drawer. -->
+    <path d="m102 169 216-5 47 15-10 59-59 29-193-31Z" fill="url(#side)"/>
+    <path d="m103 169 215-5 47 15-65 29-195-1Z" fill="#849bb9"/>
+    <path d="m98 181 216 7-37 41-228-18Z" fill="#1c3459"/>
+    <path d="m105 186 89 4-26 33-103-9Z" fill="#677c96"/>
+    <path d="m203 191 101 3-30 35-94-6Z" fill="#677c96"/>
+    <!-- Two separate stacks of banknotes make the cash drawer legible. -->
+    <path d="m112 185 80 6-24 26-86-7Z" fill="#a4d7ef" stroke-width="1.8"/>
+    <path d="m117 190 64 5-14 16-67-5Z" stroke="#5b9cc3" stroke-width="1.3"/>
+    <ellipse cx="141" cy="200" rx="12" ry="6" fill="#74b5d5" stroke-width="1"/>
+    <path d="m218 192 80 5-24 26-85-7Z" fill="#f5b7c5" stroke-width="1.8"/>
+    <path d="m221 197 65 4-15 16-67-5Z" stroke="#d886a0" stroke-width="1.3"/>
+    <ellipse cx="246" cy="207" rx="12" ry="6" fill="#e392a8" stroke-width="1"/>
+    <path d="m55 216 220 13 28-25v53l-29 13-220-14Z" fill="url(#side)"/>
+    <path d="m45 208 232 14-3 48-229-15Z" fill="url(#drawer)"/>
+    <path d="m51 216 217 13-1 32-215-13Z" stroke="#839abb" stroke-width="1.5"/>
+    <ellipse cx="158" cy="240" rx="9" ry="9.5" fill="#eef4fa" stroke-width="2"/>
+    <path d="M158 236v8m-2-7h4" stroke-width="2"/>
+    <!-- Sloped register body. -->
+    <path d="m151 92 176 8q13 1 13 13l-2 58-28 23-225-12q-13-1-8-14l16-27Z" fill="url(#body)"/>
+    <path d="m325 103-23 72 8 19 28-23 2-58q-1-10-15-10Z" fill="#afc1d7" stroke="none"/>
+    <path d="m81 174 221 10 30-17" stroke="#fff" stroke-width="3"/>
+    <!-- Receipt slot and curled paper. -->
+    <path d="m137 113 62 3-12 24-73-4Z" fill="#465e81"/>
+    <path d="m141 110 50 3-9 18-57-3Z" fill="#203a60" stroke-width="1.8"/>
+    <path d="m150 80 51 3q10 2 9 15l-13-1-16 37-55-4 13-38q4-12 11-12Z" fill="#fcfdff"/>
+    <path d="M201 83q-8 1-12 15l-8 36m13-37 16 1" stroke="#708cad" stroke-width="2"/>
+    <path d="m150 90 31 2m-36 7 31 2m-34 7 28 2m-31 7 13 1m6 0 9 1" stroke="#849cba" stroke-width="1.5"/>
+    <!-- Display on a sturdy stem. -->
+    <path d="m226 69 24 1 1 29-26-1Z" fill="#496482"/>
+    <path d="m218 97 43 2 8 8-58-2Z" fill="#7d94b1" stroke-width="2"/>
+    <path d="M208 23h60q10 0 10 10v37q0 8-9 8l-62-2q-9 0-9-9V33q0-10 10-10Z" fill="#a9c3df"/>
+    <path d="m208 28 58 1q6 0 6 6v31q0 6-6 6l-57-2q-6 0-6-6V35q0-7 5-7Z" fill="#354c6d" stroke="#e3edf8" stroke-width="2"/>
+    <path d="m212 37 51 1v24l-51-1Z" fill="url(#screen)" stroke-width="2"/>
+    <path d="M218 43h22" stroke="#c6e9e6" stroke-width="2" opacity=".6"/>
+    <!-- Keypad follows the same perspective as the register. -->
+    <g transform="matrix(1 .04 -.38 .94 213 116)" stroke-width="1.8">
+      <rect x="-5" y="-5" width="92" height="51" rx="4" fill="#314e73"/>
+      <g fill="url(#key)">
+        <rect width="18" height="11" rx="2"/><rect x="22" width="18" height="11" rx="2"/><rect x="44" width="18" height="11" rx="2"/>
+        <rect y="15" width="18" height="11" rx="2"/><rect x="22" y="15" width="18" height="11" rx="2"/><rect x="44" y="15" width="18" height="11" rx="2"/>
+        <rect y="30" width="18" height="11" rx="2"/><rect x="22" y="30" width="18" height="11" rx="2"/>
+      </g>
+      <rect x="66" width="15" height="11" rx="2" fill="#229ad4"/>
+      <rect x="66" y="15" width="15" height="26" rx="2" fill="#3fb3e9"/>
+      <rect x="44" y="30" width="18" height="11" rx="2" fill="#ffc629"/>
+      <path d="M5 3h6m16 0h6m16 0h6M5 18h6m16 0h6m16 0h6M5 33h6m16 0h6m15 0h6" stroke="#edf5fc" stroke-width="1.3"/>
+    </g>
+  </g>
+</svg>

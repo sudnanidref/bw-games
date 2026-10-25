@@ -26,8 +26,8 @@
 
 - [x] 5.1 Implement the minimal Indonesian start screen, including only title, three configured score values, method preview, and Mulai with its changing countdown; verify U01 and U14 against the rendered accessible content.
 - [x] 5.2 Draw the warung, cashier, payment tokens, and queue with original local SVG/CSS art, keeping exactly three anonymous buyers visible and showing only the active buyer's speech request plus persistent methods for waiting buyers; verify U13 and that at least six character variants are distinguishable.
-- [x] 5.3 Implement the in-round HUD, exact request copy/labels, stable TUNAI–EDC–QRIS controls, fixed feedback space, urgent-time emphasis, and frozen result view with raw score/statistics and the specified accountability message; verify zero-score results and that payment controls are inactive on results.
-- [x] 5.4 Add namespaced responsive game styling for desktop acceptance at 1280×720 and 1440×900, including compacting the enclosing stage only while Accountability is mounted; use no shared CSS file changes and affect no other slot. Verify U06 has no scroll/overlap at desktop targets and no horizontal clipping on narrower layouts.
+- [x] 5.3 Implement the in-round HUD, request copy/labels, stable illustrated QRIS–cash–EDC controls, fixed feedback space, urgent-time emphasis, and frozen result with final score, raw points, statistics, and the accountability message; verify zero-score results and inactive payment controls on results.
+- [x] 5.4 Add namespaced responsive styling for desktop 1280×720/1440×900 and narrow/landscape layouts. Verify complete objects, no overlap, and no horizontal clipping; shorter layouts may scroll vertically under the revised payment-object requirements. Do not change shared styles or other games.
 - [x] 5.5 Update the Accountability operational README with game flow, controls, local run/test/build commands, source-document links, score rules, asset manifest, and AU Passata fallback/prerequisite; verify links and commands match the repository rather than the source project's standalone Vite commands.
 
 ## 6. Connect input, focus, motion, and success feedback
@@ -39,13 +39,20 @@
 
 ## 7. Complete handoff, documentation, and Accountability registration
 
-- [x] 7.1 Keep the final result mounted until Lanjut; map raw points with `clamp(round(rawScore * 100 / 1670), 0, 100)` only when calling `onComplete({ valueId: 'accountability', score })`; verify 0, intermediate, maximum, and over-maximum boundaries and exactly-once completion.
+- [x] 7.1 Keep the result mounted until Lanjut; use `clamp(round(rawScore), 0, 100)` for both the primary final score and `onComplete({ valueId: 'accountability', score })`. Retain raw points as a detail and use the shared PASS threshold of 65. Verify zero, intermediate, 60/65/70 threshold cases, the 100 cap, above-cap totals, and exactly-once completion.
 - [x] 7.2 Implement early unmount cancellation and handled failure callbacks without awarding a score; verify contract tests reject wrong value IDs, duplicate completions, invalid scores, and mutations to prior results.
-- [x] 7.3 Update `src/games/index.ts` for only Accountability (component, `available`, and briefing) after component tests pass; verify all five IDs and their order remain unchanged and only Accountability becomes available.
-- [x] 7.4 Verify no in-game Main Lagi control exists and Lanjut calls `onComplete` once with one Accountability score; defer full-shell navigation to Growth Mindset and U08 full-run replay until Integrity and Collaborative are available.
+- [x] 7.3 Register Accountability in `src/games/index.ts` with its component and briefing after component tests pass; preserve all five IDs, their order, and the other owners' slot registrations. The subsequent visual/scoring updates require no registry change.
+- [x] 7.4 Verify no in-game Main Lagi control exists and Lanjut calls `onComplete` once with one Accountability score. Full five-game browser replay remains a separate acceptance check; do not treat automated shell tests as manual replay evidence.
 
 ## 8. Run final integration acceptance and report actual results
 
 - [x] 8.1 Run `npm run typecheck`, `npm test`, and `npm run build`; record actual commands, exit statuses, environment, and outcomes in `src/games/accountability/docs/verification.md` without marking unrun checks as PASS.
-- [ ] 8.2 Verify the Accountability component as stage 03 in a browser QA mount with `valueId: accountability` and two prior results at 1280×720 and 1440×900; perform reachable component checks, inspect controls/console/network, check narrower layouts for horizontal clipping, and record actual results. Do not unlock or fake Integrity/Collaborative; defer U08 full-run replay and U09 shell-route production play until those slots are pulled into the workspace.
+- [ ] 8.2 Complete remaining browser acceptance (full native keyboard sequence, real touch devices, full five-game replay, console/network checks). The payment-object update has recorded viewport and production-asset checks in `src/games/accountability/docs/payment-illustrations-verification.md`; do not mark all browser acceptance complete from those partial checks.
 - [x] 8.3 Report U16 identical-font verification as `NOT RUN`/blocked until a licensed local AU Passata web font is supplied; report whole-application zero-CDN verification as blocked by the pre-existing Google Fonts import in `src/styles.css`, and distinguish that inherited request from game-owned assets.
+
+## 9. Align scoring and synchronize the current implementation docs
+
+- [x] 9.1 Replace theoretical-maximum normalization with direct earned points capped at 100, matching Integrity's final-score approach while keeping Accountability's +10/−5 rules and shared PASS ≥ 65.
+- [x] 9.2 Display the same final score that Lanjut submits; retain raw points and statistics, and add real-engine component regressions for thresholds, penalties, over-cap totals, and one-time completion.
+- [x] 9.3 Run the complete repository tests and production build, then record their actual outcomes in the target verification report: 235 tests in 30 files passed; the production build includes both TypeScript checks and passed.
+- [x] 9.4 Update proposal, design, requirements, tasks, README, and target verification documentation for the current controls and scoring. Keep the eight archived source-package files unchanged.

@@ -10,12 +10,13 @@ describe('Accountability buyers', () => {
     expect(visualVariants.size).toBe(characters.length)
   })
 
-  it('creates a three-person queue with unique IDs and valid fixed requests', () => {
+  it('creates a three-person queue with unique IDs, unique characters, and valid fixed requests', () => {
     let next = 0
     const queue = createInitialQueue(() => `buyer-${++next}`, () => 0)
 
     expect(queue).toHaveLength(3)
     expect(new Set(queue.map((buyer) => buyer.id)).size).toBe(3)
+    expect(new Set(queue.map((buyer) => buyer.characterId)).size).toBe(3)
     expect(queue.every((buyer) => characters.some(({ id }) => id === buyer.characterId))).toBe(true)
     expect(queue.every((buyer) => paymentMethods.some(({ id }) => id === buyer.paymentId))).toBe(true)
   })
@@ -45,5 +46,11 @@ describe('Accountability buyers', () => {
     expect(first.paymentId).not.toBe(second.paymentId)
     expect(firstIndex).toBe(2)
     expect(secondIndex).toBe(2)
+  })
+
+  it('excludes characters that are already visible while keeping the draw random', () => {
+    const buyer = createBuyer('buyer-3', () => 0, ['short-cut', 'ponytail'])
+
+    expect(buyer.characterId).toBe('curly-hair')
   })
 })

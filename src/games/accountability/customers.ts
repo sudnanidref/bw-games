@@ -19,12 +19,24 @@ export interface Buyer {
 
 export type RandomSource = () => number
 
-export function createBuyer(id: string, random: RandomSource = Math.random): Buyer {
-  const character = characters[Math.floor(random() * characters.length)]
+export function createBuyer(
+  id: string,
+  random: RandomSource = Math.random,
+  excludedCharacterIds: readonly CharacterId[] = [],
+): Buyer {
+  const availableCharacters = characters.filter(({ id: characterId }) => !excludedCharacterIds.includes(characterId))
+  const characterPool = availableCharacters.length > 0 ? availableCharacters : characters
+  const character = characterPool[Math.floor(random() * characterPool.length)]
   const payment = paymentMethods[Math.floor(random() * paymentMethods.length)]
   return { id, characterId: character.id, paymentId: payment.id }
 }
 
 export function createInitialQueue(nextId: () => string, random: RandomSource = Math.random): Buyer[] {
-  return Array.from({ length: gameConfig.queueSize }, () => createBuyer(nextId(), random))
+  const queue: Buyer[] = []
+
+  while (queue.length < gameConfig.queueSize) {
+    queue.push(createBuyer(nextId(), random, queue.map(({ characterId }) => characterId)))
+  }
+
+  return queue
 }
