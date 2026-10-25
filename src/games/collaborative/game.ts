@@ -115,3 +115,10 @@ export function limitInstruction(instruction: string, limit = MAX_INSTRUCTION_CH
   }
   return result
 }
+
+/** True when the board holds exactly the target pieces: same shape, color, and cell, nothing extra. */
+export function boardMatchesTarget(target: Board, board: Board): boolean {
+  if (target.length === 0 || board.length !== target.length) return false
+  return target.every((piece) => board.some((object) => object.shape === piece.shape && object.color === piece.color
+    && object.row === piece.row && object.column === piece.column))
+}

@@ -148,6 +148,35 @@ describe('Blind Builder stage', () => {
     await screen.findByText(/Terlalu banyak instruksi dalam satu menit/)
   })
 
+  it('finishes the round automatically once the teammate board matches the target', async () => {
+    vi.stubGlobal('fetch', vi.fn(async (_url: string, options?: RequestInit) => {
+      const request = JSON.parse(options?.body as string)
+      return { ok: true, json: async () => ({ roundId: request.roundId, outcome: interpretInstruction(request.instruction, request.board) }) }
+    }))
+    const onComplete = vi.fn()
+    render(<BlindBuilder context={context} onComplete={onComplete} onCancel={vi.fn()} onError={vi.fn()} />)
+    // Read the target the player sees, e.g. "Baris 2, kolom 4, kotak merah" -> "Taruh kotak merah di B4".
+    const pieces = within(screen.getByRole('grid', { name: 'Papan target kamu' })).getAllByRole('gridcell')
+      .map((cell) => cell.getAttribute('aria-label')!.match(/^Baris (\d), kolom (\d), (.+)$/))
+      .filter((match): match is RegExpMatchArray => Boolean(match) && match![3] !== 'kosong')
+    expect(pieces.length).toBeGreaterThanOrEqual(3)
+    for (const [index, [, row, column, piece]] of pieces.entries()) {
+      expect(screen.queryByText('SKOR TIM')).toBeNull()
+      fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: `Taruh ${piece} di ${String.fromCharCode(64 + Number(row))}${column}` } })
+      fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+      if (index === pieces.length - 1) break
+      await waitFor(() => expect(document.querySelectorAll('.bb-message.bb-teammate')).toHaveLength(index + 2))
+      expect([...document.querySelectorAll('.bb-message.bb-teammate p')].at(-1)?.textContent).toMatch(/^Menaruh /)
+    }
+    await screen.findByText('SKOR TIM')
+    expect(screen.getByText(/RONDE SELESAI OTOMATIS/)).toBeTruthy()
+    expect(screen.getByText('Akurasi').parentElement?.textContent).toContain('100%')
+    expect(screen.getByText('Komunikasi').parentElement?.textContent).toContain('100%')
+    expect(onComplete).not.toHaveBeenCalled()
+    fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
+    expect(onComplete.mock.calls[0][0].score).toBeGreaterThanOrEqual(99)
+  })
+
   it('plays every guide example from the chatbox in order', async () => {
     // Route the instruction service to the real deterministic interpreter.
     vi.stubGlobal('fetch', vi.fn(async (_url: string, options?: RequestInit) => {

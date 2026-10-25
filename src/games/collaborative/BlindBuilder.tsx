@@ -4,7 +4,7 @@ import type { GameProps } from '../contract'
 import { scoreStatus } from '../score-status'
 import { useGameMusic } from '../useGameMusic'
 import { outcomeMatchesSource, parseCurrentInstructionResponse, type InstructionRequest } from './ai-contract'
-import { BOARD_SIZE, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, applyAction, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, type Board, type RoundState, type Score } from './game'
+import { BOARD_SIZE, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, applyAction, boardMatchesTarget, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, type Board, type RoundState, type Score } from './game'
 import { GUIDE_GROUPS, GUIDE_VOCAB } from './guide'
 import './style.css'
 
@@ -19,6 +19,8 @@ type Round = {
   rejected: number
   remaining: number
   score: Score | null
+  /** Set when the round ended because the board matched the target. */
+  autoCompleted?: boolean
 }
 
 const SHAPE_LABEL: Record<string, string> = { circle: 'lingkaran', square: 'kotak', triangle: 'segitiga' }
@@ -216,6 +218,12 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
     }
     const next: Round = { ...latest, state: 'active', board, counted: latest.counted + 1, rejected,
       transcript: [...latest.transcript, { speaker: 'player', text }, { speaker: 'teammate', text: teammateText }] }
+    if (boardMatchesTarget(next.target, next.board)) {
+      // Every piece is in place: end the round now so the remaining time counts toward the score.
+      setReaction('happy')
+      finalize({ ...next, autoCompleted: true }, false)
+      return
+    }
     roundRef.current = next
     setReaction(nextReaction)
     setRound(next)
@@ -243,7 +251,7 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
     </div>
 
     {round.state === 'results' && round.score ? <>
-      <div className="bb-heading"><span>RONDE SELESAI</span><h2>{round.score.final >= 80 ? 'Kompak!' : round.score.final >= 50 ? 'Makin dekat.' : 'Draf pertama.'}</h2><small className={`journey-status ${scoreStatus(round.score.final).toLowerCase()}`}>{scoreStatus(round.score.final)}</small><p>Rekanmu mengikuti {round.score.exactMatches} dari {round.target.length} detail target dengan tepat.</p></div>
+      <div className="bb-heading"><span>{round.autoCompleted ? 'POLA LENGKAP · RONDE SELESAI OTOMATIS' : 'RONDE SELESAI'}</span><h2>{round.score.final >= 80 ? 'Kompak!' : round.score.final >= 50 ? 'Makin dekat.' : 'Draf pertama.'}</h2><small className={`journey-status ${scoreStatus(round.score.final).toLowerCase()}`}>{scoreStatus(round.score.final)}</small><p>Rekanmu mengikuti {round.score.exactMatches} dari {round.target.length} detail target dengan tepat.{round.autoCompleted ? ' Semua bentuk sudah tepat, jadi ronde langsung selesai dan sisa waktumu ikut dihitung.' : ''}</p></div>
       <div className="bb-layout bb-results">
         <div className="bb-boards">
           <div className="bb-panel"><div className="bb-label">TARGET <span>ACUAN</span></div><BoardView board={round.target} label="Papan target" /></div>

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { applyAction, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, type Board } from './game'
+import { applyAction, boardMatchesTarget, calculateScore, countInstructionCharacters, generateTarget, limitInstruction, MAX_INSTRUCTION_CHARACTERS, ROUND_SECONDS, type Board } from './game'
 
 const piece = { shape: 'circle' as const, color: 'red' as const, row: 0, column: 0 }
 
@@ -43,6 +43,15 @@ describe('Blind Builder board and score', () => {
     expect(calculateScore(target, [], { ...stats, countedPlayerInstructions: 50, rejectedPlayerInstructions: 50, timedOut: true }).final).toBe(0)
     expect(calculateScore(target, target, { ...stats, timedOut: true }).speed).toBe(0)
     expect(calculateScore(target, [...target, { shape: 'square', color: 'blue', row: 1, column: 1 }], stats).accuracy).toBe(50)
+  })
+
+  it('matches the target only when every piece is exact and nothing is extra', () => {
+    const target: Board = [piece, { shape: 'square', color: 'blue', row: 2, column: 3 }]
+    expect(boardMatchesTarget(target, [...target].reverse())).toBe(true)
+    expect(boardMatchesTarget(target, [piece])).toBe(false)
+    expect(boardMatchesTarget(target, [piece, { shape: 'square', color: 'red', row: 2, column: 3 }])).toBe(false)
+    expect(boardMatchesTarget(target, [...target, { shape: 'triangle', color: 'green', row: 4, column: 4 }])).toBe(false)
+    expect(boardMatchesTarget([], [])).toBe(false)
   })
 
   it('limits instructions by non-whitespace characters', () => {
