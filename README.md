@@ -4,7 +4,7 @@ A desktop-first shell for five independent mini-games in the fixed order Integri
 
 ## Local development
 
-Requires Node.js 22+ and npm. Run `npm ci`, then `npm run dev`. Open http://127.0.0.1:5173/; the API runs on http://127.0.0.1:3001/ and Vite proxies `/api` requests. Check `curl http://127.0.0.1:3001/api/health` for `{"status":"ok"}`. Run `npm run typecheck`, `npm test`, and `npm run build` before integration.
+Requires Node.js 22.22.2+ (pinned in `.nvmrc`; run `nvm use`) and npm. On older Node the SQLite driver crashes the API, so it now exits at startup with a message instead of failing every `/api` call. Run `npm ci`, then `npm run dev`. Open http://127.0.0.1:5173/; the API runs on http://127.0.0.1:3001/ and Vite proxies `/api` requests. Check `curl http://127.0.0.1:3001/api/health` for `{"status":"ok"}`. Run `npm run typecheck`, `npm test`, and `npm run build` before integration.
 
 For production, `npm run build` creates `dist/` for a static web host and `dist-server/` for the Node API (`npm start`). Proxy `/api` to the API service on `PORT` (default 3001); configure `HOST` if binding beyond localhost is required. Keep the SQLite data directory writable and persistent. Do not publish a leaderboard as an authenticated or prize-grade ranking.
 

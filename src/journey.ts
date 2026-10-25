@@ -5,13 +5,25 @@ export interface Journey {
   playerName: string
   runId: string
   results: readonly GameResult[]
+  /** Stages passed with "Lewati game". Their 0 is a placeholder, so the run can't go to the leaderboard. */
+  skipped?: readonly ValueId[]
 }
 
 export function createJourney(name: string, runId: string): Journey | null {
   const playerName = name.trim()
   const length = Array.from(playerName).length
   if (length < 1 || length > 24 || !runId) return null
-  return { playerName, runId, results: [] }
+  return { playerName, runId, results: [], skipped: [] }
+}
+
+export function skipStage(journey: Journey): Journey {
+  const current = currentValue(journey)
+  if (!current) return journey
+  return { ...journey, results: [...journey.results, { valueId: current, score: 0 }], skipped: [...(journey.skipped ?? []), current] }
+}
+
+export function isSkipped(journey: Journey, valueId: ValueId): boolean {
+  return Boolean(journey.skipped?.includes(valueId))
 }
 
 export function currentValue(journey: Journey): ValueId | null {

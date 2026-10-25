@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { games } from './games'
-import { completeStage, createJourney, currentValue, stageStatus, totalScore } from './journey'
+import { completeStage, createJourney, currentValue, isSkipped, skipStage, stageStatus, totalScore } from './journey'
+import { submissionFor } from './leaderboard-client'
 
 describe('five-value journey', () => {
   it('rejects blank and long names and starts at Integrity', () => {
@@ -34,5 +35,23 @@ describe('five-value journey', () => {
     expect(currentValue(journey)).toBeNull()
     expect(totalScore(journey)).toBe(200)
     expect(completeStage(journey, { valueId: 'customer-focus', score: 100 }, true)).toBe(journey)
+  })
+
+  it('skips the current stage with 0 points, in order, and keeps the run off the leaderboard', () => {
+    let journey = createJourney('Ayu', 'run')!
+    journey = skipStage(journey)
+    expect(currentValue(journey)).toBe('collaborative')
+    expect(isSkipped(journey, 'integrity')).toBe(true)
+    expect(isSkipped(journey, 'collaborative')).toBe(false)
+    journey = completeStage(journey, { valueId: 'collaborative', score: 70 }, true)
+    for (let index = 0; index < 3; index += 1) journey = skipStage(journey)
+    expect(journey.results.map((result) => result.score)).toEqual([0, 70, 0, 0, 0])
+    expect(totalScore(journey)).toBe(70)
+    expect(submissionFor(journey)).toBeNull()
+    expect(skipStage(journey)).toBe(journey)
+
+    let clean = createJourney('Ayu', 'run-2')!
+    for (const game of games) clean = completeStage(clean, { valueId: game.id, score: 50 }, true)
+    expect(submissionFor(clean)?.total).toBe(250)
   })
 })

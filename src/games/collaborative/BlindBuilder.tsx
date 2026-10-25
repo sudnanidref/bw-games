@@ -35,7 +35,7 @@ function newRound(id: number): Round {
 }
 
 function BoardView({ board, label }: { board: Board; label: string }) {
-  return <div className="bb-board" role="grid" aria-label={label}>
+  return <div className="bb-board-fit"><div className="bb-board" role="grid" aria-label={label}>
     {Array.from({ length: BOARD_SIZE * BOARD_SIZE }, (_, index) => {
       const row = Math.floor(index / BOARD_SIZE)
       const column = index % BOARD_SIZE
@@ -45,7 +45,7 @@ function BoardView({ board, label }: { board: Board; label: string }) {
         {object && <span className={`bb-piece bb-${object.shape} bb-${object.color}`} aria-hidden="true" />}
       </div>
     })}
-  </div>
+  </div></div>
 }
 
 function formatTime(seconds: number) {
@@ -53,9 +53,12 @@ function formatTime(seconds: number) {
 }
 
 function InstructionGuide({ onPick, disabled }: { onPick: (example: string) => void; disabled: boolean }) {
-  return <details className="bb-guide">
-    <summary>Cara memberi instruksi <span>contoh yang bisa diproses</span></summary>
-    <div className="bb-guide-body">
+  const [open, setOpen] = useState(false)
+  return <div className={`bb-guide${open ? ' bb-guide-open' : ''}`}>
+    <button type="button" className="bb-guide-toggle" aria-expanded={open} aria-controls="bb-guide-body" onClick={() => setOpen((value) => !value)}>
+      <span>Cara memberi instruksi</span><small>{open ? 'tutup & lihat chat' : 'lihat contoh'}</small>
+    </button>
+    {open && <div className="bb-guide-body" id="bb-guide-body">
       <p className="bb-guide-lead">Rekanmu memahami tiga tindakan. Tulis satu tindakan per instruksi, maksimal {MAX_INSTRUCTION_CHARACTERS} karakter. Klik contoh untuk memakainya.</p>
       {GUIDE_GROUPS.map((group) => <div className="bb-guide-group" key={group.title}>
         <strong>{group.title}</strong>
@@ -67,8 +70,8 @@ function InstructionGuide({ onPick, disabled }: { onPick: (example: string) => v
       <dl className="bb-guide-vocab">{GUIDE_VOCAB.map((item) => <div key={item.label}>
         <dt>{item.label}</dt><dd>{item.values}</dd>
       </div>)}</dl>
-    </div>
-  </details>
+    </div>}
+  </div>
 }
 
 export function BlindBuilder({ context, onComplete, onCancel, onError }: GameProps) {
@@ -158,16 +161,21 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
     setInstruction('')
 
     let body: unknown
+    let failure = 'Saya belum bisa memprosesnya. Coba ucapkan ulang; papan belum saya ubah.'
     try {
       const response = await fetch('/api/instruction', { method: 'POST', headers: { 'content-type': 'application/json' },
         body: JSON.stringify(request), signal: controller.signal })
+      // 503 = the service ran but couldn't interpret it; 429 = per-minute limit; anything else means the API is down or unreachable.
+      if (response.status === 429) failure = 'Terlalu banyak instruksi dalam satu menit. Tunggu sebentar, lalu kirim lagi; papan belum berubah.'
+      else if (!response.ok && response.status !== 503) failure = 'Saya tidak terhubung ke server instruksi, jadi papan belum berubah. Coba kirim lagi sebentar lagi.'
       if (!response.ok) throw new Error('Instruction service unavailable.')
       body = await response.json()
-    } catch {
+    } catch (error) {
+      if (error instanceof TypeError) failure = 'Saya tidak terhubung ke server instruksi, jadi papan belum berubah. Coba kirim lagi sebentar lagi.'
       const latest = roundRef.current
       if (!closedRef.current && latest.id === request.roundId && latest.state === 'resolving') {
         const next: Round = { ...latest, state: 'active', transcript: [...latest.transcript,
-          { speaker: 'player', text }, { speaker: 'teammate', text: 'Saya belum bisa memprosesnya. Coba ucapkan ulang; papan belum saya ubah.' }] }
+          { speaker: 'player', text }, { speaker: 'teammate', text: failure }] }
         roundRef.current = next
         setReaction('worried')
         setRound(next)
@@ -219,9 +227,9 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
     : round.state === 'results' ? (finalScore >= 50 ? 'confused-happy' : 'worried')
       : reaction === 'happy' ? 'confused-happy' : reaction === 'worried' ? 'worried' : 'confused'
   const moodLabel = portrait === 'confused-happy' ? 'senang' : portrait === 'worried' ? 'cemas' : 'siap membantu'
-  return <section className="blind-builder cf-game" aria-label="Blind Builder" onPointerDownCapture={() => { void audio.start() }} onKeyDownCapture={() => { void audio.start() }}>
+  return <section className="blind-builder" aria-label="Blind Builder" onPointerDownCapture={() => { void audio.start() }} onKeyDownCapture={() => { void audio.start() }}>
     <img className="bb-scene-bg" src={`${art}lobby.png`} alt="" aria-hidden="true" />
-    <img key={portrait} className={`bb-teammate bb-teammate-${portrait}`} src={`${art}${portrait}.png`} alt={`Rekan setim, ${moodLabel}`} />
+    <img key={portrait} className={`bb-portrait bb-portrait-${portrait}`} src={`${art}${portrait}.png`} alt={`Rekan setim, ${moodLabel}`} />
     <img className="bb-scene-counter" src={`${art}counter.png`} alt="" aria-hidden="true" />
     <div className="bb-stage">
     <div className="bb-toolbar">
@@ -235,7 +243,7 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
     </div>
 
     {round.state === 'results' && round.score ? <>
-      <div className="bb-heading"><span>RONDE SELESAI</span><h2>{round.score.final >= 80 ? 'Kompak!' : round.score.final >= 50 ? 'Makin dekat.' : 'Draf pertama.'}</h2><p>Rekanmu mengikuti {round.score.exactMatches} dari {round.target.length} detail target dengan tepat.</p></div>
+      <div className="bb-heading"><span>RONDE SELESAI</span><h2>{round.score.final >= 80 ? 'Kompak!' : round.score.final >= 50 ? 'Makin dekat.' : 'Draf pertama.'}</h2><small className={`journey-status ${scoreStatus(round.score.final).toLowerCase()}`}>{scoreStatus(round.score.final)}</small><p>Rekanmu mengikuti {round.score.exactMatches} dari {round.target.length} detail target dengan tepat.</p></div>
       <div className="bb-layout bb-results">
         <div className="bb-boards">
           <div className="bb-panel"><div className="bb-label">TARGET <span>ACUAN</span></div><BoardView board={round.target} label="Papan target" /></div>
@@ -261,7 +269,7 @@ export function BlindBuilder({ context, onComplete, onCancel, onError }: GamePro
           <div className="bb-panel"><div className="bb-label">PAPAN REKAN <span>LANGSUNG</span></div><BoardView board={round.board} label="Papan rekan" /><p>Merah / Biru / Hijau</p></div>
         </div>
         <aside className="bb-conversation">
-          <div className="bb-label">REKANMU <span>{round.counted} INSTRUKSI</span></div>
+          <div className="bb-label"><span className="bb-mate"><img key={portrait} className="bb-avatar" src={`${art}${portrait}.png`} alt="" aria-hidden="true" />REKANMU</span><span>{round.counted} INSTRUKSI</span></div>
           <div className="bb-transcript" aria-live="polite" aria-label="Percakapan">{round.transcript.map((message, index) => <div className={`bb-message bb-${message.speaker}`} key={`${round.id}-${index}`}><span>{message.speaker === 'player' ? 'kamu' : 'rekan'}</span><p>{message.text}</p></div>)}{round.state === 'resolving' && <p className="bb-wait">Sedang memikirkan...</p>}</div>
           <InstructionGuide onPick={useExample} disabled={round.state !== 'active'} />
           <form className="bb-composer" onSubmit={sendInstruction}>

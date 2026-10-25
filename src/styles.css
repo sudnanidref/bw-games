@@ -130,3 +130,11 @@ h1, h2, p { margin: 0; }
 @media (max-width: 760px) { .workspace { grid-template-columns: 1fr; } .route { border-right: 0; border-bottom: 2px solid var(--ink); padding: 16px; } .route-list { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 3px; margin-top: 12px; } .route-stop { display: grid; justify-items: center; min-height: 65px; padding: 7px 2px; text-align: center; } .route-stop svg, .route-stop .current-dot, .stop-copy .route-score, .route-footer { display: none; } .stop-index { width: 30px; height: 30px; font-size: 15px; } .stop-copy strong { font-size: 12px; } .main-stage { min-height: 540px; } .stage-bottom span:first-child { display: none; } .topbar { min-height: 68px; } }
 @media (max-width: 520px) { .topbar { padding: 10px 14px; flex-wrap: wrap; } .brand { font-size: 20px; } .brand-mark { width: 36px; height: 36px; font-size: 15px; } .topbar-right { width: 100%; justify-content: space-between; } .view-tabs button { padding: 7px; font-size: 11px; } .session { padding-left: 0; border: 0; font-size: 11px; } .stage-content { padding: 36px 22px; } .intro-copy h1 { font-size: 64px; } .entry-row { flex-direction: column; } .entry-row .primary-action { width: 100%; } .stage-heading h1 { font-size: 56px; } .leaderboard-stage h1 { font-size: 56px; } .stop-copy strong { font-size: 11px; } }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+/* "Lewati game": lets a player (or tester) pass a stage with 0 points.
+   Runs with a skipped stage are never sent to the leaderboard. */
+.skip-row { display: flex; align-items: center; justify-content: flex-end; gap: 10px; margin-top: 8px; font-size: 11px; color: var(--muted); }
+.skip-action { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 12px; border: 1px dashed var(--ink); border-radius: 2px; background: transparent; color: var(--ink); font-size: 12px; font-weight: 700; cursor: pointer; }
+.skip-action:hover { background: #e1ebde; }
+.skip-action:focus-visible { outline: 3px solid var(--ink); outline-offset: 2px; }
+.journey-status.lewati { color: var(--ink); background: #e9ece4; border-color: var(--muted); }
+.skip-note { max-width: 460px; margin: 4px auto 14px; color: var(--muted); font-size: 13px; line-height: 1.5; }

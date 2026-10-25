@@ -122,10 +122,30 @@ describe('Blind Builder stage', () => {
     }
     await act(async () => { vi.advanceTimersByTime(180_000) })
     expect(screen.getByText('SKOR TIM').nextElementSibling?.textContent).toContain('0/100')
+    expect(screen.getByText('FAIL', { selector: '.journey-status' })).toBeTruthy()
     fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
     fireEvent.click(screen.getByRole('button', { name: 'Lanjutkan perjalanan' }))
     expect(onComplete).toHaveBeenCalledTimes(1)
     expect(onComplete).toHaveBeenCalledWith({ valueId: 'collaborative', score: 0 })
+  })
+
+  it('says the server is unreachable (not "rephrase") when the API is down', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce({ ok: false, status: 500 }).mockRejectedValueOnce(new TypeError('Failed to fetch')))
+    render(<BlindBuilder context={context} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+    for (let attempt = 1; attempt <= 2; attempt += 1) {
+      fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Taruh lingkaran biru di kiri atas' } })
+      fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+      await waitFor(() => expect(screen.getAllByText(/tidak terhubung ke server instruksi/)).toHaveLength(attempt))
+    }
+    expect(screen.queryByText(/Coba ucapkan ulang/)).toBeNull()
+  })
+
+  it('explains the per-minute limit on HTTP 429', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockResolvedValueOnce({ ok: false, status: 429 }))
+    render(<BlindBuilder context={context} onComplete={vi.fn()} onCancel={vi.fn()} onError={vi.fn()} />)
+    fireEvent.change(screen.getByRole('textbox', { name: 'INSTRUKSIMU' }), { target: { value: 'Taruh lingkaran biru di kiri atas' } })
+    fireEvent.click(screen.getByRole('button', { name: 'Kirim' }))
+    await screen.findByText(/Terlalu banyak instruksi dalam satu menit/)
   })
 
   it('plays every guide example from the chatbox in order', async () => {

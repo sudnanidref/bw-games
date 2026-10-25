@@ -40,6 +40,25 @@ const fakeFetch = vi.fn(async (url: string, options?: RequestInit) => {
 })
 
 describe('shell leaderboard flow', () => {
+  it('skips every game before or during play, shows LEWATI, and never submits the run', async () => {
+    vi.stubGlobal('crypto', { randomUUID: () => '66666666-6666-6666-6666-666666666666' })
+    vi.stubGlobal('fetch', fakeFetch)
+    fakeFetch.mockClear()
+    const user = userEvent.setup()
+    const { container } = render(<App />)
+    await user.type(screen.getByRole('textbox', { name: 'NAMA PEMAIN' }), 'Ayu')
+    await user.click(screen.getByRole('button', { name: /mulai perjalanan/i }))
+    for (const [index, title] of ['Integrity', 'Collaborative', 'Accountability', 'Growth Mindset', 'Customer Focus'].entries()) {
+      expect(screen.getByRole('heading', { name: title })).toBeTruthy()
+      // Odd stages are skipped mid-game, even ones from the briefing screen.
+      if (index % 2) await user.click(screen.getByRole('button', { name: /mulai game/i }))
+      await user.click(screen.getByRole('button', { name: /lewati game/i }))
+    }
+    expect([...container.querySelectorAll('.result-list .journey-status')].map((badge) => badge.textContent)).toEqual(Array(5).fill('LEWATI'))
+    expect(screen.getByText(/tidak dikirim ke peringkat/)).toBeTruthy()
+    expect((screen.getByRole('button', { name: /kirim ke peringkat/i }) as HTMLButtonElement).disabled).toBe(true)
+    expect(fakeFetch.mock.calls.some(([, options]) => options?.method === 'POST')).toBe(false)
+  })
   it('marks a score of 65 as PASS for every game', async () => {
     vi.stubGlobal('crypto', { randomUUID: () => '55555555-5555-5555-5555-555555555555' })
     const user = userEvent.setup()
