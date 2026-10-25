@@ -107,7 +107,8 @@ export function createGame(options: GameOptions = {}) {
     if (state.lockReason === 'correct') {
       const roundId = state.roundId
       const [, ...waiting] = state.queue
-      const newBuyer = createBuyer(`${roundId}-buyer-${++buyerSequence}`, random)
+      const visibleCharacterIds = waiting.map(({ characterId }) => characterId)
+      const newBuyer = createBuyer(`${roundId}-buyer-${++buyerSequence}`, random, visibleCharacterIds)
       state = { ...state, queue: [...waiting, newBuyer] }
     }
 

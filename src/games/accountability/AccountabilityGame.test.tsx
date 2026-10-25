@@ -5,6 +5,7 @@ import userEvent from '@testing-library/user-event'
 import type { GameProps } from '../contract'
 import { AccountabilityGame } from './AccountabilityGame'
 import { playCring } from './effects'
+import { paymentMethods } from './config'
 import qrisIllustration from './assets/payment-qris.svg'
 import cashIllustration from './assets/payment-cash.svg'
 import edcIllustration from './assets/payment-edc.svg'
@@ -25,6 +26,11 @@ function props(): GameProps {
     onCancel: vi.fn(),
     onError: vi.fn(),
   }
+}
+
+function requestedPaymentLabel(container: HTMLElement) {
+  const request = container.querySelector('.kasir-request')?.textContent
+  return paymentMethods.find((method) => method.request === request)?.label
 }
 
 function paymentButtonFor(label: string) {
@@ -83,7 +89,7 @@ describe('Accountability game start screen', () => {
     vi.useFakeTimers()
     const { container } = render(<AccountabilityGame {...props()} />)
     fireEvent.click(screen.getByRole('button', { name: /Mulai.*5/ }))
-    const requestedMethod = container.querySelector('.kasir-request strong')?.textContent
+    const requestedMethod = requestedPaymentLabel(container)
     const paymentButton = paymentButtonFor(requestedMethod!)
     paymentButton.focus()
     fireEvent.keyDown(paymentButton, { key: 'Enter', repeat: false })
@@ -99,7 +105,7 @@ describe('Accountability game start screen', () => {
     expect(container.querySelector('.kasir-score strong')?.textContent).toBe('10')
 
     act(() => { vi.advanceTimersByTime(150) })
-    const nextMethod = container.querySelector('.kasir-request strong')?.textContent
+    const nextMethod = requestedPaymentLabel(container)
     const nextButton = paymentButtonFor(nextMethod!)
     nextButton.focus()
     fireEvent.keyDown(nextButton, { key: ' ', code: 'Space', repeat: false })
@@ -137,7 +143,7 @@ describe('Accountability game start screen', () => {
     vi.spyOn(Math, 'random').mockReturnValue(randomValue)
     const { container } = render(<AccountabilityGame {...props()} />)
     fireEvent.click(screen.getByRole('button', { name: /Mulai.*5/ }))
-    expect(container.querySelector('.kasir-request strong')?.textContent).toBe(label)
+    expect(requestedPaymentLabel(container)).toBe(label)
 
     const button = paymentButtonFor(label)
     fireEvent.pointerDown(button)
@@ -178,7 +184,7 @@ describe('Accountability game start screen', () => {
     vi.useFakeTimers()
     const { container } = render(<AccountabilityGame {...props()} />)
     fireEvent.click(screen.getByRole('button', { name: /Mulai.*5/ }))
-    let method = container.querySelector('.kasir-request strong')?.textContent
+    let method = requestedPaymentLabel(container)
     let paymentButton = paymentButtonFor(method!)
     fireEvent.pointerDown(paymentButton, { pointerId: 1 })
     fireEvent.click(paymentButton)
@@ -189,7 +195,7 @@ describe('Accountability game start screen', () => {
     expect(playCring).toHaveBeenCalledTimes(1)
 
     act(() => { vi.advanceTimersByTime(150) })
-    method = container.querySelector('.kasir-request strong')?.textContent
+    method = requestedPaymentLabel(container)
     paymentButton = paymentButtonFor(method!)
     fireEvent.pointerDown(paymentButton, { pointerId: 2 })
     fireEvent.click(paymentButton)
@@ -202,7 +208,7 @@ describe('Accountability game start screen', () => {
     vi.useFakeTimers()
     const { container } = render(<AccountabilityGame {...props()} />)
     fireEvent.click(screen.getByRole('button', { name: /Mulai.*5/ }))
-    const requestedMethod = container.querySelector('.kasir-request strong')?.textContent
+    const requestedMethod = requestedPaymentLabel(container)
     const wrongMethod = ['TUNAI', 'EDC', 'QRIS'].find((label) => label !== requestedMethod)!
     fireEvent.click(paymentButtonFor(wrongMethod))
 

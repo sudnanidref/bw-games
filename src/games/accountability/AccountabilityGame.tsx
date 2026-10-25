@@ -210,7 +210,6 @@ export function AccountabilityGame({ context, onComplete, onCancel, onError }: G
             <div className="kasir-shop-sign" aria-hidden="true">WARUNG</div>
             <div className="kasir-request" aria-live="polite" aria-atomic="true">
               <span>{paymentMethods.find(({ id }) => id === snapshot.queue[0]?.paymentId)?.request}</span>
-              <strong>{paymentMethods.find(({ id }) => id === snapshot.queue[0]?.paymentId)?.label}</strong>
             </div>
             <div className="kasir-queue">
               {snapshot.queue.map((buyer, index) => {

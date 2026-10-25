@@ -115,6 +115,7 @@ describe('Accountability round engine', () => {
     expect(transitioned.queue[0].id).toBe(started.queue[1].id)
     expect(transitioned.queue).toHaveLength(3)
     expect(transitioned.queue[2].id).not.toBe(started.queue[2].id)
+    expect(new Set(transitioned.queue.map(({ characterId }) => characterId)).size).toBe(3)
   })
 
   it('L08 reopens the same buyer at exactly 500 ms after a wrong choice', () => {

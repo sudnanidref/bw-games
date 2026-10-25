@@ -160,12 +160,11 @@
 .kasir-shop-sign { position: absolute; z-index: 1; top: 5px; left: 50%; transform: translateX(-50%); padding: 2px 14px; color: var(--kasir-paper); background: var(--kasir-blue-dark); border: 2px solid var(--kasir-yellow); font-size: 11px; font-weight: 900; }
 .kasir-request { position: absolute; z-index: 4; top: 23%; left: 45%; display: grid; gap: 4px; width: min(48%, 390px); min-height: 62px; padding: 10px 13px; color: var(--kasir-ink); background: var(--kasir-paper); border: 2px solid var(--kasir-blue-dark); box-shadow: 3px 3px 0 var(--kasir-blue-dark); font-size: 14px; line-height: 1.25; }
 .kasir-request::after { content: ''; position: absolute; left: 18px; bottom: -9px; width: 14px; height: 14px; background: var(--kasir-paper); border-right: 2px solid var(--kasir-blue-dark); border-bottom: 2px solid var(--kasir-blue-dark); transform: rotate(45deg); }
-.kasir-request strong { width: fit-content; padding: 2px 7px; color: var(--kasir-paper); background: var(--kasir-blue); font-size: 10px; }
 .kasir-queue { position: absolute; z-index: 2; inset: 0; }
 .kasir-customer { position: absolute; bottom: 9%; left: var(--buyer-x); display: grid; justify-items: center; width: 104px; transform: translateX(-50%); transition: left 420ms ease, transform 260ms ease; }
 .kasir-customer.active { z-index: 3; bottom: 6%; }
 .kasir-role { position: relative; z-index: 3; margin-bottom: -4px; padding: 2px 7px; color: var(--kasir-paper); background: var(--kasir-blue-dark); font-size: 9px; font-weight: 900; }
-.kasir-character { display: block; width: 82px; height: 106px; filter: drop-shadow(2px 3px 0 rgba(21, 47, 77, .16)); }
+.kasir-character { display: block; width: 82px; height: 106px; object-fit: contain; object-position: center bottom; filter: drop-shadow(2px 3px 0 rgba(21, 47, 77, .16)); user-select: none; }
 .kasir-customer.active .kasir-character { width: 92px; height: 118px; }
 .kasir-customer-token { position: absolute; z-index: 4; right: 1px; bottom: 0; display: grid; place-items: center; width: 27px; aspect-ratio: 1; color: var(--kasir-blue-dark); background: var(--kasir-yellow); border: 1px solid var(--kasir-blue-dark); border-radius: 50%; }
 .kasir-counter { position: absolute; z-index: 2; right: 4%; bottom: 5%; left: 4%; height: 27px; background: #c98151; border: 2px solid #79482e; box-shadow: inset 0 6px 0 rgba(255,255,255,.14); }
