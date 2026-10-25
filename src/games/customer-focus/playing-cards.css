@@ -1,0 +1,347 @@
+/* Generated art supplies the card faces, backs and VFX. CSS handles layout and motion. */
+.cf-card-table {
+  position: relative;
+  padding-top: 8px;
+  isolation: isolate;
+}
+
+.cf-hand {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0;
+  padding: 48px 18px 26px 86px;
+  perspective: 1200px;
+}
+
+.cf-card-slot {
+  position: relative;
+  flex: 0 1 218px;
+  width: 218px;
+  min-width: 0;
+  transform-origin: 50% 100%;
+  animation: cf-deal .42s cubic-bezier(.16, .8, .3, 1) both;
+}
+
+.cf-card-slot + .cf-card-slot { margin-left: -16px; }
+.cf-slot-0 { --card-angle: -9deg; --card-offset: 13px; z-index: 1; }
+.cf-slot-1 { --card-angle: 0deg; --card-offset: 0px; z-index: 2; animation-delay: .07s; }
+.cf-slot-2 { --card-angle: 9deg; --card-offset: 13px; z-index: 3; animation-delay: .14s; }
+.cf-card-slot:hover, .cf-card-slot:focus-within { z-index: 10; }
+
+.cf-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  min-height: 0;
+  padding: 27% 12% 12%;
+  border: 0;
+  border-radius: 19px;
+  background: transparent;
+  color: #214b69;
+  text-align: center;
+  box-shadow: none;
+  filter: drop-shadow(0 7px 4px #204c6830);
+  cursor: pointer;
+  transform: translateY(var(--card-offset)) rotate(var(--card-angle));
+  transform-origin: 50% 90%;
+  transition: transform .22s cubic-bezier(.2,.8,.3,1), filter .22s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.cf-card-face {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 19px;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.cf-card-aura {
+  position: absolute;
+  width: 144%;
+  height: 108%;
+  max-width: none;
+  left: -22%;
+  top: -8%;
+  opacity: 0;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: -2;
+  transition: opacity .18s;
+}
+
+.cf-card:hover:not(:disabled), .cf-card:focus-visible:not(:disabled) {
+  transform: translateY(-35px) rotate(0deg) scale(1.075);
+  filter: drop-shadow(0 20px 10px #204c6840);
+  box-shadow: none;
+}
+
+.cf-card:hover:not(:disabled) .cf-card-aura,
+.cf-card:focus-visible:not(:disabled) .cf-card-aura { opacity: 1; }
+.cf-card:active:not(:disabled) { transform: translateY(-43px) rotate(0deg) scale(1.02); }
+
+.cf-card:disabled {
+  opacity: .65;
+  cursor: default;
+  filter: grayscale(.55) drop-shadow(0 3px 3px #204c6820);
+  transform: translateY(24px) rotate(var(--card-angle)) scale(.96);
+}
+
+.cf-card.cf-rejected { animation: cf-card-shake .32s ease-out; }
+
+.cf-card-rank {
+  position: absolute;
+  left: 10%;
+  top: 7%;
+  font: 800 18px/1 Georgia, serif;
+  color: #226999;
+}
+
+.cf-rank-bottom {
+  left: auto;
+  top: auto;
+  right: 10%;
+  bottom: 7%;
+  transform: rotate(180deg);
+}
+
+.cf-card-top {
+  display: block;
+  color: #648197;
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.3px;
+  margin: 6px 0 12px;
+}
+
+.cf-card strong {
+  display: block;
+  font: 800 20px/1.12 Arial, sans-serif;
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.cf-card-description {
+  display: block;
+  flex: 1;
+  margin: 13px 0 10px;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: -.1px;
+}
+
+.cf-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  border: 0;
+  margin: auto 0 0;
+  padding: 6px 0;
+  font-size: 9px;
+  font-weight: 800;
+  color: #276d9d;
+}
+
+.cf-deck {
+  position: absolute;
+  left: 20px;
+  top: 92px;
+  width: 91px;
+  aspect-ratio: 2 / 3;
+  transform: rotate(-12deg);
+  z-index: -1;
+}
+
+.cf-deck img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 9px;
+  box-shadow: 0 3px 4px #204c6833;
+}
+
+.cf-deck img:nth-child(1) { transform: translate(-7px, 6px) rotate(-4deg); }
+.cf-deck img:nth-child(2) { transform: translate(-3px, 3px) rotate(-2deg); }
+.cf-deck span {
+  position: absolute;
+  top: calc(100% + 18px);
+  left: -10px;
+  width: calc(100% + 20px);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-align: center;
+  color: #648197;
+}
+
+.cf-hand-help {
+  display: grid;
+  justify-items: center;
+  gap: 7px;
+  margin: 10px 0 0;
+  color: #658094;
+  font-size: 11px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.cf-hand-help .cf-touch-help { display: none; }
+.cf-keyboard-help { font-size: 9px; opacity: .8; }
+
+.cf-interaction {
+  position: absolute;
+  left: 10%;
+  bottom: 7%;
+  width: 40%;
+  height: 85%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.cf-reaction-sprite {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: cf-effect-burst 1.1s ease-out both;
+}
+
+.cf-reaction-label {
+  position: absolute;
+  left: 50%;
+  bottom: 16%;
+  transform: translateX(-50%);
+  white-space: nowrap;
+  padding: 9px 15px;
+  border: 2px solid #fff;
+  border-radius: 22px;
+  background: #e3f5ff;
+  color: #206a8c;
+  font-size: 13px;
+  font-weight: 800;
+  box-shadow: 0 4px 9px #204c6820;
+  animation: cf-label-pop 1.1s ease-out both;
+}
+
+.cf-interaction-error .cf-reaction-label { background: #fff0df; color: #a84e24; }
+
+.cf-played-card {
+  position: absolute;
+  left: 85%;
+  top: 75%;
+  width: 65px;
+  aspect-ratio: 2 / 3;
+  animation: cf-play-card .7s cubic-bezier(.2,.7,.3,1) both;
+}
+
+.cf-played-card img { width: 100%; height: 100%; border-radius: 7px; }
+.cf-react-success { animation: cf-customer-nod .45s ease-out; }
+.cf-react-error { animation: cf-customer-tilt .35s ease-out; }
+
+@keyframes cf-deal {
+  from { opacity: 0; transform: translate(-45px, 70px) rotate(-15deg); }
+  to { opacity: 1; transform: translate(0, 0) rotate(0); }
+}
+
+@keyframes cf-play-card {
+  0% { opacity: 1; transform: translate(0, 125px) rotate(18deg) scale(1.2); }
+  70% { opacity: 1; transform: translate(-45px, -80px) rotate(-12deg) scale(.85); }
+  100% { opacity: 0; transform: translate(-65px, -105px) rotate(-18deg) scale(.65); }
+}
+
+@keyframes cf-effect-burst {
+  0% { opacity: 0; transform: translateY(22px) scale(.55); }
+  20% { opacity: 1; transform: translateY(0) scale(1.05); }
+  65% { opacity: 1; transform: translateY(-12px) scale(1.1); }
+  100% { opacity: 0; transform: translateY(-34px) scale(1.15); }
+}
+
+@keyframes cf-label-pop {
+  0% { opacity: 0; translate: 0 10px; }
+  20%, 75% { opacity: 1; translate: 0 0; }
+  100% { opacity: 0; translate: 0 -12px; }
+}
+
+@keyframes cf-card-shake {
+  25%, 75% { translate: -5px 0; }
+  50% { translate: 5px 0; }
+}
+
+@keyframes cf-customer-nod { 50% { translate: 0 -10px; } }
+@keyframes cf-customer-tilt { 35% { rotate: -3deg; } 70% { rotate: 2deg; } }
+
+@container cf-frame (max-width: 800px) {
+  .cf-hand { padding-left: 18px; }
+  .cf-deck { display: none; }
+}
+
+@container cf-frame (max-width: 600px) {
+  .cf-card-slot { flex-basis: 190px; width: 190px; }
+  .cf-card { padding: 27% 12% 12%; }
+  .cf-card strong { font-size: 17px; }
+  .cf-card-description { font-size: 11px; margin: 10px 0 8px; }
+  .cf-card-top { font-size: 7px; letter-spacing: .8px; margin-bottom: 9px; }
+  .cf-card-bottom { font-size: 8px; }
+  .cf-card-rank { font-size: 16px; }
+  .cf-interaction { left: 0; bottom: 3%; width: 52%; height: 65%; }
+  .cf-reaction-label { font-size: 10px; padding: 7px 10px; }
+}
+
+@container cf-frame (max-width: 680px) {
+  .cf-hand {
+    justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 18px;
+    padding: 34px 20px 24px;
+    gap: 16px;
+    margin-inline: -12px;
+    scrollbar-width: thin;
+  }
+  .cf-card-slot { flex: 0 0 205px; width: 205px; scroll-snap-align: center; }
+  .cf-card-slot + .cf-card-slot { margin-left: 0; }
+  .cf-slot-0, .cf-slot-1, .cf-slot-2 { --card-angle: 0deg; --card-offset: 0px; }
+  .cf-card strong { font-size: 19px; }
+  .cf-card-description { font-size: 12px; }
+  .cf-card-top { font-size: 8px; }
+  .cf-hand-help .cf-hover-help { display: none; }
+  .cf-hand-help .cf-touch-help { display: inline; }
+}
+
+@media (hover: none) {
+  .cf-hand-help .cf-hover-help { display: none; }
+  .cf-hand-help .cf-touch-help { display: inline; }
+  .cf-card:hover:not(:disabled) { transform: translateY(var(--card-offset)) rotate(var(--card-angle)); }
+  .cf-card:hover:not(:disabled) .cf-card-aura { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cf-card-slot, .cf-card.cf-rejected, .cf-reaction-sprite, .cf-reaction-label,
+  .cf-played-card, .cf-react-success, .cf-react-error { animation: none; }
+  .cf-card, .cf-card-aura { transition: none; }
+  .cf-card:hover:not(:disabled), .cf-card:focus-visible:not(:disabled),
+  .cf-card:active:not(:disabled) { transform: translateY(var(--card-offset)) rotate(0deg); }
+  .cf-played-card { display: none; }
+}
+
+/* Keep the hand over the counter even on shorter laptop screens. */
+@container cf-frame (min-width: 801px) {
+  .cf-card-slot { flex-basis: 184px; width: 184px; }
+  .cf-card strong { font-size: 17px; }
+  .cf-card-description { font-size: 11px; margin-top: 9px; }
+  .cf-card-top { margin-bottom: 8px; font-size: 7px; }
+  .cf-card-bottom { font-size: 8px; }
+  .cf-hand { padding-top: 44px; padding-bottom: 18px; }
+  .cf-deck { width: 73px; top: 90px; left: 45px; }
+}

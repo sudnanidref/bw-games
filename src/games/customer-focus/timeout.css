@@ -1,0 +1,131 @@
+.cf-customer-clock { min-width: 88px; font-variant-numeric: tabular-nums; }
+.cf-patience {
+  position: absolute;
+  z-index: 9;
+  top: 103px;
+  left: 25%;
+  width: 50%;
+  height: 9px;
+  padding: 2px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #fffdf1d9;
+  box-shadow: 0 2px 8px #15486533;
+}
+.cf-patience>span { display: block; height: 100%; border-radius: 5px; background: #287fb6; transition: width .05s linear; }
+.cf-danger .cf-patience>span { background: #e45228; }
+.cf-danger .cf-customer-clock { color: #ad331d; background: #ffe3c2; padding: 7px 10px; border-radius: 10px; }
+.cf-time-warning {
+  position: absolute;
+  z-index: 10;
+  top: 122px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 9px 18px;
+  border: 2px solid #fff3dc;
+  border-radius: 10px;
+  background: #ac321ceF;
+  color: #fffaf0;
+  font-size: 12px;
+  font-weight: 900;
+  text-align: center;
+  box-shadow: 0 6px 15px #962f222e;
+}
+.cf-danger .cf-dialogue { border: 2px solid #ed7843; }
+.cf-under-attack .cf-scene { animation: cf-hit-camera .45s linear .4s; }
+.cf-game .cf-customer.cf-attacking-customer {
+  z-index: 12;
+  transform-origin: 50% 65%;
+  animation: cf-customer-attack 1.4s cubic-bezier(.2,.7,.3,1) both;
+}
+.cf-attack-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, #cf472e50 100%);
+}
+.cf-impact {
+  position: absolute;
+  top: 47%;
+  left: 50%;
+  width: min(70cqw, 660px);
+  height: min(75%, 660px);
+  object-fit: contain;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  animation: cf-heavy-impact .85s ease-out .4s both;
+}
+.cf-damage-label {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-7deg);
+  display: grid;
+  gap: 8px;
+  text-align: center;
+  color: #fffbe8;
+  font: 1000 clamp(28px, 5cqw, 64px)/1 Arial,sans-serif;
+  -webkit-text-stroke: 1px #92401d;
+  text-shadow: 3px 5px 0 #9c311f;
+  animation: cf-damage-pop .9s ease-out .4s both;
+}
+.cf-damage-label>span { font-size: .7em; color: #ffe397; }
+.cf-attack-notice {
+  width: fit-content;
+  margin: 0 auto 65px;
+  padding: 18px 24px;
+  border: 2px solid #fff4da;
+  border-radius: 14px;
+  background: #9e311eeF;
+  color: #fff6db;
+  font-weight: 800;
+  text-align: center;
+}
+@keyframes cf-customer-attack {
+  0% { opacity: 1; transform: translate(0,0) rotate(0) scale(1); }
+  25% { opacity: 1; transform: translate(-2%,3%) rotate(-7deg) scale(.94); }
+  38% { opacity: 1; transform: translate(22%,8%) rotate(6deg) scale(1.85); }
+  48% { opacity: 1; transform: translate(17%,5%) rotate(-4deg) scale(1.65); }
+  65% { opacity: 1; transform: translate(0,0) rotate(0) scale(1.1); }
+  78% { opacity: 1; transform: translate(0,0) scale(1); }
+  100% { opacity: 0; transform: translate(-100cqw,10%) rotate(-12deg) scale(.9); }
+}
+@keyframes cf-hit-camera {
+  15%, 65% { translate: -10px 6px; }
+  30%, 80% { translate: 9px -5px; }
+  50% { translate: -7px -3px; }
+  100% { translate: 0 0; }
+}
+@keyframes cf-heavy-impact {
+  0% { opacity: 0; transform: translate(-50%,-50%) scale(.3); }
+  15% { opacity: 1; transform: translate(-50%,-50%) scale(1.15) rotate(-8deg); }
+  45% { opacity: 1; transform: translate(-50%,-50%) scale(1.05) rotate(3deg); }
+  100% { opacity: 0; transform: translate(-50%,-50%) scale(1.4); }
+}
+@keyframes cf-damage-pop {
+  0% { opacity: 0; scale: .5; }
+  20%, 70% { opacity: 1; scale: 1; }
+  100% { opacity: 0; scale: 1.1; }
+}
+@container cf-frame (max-width: 800px) {
+  .cf-patience { top: 91px; left: 28%; width: 44%; }
+  .cf-time-warning { top: 154px; font-size: 10px; padding: 7px 12px; }
+}
+@container cf-frame (max-width: 520px) {
+  .cf-patience { top: 90px; left: 20%; width: 60%; height: 7px; }
+  .cf-time-warning { top: 156px; font-size: 9px; }
+  .cf-customer-clock { min-width: 72px; }
+  .cf-attack-notice { max-width: 75%; font-size: 12px; margin-bottom: 90px; }
+  .cf-game .cf-customer.cf-attacking-customer { transform-origin: 65% 60%; }
+}
+@media(prefers-reduced-motion: reduce) {
+  .cf-under-attack .cf-scene,
+  .cf-game .cf-customer.cf-attacking-customer,
+  .cf-impact, .cf-damage-label { animation: none; }
+  .cf-patience>span { transition: none; }
+  .cf-impact { opacity: .8; }
+  .cf-damage-label { opacity: 1; }
+}
