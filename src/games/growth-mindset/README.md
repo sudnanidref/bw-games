@@ -1,9 +1,9 @@
-# Growth Mindset — Pola Tumbuh
+# Growth Mindset — Kebun Belajar
 
 Owner boundary: `src/games/growth-mindset/`. Do not edit another value's code, the shared journey, or leaderboard to award points.
 
 - **OpenSpec:** `growth-mindset-mini-game` (`openspec/changes/growth-mindset-mini-game/`).
-- **Entry point:** `GrowthMindsetGame` (a `PlayableGame`) exported from `index.ts`. It is a thin React adapter around the framework-free DOM engine in `engine.ts`. Rules and tuning constants live in `scoring.ts`; styles live in `growth-mindset.css`, scoped to `.gm-game`.
+- **Entry point:** `GrowthMindsetGame` (a `PlayableGame`) exported from `index.ts`. It is a thin React adapter around the framework-free DOM engine in `engine.ts`. Rules and tuning constants live in `scoring.ts`; styles live in `growth-mindset.css`, scoped to `.gm-game`. The visual refresh uses the same soft chibi 3D style and blue/cream/orange palette as Collaborative and Customer Focus. It remains contained in the shared game frame.
 - **Gameplay:** an arrow pattern lights up one arrow at a time, then hides, and the player repeats it. Five levels share one 20-second timer, which includes display time. They ramp from easy to hard: each level shows its pattern faster than the previous one and is never shorter. The HUD label shows the level and its hint, for example `TAHAP 3 / 5 · CEPAT`.
 
   | Level | Arrows | Display per arrow | Hint | Points |
@@ -14,7 +14,7 @@ Owner boundary: `src/games/growth-mindset/`. Do not edit another value's code, t
   | 4 | 5 | 320 ms | LEBIH CEPAT | 22 |
   | 5 | 6 | 260 ms | TERCEPAT | 25 |
 
-  Total display time is about 8.5 s. A wrong arrow is marked ✗ with a lesson message. The same pattern then replays at the same level speed, and the player retries that level from arrow 1, losing only time.
+  Total display time is about 8.5 s. Every correct arrow immediately grows the plant in size. Across 23 correct answers it changes from a seedling to a sprout, small sapling, young tree and large leafy tree. Wrong answers and pattern replays never shrink it; only a fresh round resets it. Growth counts correct inputs (including correct replay inputs), is capped at 23, and is cosmetic: scoring still uses cleared levels and best consecutive progress. A wrong arrow is marked ✗ with a lesson message. The same pattern then replays at the same level speed, and the player retries that level from arrow 1, losing only time.
 - **Controls:**
 
   | Action | Keyboard | Pointer |
@@ -41,11 +41,13 @@ Owner boundary: `src/games/growth-mindset/`. Do not edit another value's code, t
 
   | Asset | Source / author | License / permission | Attribution | Usage |
   | --- | --- | --- | --- | --- |
-  | Sprout, soil, pattern slots, arrow pad, timer bar | Original, drawn in code (DOM + CSS) in this directory | Project-owned | None required | Play area visuals |
+  | Garden, seed, sprout, sapling, medium tree, large tree, arrow button, sparkle and retry effects | Original images made with the built-in image generator, saved in `public/assets/growth-mindset/`; prompts in `PROMPTS.md` and `TREE-PROMPTS.md` | Project-generated | None required | Scene, growth stages, arrow controls and feedback |
+  | Learning partner portraits | Existing generated `public/assets/customer-focus/confused.png`, `confused-happy.png`, `worried.png` | Project-generated | None required | Shared visual character language with games 2 and 5 |
   | Arrow glyphs ← ↑ → ↓ ✓ ✗ | Unicode text characters | Standard text | None required | Pattern, controls, feedback |
   | Shared background music `../integrity/assets/integrity-bgm.m4a` | "Level 1" from "5 Chiptunes (Action)" by Juhani Junkala (SubspaceAudio), https://opengameart.org/content/5-chiptunes-action | CC0 | None required | Looping music during a round |
   | Fonts and colors | Shell `src/styles.css` (Barlow Condensed, DM Sans, CSS variables) | As documented by the shell | Per shell | Typography and palette |
 
-  No new image, audio, font, or other third-party asset files are added. Nothing is taken from the Vantis reference, and no BRI logo is used.
+  New scene, plant, arrow and effect artwork is raster image output from the built-in image generator. CSS only lays out and animates those images and ordinary interface panels; it does not draw the game assets. Existing shared music is retained. No external runtime image service is used.
 - **Verification:** run `npm run typecheck`, `npm test`, and `npm run build` locally. The game tests are `scoring.test.ts`, `engine.test.ts`, and `GrowthMindsetGame.test.tsx`.
+  - Visual refresh verified with all 226 tests passing (`npm test -- --reporter=dot --maxWorkers=2`) and a successful production build including TypeScript checks. Headless Playwright covered actual journey navigation, wrong-input replay, a size increase after each correct arrow, a 100-point run and progression to Customer Focus at 1440 px and 390 px widths. All nine active generated images decoded successfully, with no page errors or horizontal overflow. Briefing, gameplay and result screenshots were reviewed. Decorative animation respects reduced-motion preferences; background art and image-based controls remain visible.
 - **Checklist:** [x] OpenSpec change approved; [x] original/licensed assets documented; [x] controls and scoring documented; [x] contract and journey tests pass; [x] only this value is changed.

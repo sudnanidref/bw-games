@@ -128,7 +128,47 @@ describe('Pola Tumbuh engine', () => {
     press('ArrowUp')
     root.querySelector<HTMLButtonElement>('.gm-key-up')!.click()
     press('w')
-    expect(text('.gm-sprout-caption')).toBe('Tumbuh 1 / 5')
+    expect(text('.gm-sprout-caption')).toBe('Tumbuh 3 / 23')
+  })
+
+  it('grows on every correct arrow, keeps growth through mistakes and resets on a new round', () => {
+    mount()
+    clickButton('Mulai')
+    showLevel(0)
+    const plant = root.querySelector<HTMLImageElement>('.gm-plant')!
+    const seedHeight = parseFloat(plant.style.height)
+    press('ArrowUp')
+    const firstHeight = parseFloat(plant.style.height)
+    expect(firstHeight).toBeGreaterThan(seedHeight)
+    expect(text('.gm-sprout-caption')).toBe('Tumbuh 1 / 23')
+    press('ArrowUp')
+    const secondHeight = parseFloat(plant.style.height)
+    expect(secondHeight).toBeGreaterThan(firstHeight)
+    press('ArrowDown')
+    expect(parseFloat(plant.style.height)).toBe(secondHeight)
+    vi.advanceTimersByTime(LESSON_MS)
+    showLevel(0)
+    expect(parseFloat(plant.style.height)).toBe(secondHeight)
+    press('ArrowUp')
+    expect(parseFloat(plant.style.height)).toBeGreaterThan(secondHeight)
+    vi.advanceTimersByTime(ROUND_MS)
+    clickButton('Coba lagi')
+    expect(parseFloat(plant.style.height)).toBe(seedHeight)
+    expect(plant.src).toContain('/seed.png')
+  })
+
+  it('progresses from a seed to small, medium and large trees and keeps the final tree in results', () => {
+    mount()
+    clickButton('Mulai')
+    const plant = root.querySelector<HTMLImageElement>('.gm-plant')!
+    const expected = ['sprout', 'sapling', 'tree-medium', 'tree-large', 'tree-large']
+    LEVELS.forEach((_, index) => {
+      clearLevel(index)
+      expect(plant.src).toContain(`/${expected[index]}.png`)
+      if (index < LEVELS.length - 1) vi.advanceTimersByTime(LEVEL_PAUSE_MS)
+    })
+    expect(text('.gm-sprout-caption')).toBe('Tumbuh 23 / 23')
+    expect(root.querySelector<HTMLImageElement>('.gm-panel-art')!.src).toContain('/tree-large.png')
   })
 
   it('turns a wrong input into a lesson, replays the pattern and keeps earned points', () => {
@@ -226,7 +266,7 @@ describe('Pola Tumbuh engine', () => {
     expect(root.querySelector<HTMLElement>('.gm-panel')!.hidden).toBe(true)
     expect(text('.gm-time')).toBe('20,0 d')
     expect(text('.gm-level')).toBe('TAHAP 1 / 5 · PELAN')
-    expect(text('.gm-sprout-caption')).toBe('Tumbuh 0 / 5')
+    expect(text('.gm-sprout-caption')).toBe('Tumbuh 0 / 23')
     vi.advanceTimersByTime(ROUND_MS)
     expect(text('.gm-panel-title')).toBe('FAIL · 0 / 100')
   })
